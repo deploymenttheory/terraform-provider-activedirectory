@@ -1,0 +1,4610 @@
+{
+  "schema_version": 1,
+  "namespace": "activedirectory-provider:v1",
+  "status": "prepared-awaiting-exact-preview-approval",
+  "provenance": {
+    "date": "2026-11-18",
+    "provider_base": "ac71bba26964c7a9b13e8b41ed35843ce07a9802",
+    "sdk_revision": "90ec7951314b41d49dd6bc78ddb3196afbdcb76d",
+    "reference_revision": "a4f90832f7c620c4b36ad4fdc1be3a12f90b8117",
+    "skill_revision": "7d354aedf8e36e9aab8a3e80d0581f9e4890420b",
+    "inventory_sha256": "197b54025bc60006db6daec4c3852bb9e5c3c9cd8b533c126175cbbf26909455"
+  },
+  "issues": [
+    {
+      "id": "INDEX",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "Active Directory provider: implementation backlog and product baseline",
+      "body": "backlog/INDEX.md",
+      "milestone": "M8",
+      "labels": [
+        "type:backlog",
+        "priority:P0"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:INDEX -->",
+      "blockers": [],
+      "body_sha256": "ad4d7a69739f30682de5d1d499105841cfb7fcf6d734c75d5edcca32debcc87d"
+    },
+    {
+      "id": "INDEX",
+      "repo": "deploymenttheory/go-sdk-activedirectory",
+      "title": "AD SDK provider portability: implementation backlog and product baseline",
+      "body": "backlog/SDK-INDEX.md",
+      "milestone": "M7",
+      "labels": [
+        "type:backlog",
+        "priority:P0"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:INDEX -->",
+      "blockers": [],
+      "body_sha256": "0f718bfe32d4e98ab21c2a8beb57f439a6e0c19e03ddb262de7ef47f14819a6f"
+    },
+    {
+      "id": "EPIC-FND",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[Epic FND] Provider foundation",
+      "body": "backlog/epics/EPIC-FND.md",
+      "milestone": "M2",
+      "labels": [
+        "type:epic",
+        "priority:P0",
+        "area:fnd"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:EPIC-FND -->",
+      "blockers": [],
+      "body_sha256": "b3710936f633f7be414bf684da68443eac1c46ab72e1a131f8d1dc965c6ec13c"
+    },
+    {
+      "id": "EPIC-SDK",
+      "repo": "deploymenttheory/go-sdk-activedirectory",
+      "title": "[Epic SDK] Portable SDK foundation and capabilities",
+      "body": "backlog/epics/EPIC-SDK.md",
+      "milestone": "M7",
+      "labels": [
+        "type:epic",
+        "priority:P0",
+        "area:sdk"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:EPIC-SDK -->",
+      "blockers": [],
+      "body_sha256": "a5760bf30c694637653e263710bd57090731a02d6b1e6d5f663f0e2af7dd616e"
+    },
+    {
+      "id": "EPIC-LAB",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[Epic LAB] Acceptance infrastructure",
+      "body": "backlog/epics/EPIC-LAB.md",
+      "milestone": "M4",
+      "labels": [
+        "type:epic",
+        "priority:P0",
+        "area:lab"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:EPIC-LAB -->",
+      "blockers": [],
+      "body_sha256": "a823485f68ed131f962b7f88e544a470a7c48f9ed5af4eecaa1cf7e2023976e8"
+    },
+    {
+      "id": "EPIC-CORE",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[Epic CORE] Core directory management",
+      "body": "backlog/epics/EPIC-CORE.md",
+      "milestone": "M7",
+      "labels": [
+        "type:epic",
+        "priority:P1",
+        "area:core"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:EPIC-CORE -->",
+      "blockers": [],
+      "body_sha256": "c4f5216049a55556beffee506326b92548bdb7d2c85a50d15d1a667f25cdfe14"
+    },
+    {
+      "id": "EPIC-POL",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[Epic POL] Policies and access control",
+      "body": "backlog/epics/EPIC-POL.md",
+      "milestone": "M5",
+      "labels": [
+        "type:epic",
+        "priority:P1",
+        "area:pol"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:EPIC-POL -->",
+      "blockers": [],
+      "body_sha256": "b4947aaa8af1be50018cae438a6344f9cf19c36c7b34c72ef8cd525dab15d105"
+    },
+    {
+      "id": "EPIC-TOPO",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[Epic TOPO] Replication topology",
+      "body": "backlog/epics/EPIC-TOPO.md",
+      "milestone": "M6",
+      "labels": [
+        "type:epic",
+        "priority:P1",
+        "area:topo"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:EPIC-TOPO -->",
+      "blockers": [],
+      "body_sha256": "4bd9108b8af04e191297f6094e3ce3338b10a8e45068f6a035d8a1c7dbb30d17"
+    },
+    {
+      "id": "EPIC-READ",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[Epic READ] Discovery and observations",
+      "body": "backlog/epics/EPIC-READ.md",
+      "milestone": "M7",
+      "labels": [
+        "type:epic",
+        "priority:P1",
+        "area:read"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:EPIC-READ -->",
+      "blockers": [],
+      "body_sha256": "bfd4b1adff71f0daf99feabb52728643819d8fa66264c6a4d450d6652b5f0e05"
+    },
+    {
+      "id": "EPIC-DIR",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[Epic DIR] Adopted directory settings",
+      "body": "backlog/epics/EPIC-DIR.md",
+      "milestone": "M6",
+      "labels": [
+        "type:epic",
+        "priority:P1",
+        "area:dir"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:EPIC-DIR -->",
+      "blockers": [],
+      "body_sha256": "99ba6a1ac898857d640671429985877711c7157b807076387723c2e874cab39b"
+    },
+    {
+      "id": "EPIC-ACT",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[Epic ACT] Explicit directory actions",
+      "body": "backlog/epics/EPIC-ACT.md",
+      "milestone": "M7",
+      "labels": [
+        "type:epic",
+        "priority:P1",
+        "area:act"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:EPIC-ACT -->",
+      "blockers": [],
+      "body_sha256": "ceebc3d71158a58e9aa0c13c6621d5780daef0b1390f7925c026d31cdcc67b5a"
+    },
+    {
+      "id": "EPIC-REL",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[Epic REL] Integrated release qualification",
+      "body": "backlog/epics/EPIC-REL.md",
+      "milestone": "M8",
+      "labels": [
+        "type:epic",
+        "priority:P0",
+        "area:rel"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:EPIC-REL -->",
+      "blockers": [],
+      "body_sha256": "2986287b14b378d6e6cf5073152fa88530497f64dd8bd5c7cfcfe508962b95ea"
+    },
+    {
+      "id": "SDK-01",
+      "repo": "deploymenttheory/go-sdk-activedirectory",
+      "title": "[SDK-01] Expose portable backend and authentication contracts without leaking internal packages",
+      "body": "backlog/tasks/SDK-01.md",
+      "milestone": "M2",
+      "labels": [
+        "type:task",
+        "priority:P0",
+        "area:sdk",
+        "component:sdk"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:SDK-01 -->",
+      "parent": "deploymenttheory/go-sdk-activedirectory:EPIC-SDK",
+      "blockers": [
+        "deploymenttheory/go-sdk-activedirectory#135"
+      ],
+      "supporting": [],
+      "existing_context": [],
+      "body_sha256": "09d670538325e3ab731e895299783ace4d501dae622e5a635c5b846471c0362e"
+    },
+    {
+      "id": "SDK-02",
+      "repo": "deploymenttheory/go-sdk-activedirectory",
+      "title": "[SDK-02] Implement portable LDAP sessions, controls and binary-safe operations",
+      "body": "backlog/tasks/SDK-02.md",
+      "milestone": "M2",
+      "labels": [
+        "type:task",
+        "priority:P0",
+        "area:sdk",
+        "component:sdk"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:SDK-02 -->",
+      "parent": "deploymenttheory/go-sdk-activedirectory:EPIC-SDK",
+      "blockers": [
+        "deploymenttheory/go-sdk-activedirectory:SDK-01"
+      ],
+      "supporting": [],
+      "existing_context": [],
+      "body_sha256": "fed79545ebccbdfdc51b54b91b1bfb9831ed6873042953ca4f3dffb0d5bbc9af"
+    },
+    {
+      "id": "SDK-03",
+      "repo": "deploymenttheory/go-sdk-activedirectory",
+      "title": "[SDK-03] Implement verified LDAPS and StartTLS with measured channel protection",
+      "body": "backlog/tasks/SDK-03.md",
+      "milestone": "M2",
+      "labels": [
+        "type:task",
+        "priority:P0",
+        "area:sdk",
+        "component:sdk"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:SDK-03 -->",
+      "parent": "deploymenttheory/go-sdk-activedirectory:EPIC-SDK",
+      "blockers": [
+        "deploymenttheory/go-sdk-activedirectory:SDK-02"
+      ],
+      "supporting": [],
+      "existing_context": [],
+      "body_sha256": "296ed2586e77fe236e32db673b980b1f5d047804db3a3b3a19d681c86287bf15"
+    },
+    {
+      "id": "SDK-04",
+      "repo": "deploymenttheory/go-sdk-activedirectory",
+      "title": "[SDK-04] Implement portable Kerberos authentication and TLS channel binding",
+      "body": "backlog/tasks/SDK-04.md",
+      "milestone": "M2",
+      "labels": [
+        "type:task",
+        "priority:P0",
+        "area:sdk",
+        "component:sdk"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:SDK-04 -->",
+      "parent": "deploymenttheory/go-sdk-activedirectory:EPIC-SDK",
+      "blockers": [
+        "deploymenttheory/go-sdk-activedirectory:SDK-03"
+      ],
+      "supporting": [],
+      "existing_context": [],
+      "body_sha256": "fec8266fd9dd41aafec03e591a1bb7c3507fadc98b0974f5958f49396d4cb46f"
+    },
+    {
+      "id": "SDK-05",
+      "repo": "deploymenttheory/go-sdk-activedirectory",
+      "title": "[SDK-05] Implement and qualify Kerberos SASL signing and sealing",
+      "body": "backlog/tasks/SDK-05.md",
+      "milestone": "M2",
+      "labels": [
+        "type:task",
+        "priority:P0",
+        "area:sdk",
+        "component:sdk"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:SDK-05 -->",
+      "parent": "deploymenttheory/go-sdk-activedirectory:EPIC-SDK",
+      "blockers": [
+        "deploymenttheory/go-sdk-activedirectory:SDK-04"
+      ],
+      "supporting": [],
+      "existing_context": [],
+      "body_sha256": "26b04600f0e3e7bbbeb71b990f2e8b696ed55beecebac9031524bc02671c9e99"
+    },
+    {
+      "id": "SDK-06",
+      "repo": "deploymenttheory/go-sdk-activedirectory",
+      "title": "[SDK-06] Implement portable security descriptor parsing, editing and encoding",
+      "body": "backlog/tasks/SDK-06.md",
+      "milestone": "M2",
+      "labels": [
+        "type:task",
+        "priority:P0",
+        "area:sdk",
+        "component:sdk"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:SDK-06 -->",
+      "parent": "deploymenttheory/go-sdk-activedirectory:EPIC-SDK",
+      "blockers": [
+        "deploymenttheory/go-sdk-activedirectory:SDK-02"
+      ],
+      "supporting": [],
+      "existing_context": [],
+      "body_sha256": "cc42c934916830bd793cdaedfa3e479c91f597245d52da5201eef0fc134412dd"
+    },
+    {
+      "id": "SDK-07",
+      "repo": "deploymenttheory/go-sdk-activedirectory",
+      "title": "[SDK-07] Implement portable authenticated replication diagnostics",
+      "body": "backlog/tasks/SDK-07.md",
+      "milestone": "M6",
+      "labels": [
+        "type:task",
+        "priority:P0",
+        "area:sdk",
+        "component:sdk"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:SDK-07 -->",
+      "parent": "deploymenttheory/go-sdk-activedirectory:EPIC-SDK",
+      "blockers": [
+        "deploymenttheory/go-sdk-activedirectory:SDK-04",
+        "deploymenttheory/terraform-provider-activedirectory:LAB-02"
+      ],
+      "supporting": [],
+      "existing_context": [
+        "https://github.com/deploymenttheory/go-sdk-activedirectory/issues/36"
+      ],
+      "body_sha256": "f6aa7b7fc880cb555444d30b64da221bad20f2afdd91d177ac0b309645a7dc86"
+    },
+    {
+      "id": "SDK-08",
+      "repo": "deploymenttheory/go-sdk-activedirectory",
+      "title": "[SDK-08] Implement portable conditional expressions and descriptor conversion",
+      "body": "backlog/tasks/SDK-08.md",
+      "milestone": "M5",
+      "labels": [
+        "type:task",
+        "priority:P0",
+        "area:sdk",
+        "component:sdk"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:SDK-08 -->",
+      "parent": "deploymenttheory/go-sdk-activedirectory:EPIC-SDK",
+      "blockers": [
+        "deploymenttheory/go-sdk-activedirectory:SDK-06"
+      ],
+      "supporting": [],
+      "existing_context": [],
+      "body_sha256": "c02ddffe39d070daa6bdc8ff6bc95161a33edeb455196bd48392447232b02b68"
+    },
+    {
+      "id": "SDK-09",
+      "repo": "deploymenttheory/go-sdk-activedirectory",
+      "title": "[SDK-09] Preserve portable write outcomes, normalization and reconciliation contracts",
+      "body": "backlog/tasks/SDK-09.md",
+      "milestone": "M2",
+      "labels": [
+        "type:task",
+        "priority:P0",
+        "area:sdk",
+        "component:sdk"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:SDK-09 -->",
+      "parent": "deploymenttheory/go-sdk-activedirectory:EPIC-SDK",
+      "blockers": [
+        "deploymenttheory/go-sdk-activedirectory:SDK-02",
+        "deploymenttheory/go-sdk-activedirectory#135",
+        "deploymenttheory/go-sdk-activedirectory#140",
+        "deploymenttheory/go-sdk-activedirectory#157"
+      ],
+      "supporting": [],
+      "existing_context": [],
+      "body_sha256": "76f57fe3d8a01dcbf4d5ff6dfda292c5dc83142edfa18ae82d9327ac12403de7"
+    },
+    {
+      "id": "SDK-10",
+      "repo": "deploymenttheory/go-sdk-activedirectory",
+      "title": "[SDK-10] Complete portable explicit-domain discovery and topology reads",
+      "body": "backlog/tasks/SDK-10.md",
+      "milestone": "M6",
+      "labels": [
+        "type:task",
+        "priority:P0",
+        "area:sdk",
+        "component:sdk"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:SDK-10 -->",
+      "parent": "deploymenttheory/go-sdk-activedirectory:EPIC-SDK",
+      "blockers": [
+        "deploymenttheory/go-sdk-activedirectory:SDK-04"
+      ],
+      "supporting": [],
+      "existing_context": [
+        "https://github.com/deploymenttheory/go-sdk-activedirectory/issues/78"
+      ],
+      "body_sha256": "32fa9d9f513965f66f993ed9804c1dc3706f187225ab841132fb38e11ecc7cd2"
+    },
+    {
+      "id": "SDK-11",
+      "repo": "deploymenttheory/go-sdk-activedirectory",
+      "title": "[SDK-11] Qualify the portable authenticated backend for provider use",
+      "body": "backlog/tasks/SDK-11.md",
+      "milestone": "M2",
+      "labels": [
+        "type:task",
+        "priority:P0",
+        "area:sdk",
+        "component:verification"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:SDK-11 -->",
+      "parent": "deploymenttheory/go-sdk-activedirectory:EPIC-SDK",
+      "blockers": [
+        "deploymenttheory/go-sdk-activedirectory:SDK-05",
+        "deploymenttheory/go-sdk-activedirectory:SDK-09",
+        "deploymenttheory/terraform-provider-activedirectory:LAB-02"
+      ],
+      "supporting": [
+        "deploymenttheory/go-sdk-activedirectory:SDK-03"
+      ],
+      "existing_context": [],
+      "body_sha256": "23b2b1d6ca26d5c0f6fc176f3395695be70f37f6b52deb285ddc588618b7a4bc"
+    },
+    {
+      "id": "SDK-12",
+      "repo": "deploymenttheory/go-sdk-activedirectory",
+      "title": "[SDK-12] Qualify portable cross-domain move and delegation behavior",
+      "body": "backlog/tasks/SDK-12.md",
+      "milestone": "M7",
+      "labels": [
+        "type:task",
+        "priority:P0",
+        "area:sdk",
+        "component:sdk"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:SDK-12 -->",
+      "parent": "deploymenttheory/go-sdk-activedirectory:EPIC-SDK",
+      "blockers": [
+        "deploymenttheory/go-sdk-activedirectory:SDK-05",
+        "deploymenttheory/terraform-provider-activedirectory:LAB-03"
+      ],
+      "supporting": [],
+      "existing_context": [
+        "https://github.com/deploymenttheory/go-sdk-activedirectory/issues/31"
+      ],
+      "body_sha256": "bae11cfb6e89d233fc9e4bb83a37ac05e067283272416b68465718b7a64f7d57"
+    },
+    {
+      "id": "FND-01",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[FND-01] Create the root Terraform Plugin Framework provider module",
+      "body": "backlog/tasks/FND-01.md",
+      "milestone": "M1",
+      "labels": [
+        "type:task",
+        "priority:P0",
+        "area:fnd",
+        "component:provider"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:FND-01 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-FND",
+      "blockers": [],
+      "supporting": [],
+      "existing_context": [],
+      "body_sha256": "532ff877f04cb54dc8f8f0f44d5a357e820a52b6527bbf7e9e19ade1e00f6aff"
+    },
+    {
+      "id": "FND-02",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[FND-02] Add explicit production registrations and isolated provider factories",
+      "body": "backlog/tasks/FND-02.md",
+      "milestone": "M1",
+      "labels": [
+        "type:task",
+        "priority:P0",
+        "area:fnd",
+        "component:provider"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:FND-02 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-FND",
+      "blockers": [
+        "deploymenttheory/terraform-provider-activedirectory:FND-01"
+      ],
+      "supporting": [],
+      "existing_context": [],
+      "body_sha256": "df39023b542d8e3200518f52cef7552564fc5a005bc0631b4352b672a8184f9e"
+    },
+    {
+      "id": "FND-03",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[FND-03] Integrate portable SDK clients, credentials and session lifetime",
+      "body": "backlog/tasks/FND-03.md",
+      "milestone": "M2",
+      "labels": [
+        "type:task",
+        "priority:P0",
+        "area:fnd",
+        "component:provider"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:FND-03 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-FND",
+      "blockers": [
+        "deploymenttheory/terraform-provider-activedirectory:FND-02",
+        "deploymenttheory/go-sdk-activedirectory:SDK-01"
+      ],
+      "supporting": [],
+      "existing_context": [],
+      "body_sha256": "b17ee8a704cd7880a6141352efea24e9679231fe1fe8381acfba24e13bfd486e"
+    },
+    {
+      "id": "FND-04",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[FND-04] Build SDK-boundary mocks and Terraform unit/acceptance harnesses",
+      "body": "backlog/tasks/FND-04.md",
+      "milestone": "M2",
+      "labels": [
+        "type:task",
+        "priority:P0",
+        "area:fnd",
+        "component:verification"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:FND-04 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-FND",
+      "blockers": [
+        "deploymenttheory/terraform-provider-activedirectory:FND-03",
+        "deploymenttheory/terraform-provider-activedirectory:LAB-02"
+      ],
+      "supporting": [],
+      "existing_context": [],
+      "body_sha256": "d1e4a743b425030aac444231b0820b1d582c9523871b1cc30f9fa92a973f528d"
+    },
+    {
+      "id": "FND-05",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[FND-05] Add example and template-based documentation generation",
+      "body": "backlog/tasks/FND-05.md",
+      "milestone": "M1",
+      "labels": [
+        "type:task",
+        "priority:P0",
+        "area:fnd",
+        "documentation"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:FND-05 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-FND",
+      "blockers": [
+        "deploymenttheory/terraform-provider-activedirectory:FND-01"
+      ],
+      "supporting": [],
+      "existing_context": [],
+      "body_sha256": "6c0566ef0bd94718e16daf0eb184a479e71916829eee9b0fa19d1812f9b09bc7"
+    },
+    {
+      "id": "FND-06",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[FND-06] Establish required CI and reproducible multi-platform builds",
+      "body": "backlog/tasks/FND-06.md",
+      "milestone": "M1",
+      "labels": [
+        "type:task",
+        "priority:P0",
+        "area:fnd",
+        "component:infrastructure"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:FND-06 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-FND",
+      "blockers": [
+        "deploymenttheory/terraform-provider-activedirectory:FND-01"
+      ],
+      "supporting": [],
+      "existing_context": [],
+      "body_sha256": "3b6fb29a1576bd0f7aec987a45807de6949b9d7c85c6aac27b261c515edd49d8"
+    },
+    {
+      "id": "FND-07",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[FND-07] Implement stable identities, lifecycle diagnostics and bounded readback helpers",
+      "body": "backlog/tasks/FND-07.md",
+      "milestone": "M2",
+      "labels": [
+        "type:task",
+        "priority:P0",
+        "area:fnd",
+        "component:provider"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:FND-07 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-FND",
+      "blockers": [
+        "deploymenttheory/terraform-provider-activedirectory:FND-04",
+        "deploymenttheory/go-sdk-activedirectory:SDK-09"
+      ],
+      "supporting": [],
+      "existing_context": [],
+      "body_sha256": "2b36f23b6c8a26f206fba322f039ed7e02404203de02b6ad1b081921d4dee16d"
+    },
+    {
+      "id": "LAB-01",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[LAB-01] Inventory versioned lab targets and acceptance fixture requirements",
+      "body": "backlog/tasks/LAB-01.md",
+      "milestone": "M1",
+      "labels": [
+        "type:task",
+        "priority:P0",
+        "area:lab",
+        "component:infrastructure"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:LAB-01 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-LAB",
+      "blockers": [],
+      "supporting": [],
+      "existing_context": [],
+      "body_sha256": "342afc8c6c647b38655d7c2da325c9c40fb14b143fd87fef6c4b0576a9524b8a"
+    },
+    {
+      "id": "LAB-02",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[LAB-02] Provision safe Linux and Windows acceptance connectivity",
+      "body": "backlog/tasks/LAB-02.md",
+      "milestone": "M2",
+      "labels": [
+        "type:task",
+        "priority:P0",
+        "area:lab",
+        "component:infrastructure"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:LAB-02 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-LAB",
+      "blockers": [
+        "deploymenttheory/terraform-provider-activedirectory:LAB-01"
+      ],
+      "supporting": [],
+      "existing_context": [],
+      "body_sha256": "63119309f5b29bc8bf1da1fca4c7f36c953ef7485e72c253fb73213a7be4c5fa"
+    },
+    {
+      "id": "LAB-03",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[LAB-03] Provision feature-specific advanced and destructive lab fixtures",
+      "body": "backlog/tasks/LAB-03.md",
+      "milestone": "M4",
+      "labels": [
+        "type:task",
+        "priority:P0",
+        "area:lab",
+        "component:infrastructure"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:LAB-03 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-LAB",
+      "blockers": [
+        "deploymenttheory/terraform-provider-activedirectory:LAB-02"
+      ],
+      "supporting": [],
+      "existing_context": [],
+      "body_sha256": "73775b4fe6628a1395f51f5a1cdc4c47df393248f305238ba0dba5f219f9595a"
+    },
+    {
+      "id": "CORE-01",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[CORE-01] Implement organizational unit lifecycle and discovery",
+      "body": "backlog/tasks/CORE-01.md",
+      "milestone": "M3",
+      "labels": [
+        "type:task",
+        "priority:P1",
+        "area:core",
+        "component:provider"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:CORE-01 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-CORE",
+      "blockers": [
+        "deploymenttheory/terraform-provider-activedirectory:FND-07",
+        "deploymenttheory/terraform-provider-activedirectory:FND-05",
+        "deploymenttheory/terraform-provider-activedirectory:FND-06",
+        "deploymenttheory/go-sdk-activedirectory:SDK-11",
+        "deploymenttheory/go-sdk-activedirectory:SDK-06"
+      ],
+      "supporting": [],
+      "existing_context": [
+        "https://github.com/deploymenttheory/go-sdk-activedirectory/issues/17"
+      ],
+      "body_sha256": "2ea7f72e31100f2e197a2bdced00a6c365b94a065e0b861fe04c2a041d6e6e38"
+    },
+    {
+      "id": "CORE-02",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[CORE-02] Implement user lifecycle and discovery",
+      "body": "backlog/tasks/CORE-02.md",
+      "milestone": "M3",
+      "labels": [
+        "type:task",
+        "priority:P1",
+        "area:core",
+        "component:provider"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:CORE-02 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-CORE",
+      "blockers": [
+        "deploymenttheory/terraform-provider-activedirectory:FND-07",
+        "deploymenttheory/terraform-provider-activedirectory:FND-05",
+        "deploymenttheory/terraform-provider-activedirectory:FND-06",
+        "deploymenttheory/go-sdk-activedirectory:SDK-11"
+      ],
+      "supporting": [],
+      "existing_context": [
+        "https://github.com/deploymenttheory/go-sdk-activedirectory/issues/18"
+      ],
+      "body_sha256": "d57019f14fd986a9cfb65e4c2c02a0d3ee3bdfa4cb64892a312019a5b3c5bdbd"
+    },
+    {
+      "id": "CORE-03",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[CORE-03] Implement group lifecycle and discovery",
+      "body": "backlog/tasks/CORE-03.md",
+      "milestone": "M4",
+      "labels": [
+        "type:task",
+        "priority:P1",
+        "area:core",
+        "component:provider"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:CORE-03 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-CORE",
+      "blockers": [
+        "deploymenttheory/terraform-provider-activedirectory:FND-07",
+        "deploymenttheory/terraform-provider-activedirectory:FND-05",
+        "deploymenttheory/terraform-provider-activedirectory:FND-06",
+        "deploymenttheory/go-sdk-activedirectory:SDK-11"
+      ],
+      "supporting": [],
+      "existing_context": [
+        "https://github.com/deploymenttheory/go-sdk-activedirectory/issues/20"
+      ],
+      "body_sha256": "65e7181ddfafba0c610fbf83c39392a8f21d9c8b801c2c5097d5d8ed8080e86c"
+    },
+    {
+      "id": "CORE-04",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[CORE-04] Implement computer lifecycle and discovery",
+      "body": "backlog/tasks/CORE-04.md",
+      "milestone": "M4",
+      "labels": [
+        "type:task",
+        "priority:P1",
+        "area:core",
+        "component:provider"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:CORE-04 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-CORE",
+      "blockers": [
+        "deploymenttheory/terraform-provider-activedirectory:FND-07",
+        "deploymenttheory/terraform-provider-activedirectory:FND-05",
+        "deploymenttheory/terraform-provider-activedirectory:FND-06",
+        "deploymenttheory/go-sdk-activedirectory:SDK-11"
+      ],
+      "supporting": [],
+      "existing_context": [
+        "https://github.com/deploymenttheory/go-sdk-activedirectory/issues/19"
+      ],
+      "body_sha256": "e456b9a3dd85ba1a287830846c718b1c5cd7fff75ac52ebc3c00f428f6ae17f3"
+    },
+    {
+      "id": "CORE-05",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[CORE-05] Implement object lifecycle and discovery",
+      "body": "backlog/tasks/CORE-05.md",
+      "milestone": "M4",
+      "labels": [
+        "type:task",
+        "priority:P1",
+        "area:core",
+        "component:provider"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:CORE-05 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-CORE",
+      "blockers": [
+        "deploymenttheory/terraform-provider-activedirectory:FND-07",
+        "deploymenttheory/terraform-provider-activedirectory:FND-05",
+        "deploymenttheory/terraform-provider-activedirectory:FND-06",
+        "deploymenttheory/go-sdk-activedirectory:SDK-11"
+      ],
+      "supporting": [],
+      "existing_context": [
+        "https://github.com/deploymenttheory/go-sdk-activedirectory/issues/16",
+        "https://github.com/deploymenttheory/go-sdk-activedirectory/issues/31"
+      ],
+      "body_sha256": "61ab2c132daa2740bb5d6f78d6918421e0f007cd622983e132a6cac1ea348840"
+    },
+    {
+      "id": "CORE-06",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[CORE-06] Implement service account lifecycle and discovery",
+      "body": "backlog/tasks/CORE-06.md",
+      "milestone": "M4",
+      "labels": [
+        "type:task",
+        "priority:P1",
+        "area:core",
+        "component:provider"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:CORE-06 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-CORE",
+      "blockers": [
+        "deploymenttheory/terraform-provider-activedirectory:FND-07",
+        "deploymenttheory/terraform-provider-activedirectory:FND-05",
+        "deploymenttheory/terraform-provider-activedirectory:FND-06",
+        "deploymenttheory/go-sdk-activedirectory:SDK-11",
+        "deploymenttheory/go-sdk-activedirectory:SDK-06",
+        "deploymenttheory/terraform-provider-activedirectory:LAB-03"
+      ],
+      "supporting": [],
+      "existing_context": [
+        "https://github.com/deploymenttheory/go-sdk-activedirectory/issues/46"
+      ],
+      "body_sha256": "50688e25c07b4c18606a6577c9b642208edcd9e771f643e68d798eacf42fe3d1"
+    },
+    {
+      "id": "CORE-07",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[CORE-07] Implement account settings adopted",
+      "body": "backlog/tasks/CORE-07.md",
+      "milestone": "M4",
+      "labels": [
+        "type:task",
+        "priority:P1",
+        "area:core",
+        "component:provider"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:CORE-07 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-CORE",
+      "blockers": [
+        "deploymenttheory/terraform-provider-activedirectory:FND-07",
+        "deploymenttheory/terraform-provider-activedirectory:FND-05",
+        "deploymenttheory/terraform-provider-activedirectory:FND-06",
+        "deploymenttheory/go-sdk-activedirectory:SDK-11"
+      ],
+      "supporting": [],
+      "existing_context": [
+        "https://github.com/deploymenttheory/go-sdk-activedirectory/issues/22"
+      ],
+      "body_sha256": "2321f4f03bb17277705483392863ce03a3a1238759ee8b06f7f0f66b717140e7"
+    },
+    {
+      "id": "CORE-08",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[CORE-08] Implement group member lifecycle and discovery",
+      "body": "backlog/tasks/CORE-08.md",
+      "milestone": "M4",
+      "labels": [
+        "type:task",
+        "priority:P1",
+        "area:core",
+        "component:provider"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:CORE-08 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-CORE",
+      "blockers": [
+        "deploymenttheory/terraform-provider-activedirectory:FND-07",
+        "deploymenttheory/terraform-provider-activedirectory:FND-05",
+        "deploymenttheory/terraform-provider-activedirectory:FND-06",
+        "deploymenttheory/go-sdk-activedirectory:SDK-11"
+      ],
+      "supporting": [],
+      "existing_context": [
+        "https://github.com/deploymenttheory/go-sdk-activedirectory/issues/20"
+      ],
+      "body_sha256": "b287a163e95d25d4d1ae7989a1dc94649a8420f17e0f64360c7072dbbe3218c4"
+    },
+    {
+      "id": "CORE-09",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[CORE-09] Implement computer service account lifecycle and discovery",
+      "body": "backlog/tasks/CORE-09.md",
+      "milestone": "M4",
+      "labels": [
+        "type:task",
+        "priority:P1",
+        "area:core",
+        "component:provider"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:CORE-09 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-CORE",
+      "blockers": [
+        "deploymenttheory/terraform-provider-activedirectory:CORE-06"
+      ],
+      "supporting": [
+        "deploymenttheory/terraform-provider-activedirectory:FND-07",
+        "deploymenttheory/terraform-provider-activedirectory:FND-05",
+        "deploymenttheory/terraform-provider-activedirectory:FND-06",
+        "deploymenttheory/go-sdk-activedirectory:SDK-11"
+      ],
+      "existing_context": [
+        "https://github.com/deploymenttheory/go-sdk-activedirectory/issues/46"
+      ],
+      "body_sha256": "29fc90fb89f32096a973bdc618c59d79938b73af912f26c99a9ff36cd39938b2"
+    },
+    {
+      "id": "CORE-10",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[CORE-10] Implement group members data",
+      "body": "backlog/tasks/CORE-10.md",
+      "milestone": "M4",
+      "labels": [
+        "type:task",
+        "priority:P1",
+        "area:core",
+        "component:provider"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:CORE-10 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-CORE",
+      "blockers": [
+        "deploymenttheory/terraform-provider-activedirectory:FND-07",
+        "deploymenttheory/terraform-provider-activedirectory:FND-05",
+        "deploymenttheory/terraform-provider-activedirectory:FND-06",
+        "deploymenttheory/go-sdk-activedirectory:SDK-11"
+      ],
+      "supporting": [],
+      "existing_context": [
+        "https://github.com/deploymenttheory/go-sdk-activedirectory/issues/20"
+      ],
+      "body_sha256": "da646ad10a8a6181382f0589117098fa6a7bad355a2ec69c94af61048b7e1574"
+    },
+    {
+      "id": "CORE-11",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[CORE-11] Implement principal group membership data",
+      "body": "backlog/tasks/CORE-11.md",
+      "milestone": "M4",
+      "labels": [
+        "type:task",
+        "priority:P1",
+        "area:core",
+        "component:provider"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:CORE-11 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-CORE",
+      "blockers": [
+        "deploymenttheory/terraform-provider-activedirectory:FND-07",
+        "deploymenttheory/terraform-provider-activedirectory:FND-05",
+        "deploymenttheory/terraform-provider-activedirectory:FND-06",
+        "deploymenttheory/go-sdk-activedirectory:SDK-11"
+      ],
+      "supporting": [],
+      "existing_context": [],
+      "body_sha256": "4094c3e281ce4d91c8f1a85d70bcc3a7c9bca5581c999ded34884a4eaa196aa0"
+    },
+    {
+      "id": "CORE-12",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[CORE-12] Implement account authorization groups data",
+      "body": "backlog/tasks/CORE-12.md",
+      "milestone": "M4",
+      "labels": [
+        "type:task",
+        "priority:P1",
+        "area:core",
+        "component:provider"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:CORE-12 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-CORE",
+      "blockers": [
+        "deploymenttheory/terraform-provider-activedirectory:FND-07",
+        "deploymenttheory/terraform-provider-activedirectory:FND-05",
+        "deploymenttheory/terraform-provider-activedirectory:FND-06",
+        "deploymenttheory/go-sdk-activedirectory:SDK-11"
+      ],
+      "supporting": [],
+      "existing_context": [],
+      "body_sha256": "8c6de041609b5d73c121b58ca7abe4914a9b465a3c0916b2bd73876398017cc1"
+    },
+    {
+      "id": "CORE-13",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[CORE-13] Implement account search data",
+      "body": "backlog/tasks/CORE-13.md",
+      "milestone": "M4",
+      "labels": [
+        "type:task",
+        "priority:P1",
+        "area:core",
+        "component:provider"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:CORE-13 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-CORE",
+      "blockers": [
+        "deploymenttheory/terraform-provider-activedirectory:FND-07",
+        "deploymenttheory/terraform-provider-activedirectory:FND-05",
+        "deploymenttheory/terraform-provider-activedirectory:FND-06",
+        "deploymenttheory/go-sdk-activedirectory:SDK-11"
+      ],
+      "supporting": [],
+      "existing_context": [],
+      "body_sha256": "9302848778e7f4f5c593c403602feed6dcf7c06ade5b531b22b228c6e762798c"
+    },
+    {
+      "id": "POL-01",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[POL-01] Implement fine grained password policy lifecycle and discovery",
+      "body": "backlog/tasks/POL-01.md",
+      "milestone": "M5",
+      "labels": [
+        "type:task",
+        "priority:P1",
+        "area:pol",
+        "component:provider"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:POL-01 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-POL",
+      "blockers": [
+        "deploymenttheory/terraform-provider-activedirectory:FND-07",
+        "deploymenttheory/terraform-provider-activedirectory:FND-05",
+        "deploymenttheory/terraform-provider-activedirectory:FND-06",
+        "deploymenttheory/go-sdk-activedirectory:SDK-11"
+      ],
+      "supporting": [],
+      "existing_context": [],
+      "body_sha256": "90cbb633541e50b60005c930cb09aa880b617e26136a67e6925b0b75aecfd624"
+    },
+    {
+      "id": "POL-02",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[POL-02] Implement fine grained password policy subject lifecycle and discovery",
+      "body": "backlog/tasks/POL-02.md",
+      "milestone": "M5",
+      "labels": [
+        "type:task",
+        "priority:P1",
+        "area:pol",
+        "component:provider"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:POL-02 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-POL",
+      "blockers": [
+        "deploymenttheory/terraform-provider-activedirectory:POL-01"
+      ],
+      "supporting": [
+        "deploymenttheory/terraform-provider-activedirectory:FND-07",
+        "deploymenttheory/terraform-provider-activedirectory:FND-05",
+        "deploymenttheory/terraform-provider-activedirectory:FND-06",
+        "deploymenttheory/go-sdk-activedirectory:SDK-11"
+      ],
+      "existing_context": [],
+      "body_sha256": "a372db64d7d9c4c3018c81d5be729853dbde57cc10e312ea115eae9d1fd62da5"
+    },
+    {
+      "id": "POL-03",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[POL-03] Implement domain password policy adopted",
+      "body": "backlog/tasks/POL-03.md",
+      "milestone": "M5",
+      "labels": [
+        "type:task",
+        "priority:P1",
+        "area:pol",
+        "component:provider"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:POL-03 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-POL",
+      "blockers": [
+        "deploymenttheory/terraform-provider-activedirectory:FND-07",
+        "deploymenttheory/terraform-provider-activedirectory:FND-05",
+        "deploymenttheory/terraform-provider-activedirectory:FND-06",
+        "deploymenttheory/go-sdk-activedirectory:SDK-11"
+      ],
+      "supporting": [],
+      "existing_context": [
+        "https://github.com/deploymenttheory/go-sdk-activedirectory/issues/25"
+      ],
+      "body_sha256": "7806870c6b3c7ba4d3c889cdc002cfaa2242fc6188d834cd13f676dcc1059125"
+    },
+    {
+      "id": "POL-04",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[POL-04] Implement user resultant password policy data",
+      "body": "backlog/tasks/POL-04.md",
+      "milestone": "M5",
+      "labels": [
+        "type:task",
+        "priority:P1",
+        "area:pol",
+        "component:provider"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:POL-04 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-POL",
+      "blockers": [
+        "deploymenttheory/terraform-provider-activedirectory:FND-07",
+        "deploymenttheory/terraform-provider-activedirectory:FND-05",
+        "deploymenttheory/terraform-provider-activedirectory:FND-06",
+        "deploymenttheory/go-sdk-activedirectory:SDK-11"
+      ],
+      "supporting": [],
+      "existing_context": [],
+      "body_sha256": "26c6e6548f818e8833ad014219029426f0feef52e588cdf7d25f750455dbfbb7"
+    },
+    {
+      "id": "POL-05",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[POL-05] Implement authentication policy lifecycle and discovery",
+      "body": "backlog/tasks/POL-05.md",
+      "milestone": "M5",
+      "labels": [
+        "type:task",
+        "priority:P1",
+        "area:pol",
+        "component:provider"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:POL-05 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-POL",
+      "blockers": [
+        "deploymenttheory/terraform-provider-activedirectory:FND-07",
+        "deploymenttheory/terraform-provider-activedirectory:FND-05",
+        "deploymenttheory/terraform-provider-activedirectory:FND-06",
+        "deploymenttheory/go-sdk-activedirectory:SDK-11",
+        "deploymenttheory/go-sdk-activedirectory:SDK-08",
+        "deploymenttheory/terraform-provider-activedirectory:LAB-03"
+      ],
+      "supporting": [],
+      "existing_context": [
+        "https://github.com/deploymenttheory/go-sdk-activedirectory/issues/40"
+      ],
+      "body_sha256": "533be48edbdb8fb5f09915c1b5b8445a73066b11b8e3e0498ad814e9ef2444b3"
+    },
+    {
+      "id": "POL-06",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[POL-06] Implement authentication policy silo lifecycle and discovery",
+      "body": "backlog/tasks/POL-06.md",
+      "milestone": "M5",
+      "labels": [
+        "type:task",
+        "priority:P1",
+        "area:pol",
+        "component:provider"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:POL-06 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-POL",
+      "blockers": [
+        "deploymenttheory/terraform-provider-activedirectory:FND-07",
+        "deploymenttheory/terraform-provider-activedirectory:FND-05",
+        "deploymenttheory/terraform-provider-activedirectory:FND-06",
+        "deploymenttheory/go-sdk-activedirectory:SDK-11",
+        "deploymenttheory/go-sdk-activedirectory:SDK-08",
+        "deploymenttheory/terraform-provider-activedirectory:LAB-03"
+      ],
+      "supporting": [],
+      "existing_context": [
+        "https://github.com/deploymenttheory/go-sdk-activedirectory/issues/41"
+      ],
+      "body_sha256": "ac0aaf1299042a306906370ff5c1d880722dd7763dc7f45e2e197fbc50d8092c"
+    },
+    {
+      "id": "POL-07",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[POL-07] Implement authentication policy silo access lifecycle and discovery",
+      "body": "backlog/tasks/POL-07.md",
+      "milestone": "M5",
+      "labels": [
+        "type:task",
+        "priority:P1",
+        "area:pol",
+        "component:provider"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:POL-07 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-POL",
+      "blockers": [
+        "deploymenttheory/terraform-provider-activedirectory:POL-06"
+      ],
+      "supporting": [
+        "deploymenttheory/terraform-provider-activedirectory:FND-07",
+        "deploymenttheory/terraform-provider-activedirectory:FND-05",
+        "deploymenttheory/terraform-provider-activedirectory:FND-06",
+        "deploymenttheory/go-sdk-activedirectory:SDK-11"
+      ],
+      "existing_context": [
+        "https://github.com/deploymenttheory/go-sdk-activedirectory/issues/41"
+      ],
+      "body_sha256": "ccb289609c70b0935c83426df6074834f097c0a913e7dca8bb26031e5efc2582"
+    },
+    {
+      "id": "POL-08",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[POL-08] Implement account authentication assignment adopted",
+      "body": "backlog/tasks/POL-08.md",
+      "milestone": "M5",
+      "labels": [
+        "type:task",
+        "priority:P1",
+        "area:pol",
+        "component:provider"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:POL-08 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-POL",
+      "blockers": [
+        "deploymenttheory/terraform-provider-activedirectory:POL-05",
+        "deploymenttheory/terraform-provider-activedirectory:POL-06"
+      ],
+      "supporting": [
+        "deploymenttheory/terraform-provider-activedirectory:FND-07",
+        "deploymenttheory/terraform-provider-activedirectory:FND-05",
+        "deploymenttheory/terraform-provider-activedirectory:FND-06",
+        "deploymenttheory/go-sdk-activedirectory:SDK-11"
+      ],
+      "existing_context": [
+        "https://github.com/deploymenttheory/go-sdk-activedirectory/issues/40",
+        "https://github.com/deploymenttheory/go-sdk-activedirectory/issues/41"
+      ],
+      "body_sha256": "f5614bde71cb19910bdb37e6e07c0072f90873603963dc8952aa5ba3722546e2"
+    },
+    {
+      "id": "POL-09",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[POL-09] Implement central access rule lifecycle and discovery",
+      "body": "backlog/tasks/POL-09.md",
+      "milestone": "M5",
+      "labels": [
+        "type:task",
+        "priority:P1",
+        "area:pol",
+        "component:provider"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:POL-09 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-POL",
+      "blockers": [
+        "deploymenttheory/terraform-provider-activedirectory:FND-07",
+        "deploymenttheory/terraform-provider-activedirectory:FND-05",
+        "deploymenttheory/terraform-provider-activedirectory:FND-06",
+        "deploymenttheory/go-sdk-activedirectory:SDK-11",
+        "deploymenttheory/go-sdk-activedirectory:SDK-08",
+        "deploymenttheory/terraform-provider-activedirectory:LAB-03"
+      ],
+      "supporting": [],
+      "existing_context": [
+        "https://github.com/deploymenttheory/go-sdk-activedirectory/issues/42"
+      ],
+      "body_sha256": "f160aee0a4bd6d1cc03fd4f12a5a96466176916aa8221d781256b2a976b60242"
+    },
+    {
+      "id": "POL-10",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[POL-10] Implement central access policy lifecycle and discovery",
+      "body": "backlog/tasks/POL-10.md",
+      "milestone": "M5",
+      "labels": [
+        "type:task",
+        "priority:P1",
+        "area:pol",
+        "component:provider"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:POL-10 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-POL",
+      "blockers": [
+        "deploymenttheory/terraform-provider-activedirectory:FND-07",
+        "deploymenttheory/terraform-provider-activedirectory:FND-05",
+        "deploymenttheory/terraform-provider-activedirectory:FND-06",
+        "deploymenttheory/go-sdk-activedirectory:SDK-11",
+        "deploymenttheory/go-sdk-activedirectory:SDK-06",
+        "deploymenttheory/terraform-provider-activedirectory:LAB-03"
+      ],
+      "supporting": [],
+      "existing_context": [
+        "https://github.com/deploymenttheory/go-sdk-activedirectory/issues/42"
+      ],
+      "body_sha256": "e87617650ab2aef49725d6d39d1280319bf28a1921bc887b3368c2f9e88f1f9c"
+    },
+    {
+      "id": "POL-11",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[POL-11] Implement central access policy member lifecycle and discovery",
+      "body": "backlog/tasks/POL-11.md",
+      "milestone": "M5",
+      "labels": [
+        "type:task",
+        "priority:P1",
+        "area:pol",
+        "component:provider"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:POL-11 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-POL",
+      "blockers": [
+        "deploymenttheory/terraform-provider-activedirectory:POL-09",
+        "deploymenttheory/terraform-provider-activedirectory:POL-10"
+      ],
+      "supporting": [
+        "deploymenttheory/terraform-provider-activedirectory:FND-07",
+        "deploymenttheory/terraform-provider-activedirectory:FND-05",
+        "deploymenttheory/terraform-provider-activedirectory:FND-06",
+        "deploymenttheory/go-sdk-activedirectory:SDK-11"
+      ],
+      "existing_context": [
+        "https://github.com/deploymenttheory/go-sdk-activedirectory/issues/42"
+      ],
+      "body_sha256": "36a72c99b4dcbb69a4d371d8da6b7f9f088e37784e16d419f2a29b60668b46d0"
+    },
+    {
+      "id": "POL-12",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[POL-12] Implement claim type lifecycle and discovery",
+      "body": "backlog/tasks/POL-12.md",
+      "milestone": "M5",
+      "labels": [
+        "type:task",
+        "priority:P1",
+        "area:pol",
+        "component:provider"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:POL-12 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-POL",
+      "blockers": [
+        "deploymenttheory/terraform-provider-activedirectory:FND-07",
+        "deploymenttheory/terraform-provider-activedirectory:FND-05",
+        "deploymenttheory/terraform-provider-activedirectory:FND-06",
+        "deploymenttheory/go-sdk-activedirectory:SDK-11",
+        "deploymenttheory/go-sdk-activedirectory:SDK-06",
+        "deploymenttheory/terraform-provider-activedirectory:LAB-03"
+      ],
+      "supporting": [],
+      "existing_context": [
+        "https://github.com/deploymenttheory/go-sdk-activedirectory/issues/43"
+      ],
+      "body_sha256": "0db0de53dd2461dd11e38651a82d7777c556f78a3db5bdabc30fd9b972ec54d6"
+    },
+    {
+      "id": "POL-13",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[POL-13] Implement claim transform policy lifecycle and discovery",
+      "body": "backlog/tasks/POL-13.md",
+      "milestone": "M5",
+      "labels": [
+        "type:task",
+        "priority:P1",
+        "area:pol",
+        "component:provider"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:POL-13 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-POL",
+      "blockers": [
+        "deploymenttheory/terraform-provider-activedirectory:FND-07",
+        "deploymenttheory/terraform-provider-activedirectory:FND-05",
+        "deploymenttheory/terraform-provider-activedirectory:FND-06",
+        "deploymenttheory/go-sdk-activedirectory:SDK-11",
+        "deploymenttheory/terraform-provider-activedirectory:LAB-03"
+      ],
+      "supporting": [],
+      "existing_context": [
+        "https://github.com/deploymenttheory/go-sdk-activedirectory/issues/44"
+      ],
+      "body_sha256": "01386dc19188cba3435c627123c20cae4b11d0cdb1317469fbb14a56d30d0321"
+    },
+    {
+      "id": "POL-14",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[POL-14] Implement claim transform link lifecycle and discovery",
+      "body": "backlog/tasks/POL-14.md",
+      "milestone": "M5",
+      "labels": [
+        "type:task",
+        "priority:P1",
+        "area:pol",
+        "component:provider"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:POL-14 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-POL",
+      "blockers": [
+        "deploymenttheory/terraform-provider-activedirectory:POL-13"
+      ],
+      "supporting": [
+        "deploymenttheory/terraform-provider-activedirectory:FND-07",
+        "deploymenttheory/terraform-provider-activedirectory:FND-05",
+        "deploymenttheory/terraform-provider-activedirectory:FND-06",
+        "deploymenttheory/go-sdk-activedirectory:SDK-11",
+        "deploymenttheory/terraform-provider-activedirectory:LAB-03"
+      ],
+      "existing_context": [
+        "https://github.com/deploymenttheory/go-sdk-activedirectory/issues/44"
+      ],
+      "body_sha256": "f9d241cd2de1a13f17d8fb83522111ad2b95a1102263f2a57cbdb61befad9220"
+    },
+    {
+      "id": "POL-15",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[POL-15] Implement resource property lifecycle and discovery",
+      "body": "backlog/tasks/POL-15.md",
+      "milestone": "M5",
+      "labels": [
+        "type:task",
+        "priority:P1",
+        "area:pol",
+        "component:provider"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:POL-15 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-POL",
+      "blockers": [
+        "deploymenttheory/terraform-provider-activedirectory:FND-07",
+        "deploymenttheory/terraform-provider-activedirectory:FND-05",
+        "deploymenttheory/terraform-provider-activedirectory:FND-06",
+        "deploymenttheory/go-sdk-activedirectory:SDK-11",
+        "deploymenttheory/go-sdk-activedirectory:SDK-06",
+        "deploymenttheory/terraform-provider-activedirectory:LAB-03"
+      ],
+      "supporting": [],
+      "existing_context": [
+        "https://github.com/deploymenttheory/go-sdk-activedirectory/issues/45"
+      ],
+      "body_sha256": "8594fabc15a58a2a117050dfc5918c22ef7a9b0b52a6dcbb36154fa7a526d0d3"
+    },
+    {
+      "id": "POL-16",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[POL-16] Implement resource property list lifecycle and discovery",
+      "body": "backlog/tasks/POL-16.md",
+      "milestone": "M5",
+      "labels": [
+        "type:task",
+        "priority:P1",
+        "area:pol",
+        "component:provider"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:POL-16 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-POL",
+      "blockers": [
+        "deploymenttheory/terraform-provider-activedirectory:FND-07",
+        "deploymenttheory/terraform-provider-activedirectory:FND-05",
+        "deploymenttheory/terraform-provider-activedirectory:FND-06",
+        "deploymenttheory/go-sdk-activedirectory:SDK-11",
+        "deploymenttheory/go-sdk-activedirectory:SDK-06",
+        "deploymenttheory/terraform-provider-activedirectory:LAB-03"
+      ],
+      "supporting": [],
+      "existing_context": [
+        "https://github.com/deploymenttheory/go-sdk-activedirectory/issues/45"
+      ],
+      "body_sha256": "82e8f6a28e1f3b63b7b136332f45c575565492d9efde730bb6d6ece42dd6b0c4"
+    },
+    {
+      "id": "POL-17",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[POL-17] Implement resource property list member lifecycle and discovery",
+      "body": "backlog/tasks/POL-17.md",
+      "milestone": "M5",
+      "labels": [
+        "type:task",
+        "priority:P1",
+        "area:pol",
+        "component:provider"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:POL-17 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-POL",
+      "blockers": [
+        "deploymenttheory/terraform-provider-activedirectory:POL-15",
+        "deploymenttheory/terraform-provider-activedirectory:POL-16"
+      ],
+      "supporting": [
+        "deploymenttheory/terraform-provider-activedirectory:FND-07",
+        "deploymenttheory/terraform-provider-activedirectory:FND-05",
+        "deploymenttheory/terraform-provider-activedirectory:FND-06",
+        "deploymenttheory/go-sdk-activedirectory:SDK-11"
+      ],
+      "existing_context": [
+        "https://github.com/deploymenttheory/go-sdk-activedirectory/issues/45"
+      ],
+      "body_sha256": "7e1c368da48dcc7e57e4c5d8b8d5101ccd1d236b9e48f45425376a231e248556"
+    },
+    {
+      "id": "POL-18",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[POL-18] Implement resource property value types data",
+      "body": "backlog/tasks/POL-18.md",
+      "milestone": "M5",
+      "labels": [
+        "type:task",
+        "priority:P1",
+        "area:pol",
+        "component:provider"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:POL-18 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-POL",
+      "blockers": [
+        "deploymenttheory/terraform-provider-activedirectory:FND-07",
+        "deploymenttheory/terraform-provider-activedirectory:FND-05",
+        "deploymenttheory/terraform-provider-activedirectory:FND-06",
+        "deploymenttheory/go-sdk-activedirectory:SDK-11"
+      ],
+      "supporting": [],
+      "existing_context": [
+        "https://github.com/deploymenttheory/go-sdk-activedirectory/issues/45"
+      ],
+      "body_sha256": "e1e77a80c172687eeef7a85d8fdbbc45c8225be3fa573217dededdf8bfdfa6b3"
+    },
+    {
+      "id": "POL-19",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[POL-19] Implement authentication policy expression data",
+      "body": "backlog/tasks/POL-19.md",
+      "milestone": "M5",
+      "labels": [
+        "type:task",
+        "priority:P1",
+        "area:pol",
+        "component:provider"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:POL-19 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-POL",
+      "blockers": [
+        "deploymenttheory/terraform-provider-activedirectory:FND-07",
+        "deploymenttheory/terraform-provider-activedirectory:FND-05",
+        "deploymenttheory/terraform-provider-activedirectory:FND-06",
+        "deploymenttheory/go-sdk-activedirectory:SDK-11",
+        "deploymenttheory/go-sdk-activedirectory:SDK-08"
+      ],
+      "supporting": [],
+      "existing_context": [],
+      "body_sha256": "1db494e602826dfd66c335582379be701d10e75c04376731e5b29f7a36b40b3c"
+    },
+    {
+      "id": "TOPO-01",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[TOPO-01] Implement replication site lifecycle and discovery",
+      "body": "backlog/tasks/TOPO-01.md",
+      "milestone": "M6",
+      "labels": [
+        "type:task",
+        "priority:P1",
+        "area:topo",
+        "component:provider"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:TOPO-01 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-TOPO",
+      "blockers": [
+        "deploymenttheory/terraform-provider-activedirectory:FND-07",
+        "deploymenttheory/terraform-provider-activedirectory:FND-05",
+        "deploymenttheory/terraform-provider-activedirectory:FND-06",
+        "deploymenttheory/go-sdk-activedirectory:SDK-11"
+      ],
+      "supporting": [],
+      "existing_context": [],
+      "body_sha256": "4e08a66523cbe79b36e45542bd775c7172d4bcf309ee4523d9a768e691b61185"
+    },
+    {
+      "id": "TOPO-02",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[TOPO-02] Implement replication site link lifecycle and discovery",
+      "body": "backlog/tasks/TOPO-02.md",
+      "milestone": "M6",
+      "labels": [
+        "type:task",
+        "priority:P1",
+        "area:topo",
+        "component:provider"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:TOPO-02 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-TOPO",
+      "blockers": [
+        "deploymenttheory/terraform-provider-activedirectory:FND-07",
+        "deploymenttheory/terraform-provider-activedirectory:FND-05",
+        "deploymenttheory/terraform-provider-activedirectory:FND-06",
+        "deploymenttheory/go-sdk-activedirectory:SDK-11"
+      ],
+      "supporting": [],
+      "existing_context": [
+        "https://github.com/deploymenttheory/go-sdk-activedirectory/issues/34"
+      ],
+      "body_sha256": "cae2ef1e09d4c134bffe69ca5424a0be47b83d69d9cf344b48f65d53ce61a55c"
+    },
+    {
+      "id": "TOPO-03",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[TOPO-03] Implement replication site link bridge lifecycle and discovery",
+      "body": "backlog/tasks/TOPO-03.md",
+      "milestone": "M6",
+      "labels": [
+        "type:task",
+        "priority:P1",
+        "area:topo",
+        "component:provider"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:TOPO-03 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-TOPO",
+      "blockers": [
+        "deploymenttheory/terraform-provider-activedirectory:FND-07",
+        "deploymenttheory/terraform-provider-activedirectory:FND-05",
+        "deploymenttheory/terraform-provider-activedirectory:FND-06",
+        "deploymenttheory/go-sdk-activedirectory:SDK-11"
+      ],
+      "supporting": [],
+      "existing_context": [
+        "https://github.com/deploymenttheory/go-sdk-activedirectory/issues/34"
+      ],
+      "body_sha256": "c69ec1c9930e7a173fae4e428d65bbd7005a2fb024283de0099d9e2a20c8ebe3"
+    },
+    {
+      "id": "TOPO-04",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[TOPO-04] Implement replication subnet lifecycle and discovery",
+      "body": "backlog/tasks/TOPO-04.md",
+      "milestone": "M6",
+      "labels": [
+        "type:task",
+        "priority:P1",
+        "area:topo",
+        "component:provider"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:TOPO-04 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-TOPO",
+      "blockers": [
+        "deploymenttheory/terraform-provider-activedirectory:FND-07",
+        "deploymenttheory/terraform-provider-activedirectory:FND-05",
+        "deploymenttheory/terraform-provider-activedirectory:FND-06",
+        "deploymenttheory/go-sdk-activedirectory:SDK-11"
+      ],
+      "supporting": [],
+      "existing_context": [],
+      "body_sha256": "68d0c85922f211bd6ea7c33a153ceb60bf12c57e87feb20b29e38edae3e6d7be"
+    },
+    {
+      "id": "TOPO-05",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[TOPO-05] Implement replication connection settings adopted",
+      "body": "backlog/tasks/TOPO-05.md",
+      "milestone": "M6",
+      "labels": [
+        "type:task",
+        "priority:P1",
+        "area:topo",
+        "component:provider"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:TOPO-05 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-TOPO",
+      "blockers": [
+        "deploymenttheory/terraform-provider-activedirectory:FND-07",
+        "deploymenttheory/terraform-provider-activedirectory:FND-05",
+        "deploymenttheory/terraform-provider-activedirectory:FND-06",
+        "deploymenttheory/go-sdk-activedirectory:SDK-11"
+      ],
+      "supporting": [],
+      "existing_context": [
+        "https://github.com/deploymenttheory/go-sdk-activedirectory/issues/34"
+      ],
+      "body_sha256": "f0c1887c7c6ef84556b2dad72377ffd4c0f7f52827bb5c8ebe62545203c24771"
+    },
+    {
+      "id": "TOPO-06",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[TOPO-06] Implement rodc password replication policy member lifecycle and discovery",
+      "body": "backlog/tasks/TOPO-06.md",
+      "milestone": "M6",
+      "labels": [
+        "type:task",
+        "priority:P1",
+        "area:topo",
+        "component:provider"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:TOPO-06 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-TOPO",
+      "blockers": [
+        "deploymenttheory/terraform-provider-activedirectory:FND-07",
+        "deploymenttheory/terraform-provider-activedirectory:FND-05",
+        "deploymenttheory/terraform-provider-activedirectory:FND-06",
+        "deploymenttheory/go-sdk-activedirectory:SDK-11",
+        "deploymenttheory/terraform-provider-activedirectory:LAB-03"
+      ],
+      "supporting": [],
+      "existing_context": [],
+      "body_sha256": "f8a1acec57cff48a1299c06bc15b44ab9cb1e9bb35eaa49464f981758dfe1da5"
+    },
+    {
+      "id": "READ-01",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[READ-01] Implement domain data",
+      "body": "backlog/tasks/READ-01.md",
+      "milestone": "M6",
+      "labels": [
+        "type:task",
+        "priority:P1",
+        "area:read",
+        "component:provider"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:READ-01 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-READ",
+      "blockers": [
+        "deploymenttheory/terraform-provider-activedirectory:FND-07",
+        "deploymenttheory/terraform-provider-activedirectory:FND-05",
+        "deploymenttheory/terraform-provider-activedirectory:FND-06",
+        "deploymenttheory/go-sdk-activedirectory:SDK-11",
+        "deploymenttheory/go-sdk-activedirectory:SDK-10"
+      ],
+      "supporting": [],
+      "existing_context": [],
+      "body_sha256": "41c498072ab1d45d39457b8b63c1b72cb73dd93dfe58f1e88f4672d16a0aa97d"
+    },
+    {
+      "id": "READ-02",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[READ-02] Implement forest data",
+      "body": "backlog/tasks/READ-02.md",
+      "milestone": "M6",
+      "labels": [
+        "type:task",
+        "priority:P1",
+        "area:read",
+        "component:provider"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:READ-02 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-READ",
+      "blockers": [
+        "deploymenttheory/terraform-provider-activedirectory:FND-07",
+        "deploymenttheory/terraform-provider-activedirectory:FND-05",
+        "deploymenttheory/terraform-provider-activedirectory:FND-06",
+        "deploymenttheory/go-sdk-activedirectory:SDK-11",
+        "deploymenttheory/go-sdk-activedirectory:SDK-10"
+      ],
+      "supporting": [],
+      "existing_context": [],
+      "body_sha256": "4e739faae4e4d2056a61507c53694fcb6be50aa1bc98569f88dfd2e46c4e80c8"
+    },
+    {
+      "id": "READ-03",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[READ-03] Implement domain controller data",
+      "body": "backlog/tasks/READ-03.md",
+      "milestone": "M6",
+      "labels": [
+        "type:task",
+        "priority:P1",
+        "area:read",
+        "component:provider"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:READ-03 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-READ",
+      "blockers": [
+        "deploymenttheory/terraform-provider-activedirectory:FND-07",
+        "deploymenttheory/terraform-provider-activedirectory:FND-05",
+        "deploymenttheory/terraform-provider-activedirectory:FND-06",
+        "deploymenttheory/go-sdk-activedirectory:SDK-11",
+        "deploymenttheory/go-sdk-activedirectory:SDK-10"
+      ],
+      "supporting": [],
+      "existing_context": [],
+      "body_sha256": "b3a7e7e1a9b2c028709c97d50828255ceb86e443ac780f1b7104254d15b01f16"
+    },
+    {
+      "id": "READ-04",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[READ-04] Implement trust data",
+      "body": "backlog/tasks/READ-04.md",
+      "milestone": "M6",
+      "labels": [
+        "type:task",
+        "priority:P1",
+        "area:read",
+        "component:provider"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:READ-04 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-READ",
+      "blockers": [
+        "deploymenttheory/terraform-provider-activedirectory:FND-07",
+        "deploymenttheory/terraform-provider-activedirectory:FND-05",
+        "deploymenttheory/terraform-provider-activedirectory:FND-06",
+        "deploymenttheory/go-sdk-activedirectory:SDK-11",
+        "deploymenttheory/go-sdk-activedirectory:SDK-10",
+        "deploymenttheory/terraform-provider-activedirectory:LAB-03"
+      ],
+      "supporting": [],
+      "existing_context": [],
+      "body_sha256": "4ac7e81c1f8ff365a5f4a06b3dc61f7d7d54e584b717e1d279f6ff62387a9d56"
+    },
+    {
+      "id": "READ-05",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[READ-05] Implement root dse data",
+      "body": "backlog/tasks/READ-05.md",
+      "milestone": "M6",
+      "labels": [
+        "type:task",
+        "priority:P1",
+        "area:read",
+        "component:provider"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:READ-05 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-READ",
+      "blockers": [
+        "deploymenttheory/terraform-provider-activedirectory:FND-07",
+        "deploymenttheory/terraform-provider-activedirectory:FND-05",
+        "deploymenttheory/terraform-provider-activedirectory:FND-06",
+        "deploymenttheory/go-sdk-activedirectory:SDK-11"
+      ],
+      "supporting": [],
+      "existing_context": [],
+      "body_sha256": "89c0e59fc8ca25961c2a3fca2ef193849a09f4d9c4128dc78ea79f8e61efb882"
+    },
+    {
+      "id": "READ-06",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[READ-06] Implement optional features data",
+      "body": "backlog/tasks/READ-06.md",
+      "milestone": "M6",
+      "labels": [
+        "type:task",
+        "priority:P1",
+        "area:read",
+        "component:provider"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:READ-06 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-READ",
+      "blockers": [
+        "deploymenttheory/terraform-provider-activedirectory:FND-07",
+        "deploymenttheory/terraform-provider-activedirectory:FND-05",
+        "deploymenttheory/terraform-provider-activedirectory:FND-06",
+        "deploymenttheory/go-sdk-activedirectory:SDK-11"
+      ],
+      "supporting": [],
+      "existing_context": [],
+      "body_sha256": "7beb2b99d39c51704c688cf8fa379c3f03a63897f2a85237c69cf0e26a26a528"
+    },
+    {
+      "id": "READ-07",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[READ-07] Implement deleted objects data",
+      "body": "backlog/tasks/READ-07.md",
+      "milestone": "M7",
+      "labels": [
+        "type:task",
+        "priority:P1",
+        "area:read",
+        "component:provider"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:READ-07 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-READ",
+      "blockers": [
+        "deploymenttheory/terraform-provider-activedirectory:FND-07",
+        "deploymenttheory/terraform-provider-activedirectory:FND-05",
+        "deploymenttheory/terraform-provider-activedirectory:FND-06",
+        "deploymenttheory/go-sdk-activedirectory:SDK-11",
+        "deploymenttheory/terraform-provider-activedirectory:LAB-03"
+      ],
+      "supporting": [],
+      "existing_context": [],
+      "body_sha256": "b88c0a73015b78b721e6bf450e7148cc8e40930efa34f20f954eff39a5594555"
+    },
+    {
+      "id": "READ-08",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[READ-08] Implement rodc password replication policy data",
+      "body": "backlog/tasks/READ-08.md",
+      "milestone": "M6",
+      "labels": [
+        "type:task",
+        "priority:P1",
+        "area:read",
+        "component:provider"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:READ-08 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-READ",
+      "blockers": [
+        "deploymenttheory/terraform-provider-activedirectory:FND-07",
+        "deploymenttheory/terraform-provider-activedirectory:FND-05",
+        "deploymenttheory/terraform-provider-activedirectory:FND-06",
+        "deploymenttheory/go-sdk-activedirectory:SDK-11",
+        "deploymenttheory/terraform-provider-activedirectory:LAB-03"
+      ],
+      "supporting": [],
+      "existing_context": [],
+      "body_sha256": "4b68de778722497b34450235337fc6ad5013aab7c9746542397e11ebef499c08"
+    },
+    {
+      "id": "READ-09",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[READ-09] Implement account resultant password replication policy data",
+      "body": "backlog/tasks/READ-09.md",
+      "milestone": "M6",
+      "labels": [
+        "type:task",
+        "priority:P1",
+        "area:read",
+        "component:provider"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:READ-09 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-READ",
+      "blockers": [
+        "deploymenttheory/terraform-provider-activedirectory:FND-07",
+        "deploymenttheory/terraform-provider-activedirectory:FND-05",
+        "deploymenttheory/terraform-provider-activedirectory:FND-06",
+        "deploymenttheory/go-sdk-activedirectory:SDK-11",
+        "deploymenttheory/terraform-provider-activedirectory:LAB-03"
+      ],
+      "supporting": [],
+      "existing_context": [],
+      "body_sha256": "a54bc93718ccacaf78f4eb7671857d429b9c618de9f4c26b191df79de0c7b3bb"
+    },
+    {
+      "id": "READ-10",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[READ-10] Implement rodc password replication policy usage data",
+      "body": "backlog/tasks/READ-10.md",
+      "milestone": "M6",
+      "labels": [
+        "type:task",
+        "priority:P1",
+        "area:read",
+        "component:provider"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:READ-10 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-READ",
+      "blockers": [
+        "deploymenttheory/terraform-provider-activedirectory:FND-07",
+        "deploymenttheory/terraform-provider-activedirectory:FND-05",
+        "deploymenttheory/terraform-provider-activedirectory:FND-06",
+        "deploymenttheory/go-sdk-activedirectory:SDK-11",
+        "deploymenttheory/terraform-provider-activedirectory:LAB-03"
+      ],
+      "supporting": [],
+      "existing_context": [],
+      "body_sha256": "6bd24106f901f8b74cb006db53a6b774a56199193dda0ce888d23c92424800bd"
+    },
+    {
+      "id": "READ-11",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[READ-11] Implement replication failures data",
+      "body": "backlog/tasks/READ-11.md",
+      "milestone": "M6",
+      "labels": [
+        "type:task",
+        "priority:P1",
+        "area:read",
+        "component:provider"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:READ-11 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-READ",
+      "blockers": [
+        "deploymenttheory/terraform-provider-activedirectory:FND-07",
+        "deploymenttheory/terraform-provider-activedirectory:FND-05",
+        "deploymenttheory/terraform-provider-activedirectory:FND-06",
+        "deploymenttheory/go-sdk-activedirectory:SDK-11",
+        "deploymenttheory/go-sdk-activedirectory:SDK-07"
+      ],
+      "supporting": [],
+      "existing_context": [
+        "https://github.com/deploymenttheory/go-sdk-activedirectory/issues/36"
+      ],
+      "body_sha256": "8ea2cb41621a0b6b7de4eaf2e8b027d515f3914ed817e6b00d58d60a108f8bb9"
+    },
+    {
+      "id": "READ-12",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[READ-12] Implement replication partner metadata data",
+      "body": "backlog/tasks/READ-12.md",
+      "milestone": "M6",
+      "labels": [
+        "type:task",
+        "priority:P1",
+        "area:read",
+        "component:provider"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:READ-12 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-READ",
+      "blockers": [
+        "deploymenttheory/terraform-provider-activedirectory:FND-07",
+        "deploymenttheory/terraform-provider-activedirectory:FND-05",
+        "deploymenttheory/terraform-provider-activedirectory:FND-06",
+        "deploymenttheory/go-sdk-activedirectory:SDK-11",
+        "deploymenttheory/go-sdk-activedirectory:SDK-07"
+      ],
+      "supporting": [],
+      "existing_context": [
+        "https://github.com/deploymenttheory/go-sdk-activedirectory/issues/36"
+      ],
+      "body_sha256": "942d0a8b1f381ca8544446cb516fe827c243afd5e6a5e5e04830488d5465bd19"
+    },
+    {
+      "id": "READ-13",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[READ-13] Implement replication queue data",
+      "body": "backlog/tasks/READ-13.md",
+      "milestone": "M6",
+      "labels": [
+        "type:task",
+        "priority:P1",
+        "area:read",
+        "component:provider"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:READ-13 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-READ",
+      "blockers": [
+        "deploymenttheory/terraform-provider-activedirectory:FND-07",
+        "deploymenttheory/terraform-provider-activedirectory:FND-05",
+        "deploymenttheory/terraform-provider-activedirectory:FND-06",
+        "deploymenttheory/go-sdk-activedirectory:SDK-11",
+        "deploymenttheory/go-sdk-activedirectory:SDK-07"
+      ],
+      "supporting": [],
+      "existing_context": [
+        "https://github.com/deploymenttheory/go-sdk-activedirectory/issues/36"
+      ],
+      "body_sha256": "f6de89891d16cd2d6053b12e79f1f855b740d748fd0d5aa1555071b022843881"
+    },
+    {
+      "id": "READ-14",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[READ-14] Implement replication attribute metadata data",
+      "body": "backlog/tasks/READ-14.md",
+      "milestone": "M6",
+      "labels": [
+        "type:task",
+        "priority:P1",
+        "area:read",
+        "component:provider"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:READ-14 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-READ",
+      "blockers": [
+        "deploymenttheory/terraform-provider-activedirectory:FND-07",
+        "deploymenttheory/terraform-provider-activedirectory:FND-05",
+        "deploymenttheory/terraform-provider-activedirectory:FND-06",
+        "deploymenttheory/go-sdk-activedirectory:SDK-11",
+        "deploymenttheory/go-sdk-activedirectory:SDK-07",
+        "deploymenttheory/go-sdk-activedirectory#35"
+      ],
+      "supporting": [],
+      "existing_context": [],
+      "body_sha256": "ab74ae1eb01ee386b89cbdd8727ee559e375200400ff2eae6b2b36bc182a1d1b"
+    },
+    {
+      "id": "READ-15",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[READ-15] Implement replication up to dateness vectors data",
+      "body": "backlog/tasks/READ-15.md",
+      "milestone": "M6",
+      "labels": [
+        "type:task",
+        "priority:P1",
+        "area:read",
+        "component:provider"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:READ-15 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-READ",
+      "blockers": [
+        "deploymenttheory/terraform-provider-activedirectory:FND-07",
+        "deploymenttheory/terraform-provider-activedirectory:FND-05",
+        "deploymenttheory/terraform-provider-activedirectory:FND-06",
+        "deploymenttheory/go-sdk-activedirectory:SDK-11",
+        "deploymenttheory/go-sdk-activedirectory:SDK-07",
+        "deploymenttheory/go-sdk-activedirectory#35"
+      ],
+      "supporting": [],
+      "existing_context": [],
+      "body_sha256": "3fd7efb4f41add14afe615c44d68089cde58bd786c6b5adaaab6adee40951116"
+    },
+    {
+      "id": "DIR-01",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[DIR-01] Implement domain settings adopted",
+      "body": "backlog/tasks/DIR-01.md",
+      "milestone": "M6",
+      "labels": [
+        "type:task",
+        "priority:P1",
+        "area:dir",
+        "component:provider"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:DIR-01 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-DIR",
+      "blockers": [
+        "deploymenttheory/terraform-provider-activedirectory:READ-01"
+      ],
+      "supporting": [
+        "deploymenttheory/terraform-provider-activedirectory:FND-07",
+        "deploymenttheory/terraform-provider-activedirectory:FND-05",
+        "deploymenttheory/terraform-provider-activedirectory:FND-06",
+        "deploymenttheory/go-sdk-activedirectory:SDK-11"
+      ],
+      "existing_context": [
+        "https://github.com/deploymenttheory/go-sdk-activedirectory/issues/28"
+      ],
+      "body_sha256": "0a88d37dc1b35bacacdf24a7d46573bb9c1dd8f05c5409c67f14a2da64ad3601"
+    },
+    {
+      "id": "DIR-02",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[DIR-02] Implement forest settings adopted",
+      "body": "backlog/tasks/DIR-02.md",
+      "milestone": "M6",
+      "labels": [
+        "type:task",
+        "priority:P1",
+        "area:dir",
+        "component:provider"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:DIR-02 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-DIR",
+      "blockers": [
+        "deploymenttheory/terraform-provider-activedirectory:READ-02"
+      ],
+      "supporting": [
+        "deploymenttheory/terraform-provider-activedirectory:FND-07",
+        "deploymenttheory/terraform-provider-activedirectory:FND-05",
+        "deploymenttheory/terraform-provider-activedirectory:FND-06",
+        "deploymenttheory/go-sdk-activedirectory:SDK-11"
+      ],
+      "existing_context": [
+        "https://github.com/deploymenttheory/go-sdk-activedirectory/issues/28"
+      ],
+      "body_sha256": "be3e83bfd9233c2b973cfc675079e19a323362f64ccf256706ea7790659e2dea"
+    },
+    {
+      "id": "ACT-01",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[ACT-01] Implement account unlock action",
+      "body": "backlog/tasks/ACT-01.md",
+      "milestone": "M3",
+      "labels": [
+        "type:task",
+        "priority:P1",
+        "area:act",
+        "component:provider"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:ACT-01 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-ACT",
+      "blockers": [
+        "deploymenttheory/terraform-provider-activedirectory:FND-07",
+        "deploymenttheory/terraform-provider-activedirectory:FND-05",
+        "deploymenttheory/terraform-provider-activedirectory:FND-06",
+        "deploymenttheory/go-sdk-activedirectory:SDK-11"
+      ],
+      "supporting": [],
+      "existing_context": [
+        "https://github.com/deploymenttheory/go-sdk-activedirectory/issues/22"
+      ],
+      "body_sha256": "c130d2b335eb446f2a33260e650ac4de50bf9d266188679736a4a7f3b22df7b1"
+    },
+    {
+      "id": "ACT-02",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[ACT-02] Implement account password reset action",
+      "body": "backlog/tasks/ACT-02.md",
+      "milestone": "M4",
+      "labels": [
+        "type:task",
+        "priority:P1",
+        "area:act",
+        "component:provider"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:ACT-02 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-ACT",
+      "blockers": [
+        "deploymenttheory/terraform-provider-activedirectory:FND-07",
+        "deploymenttheory/terraform-provider-activedirectory:FND-05",
+        "deploymenttheory/terraform-provider-activedirectory:FND-06",
+        "deploymenttheory/go-sdk-activedirectory:SDK-11"
+      ],
+      "supporting": [],
+      "existing_context": [
+        "https://github.com/deploymenttheory/go-sdk-activedirectory/issues/24"
+      ],
+      "body_sha256": "10c2e9ebb3cc0a6bf3b6f83088c5404af078d470b392820465ada833bdea1a80"
+    },
+    {
+      "id": "ACT-03",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[ACT-03] Implement account password change action",
+      "body": "backlog/tasks/ACT-03.md",
+      "milestone": "M4",
+      "labels": [
+        "type:task",
+        "priority:P1",
+        "area:act",
+        "component:provider"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:ACT-03 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-ACT",
+      "blockers": [
+        "deploymenttheory/terraform-provider-activedirectory:FND-07",
+        "deploymenttheory/terraform-provider-activedirectory:FND-05",
+        "deploymenttheory/terraform-provider-activedirectory:FND-06",
+        "deploymenttheory/go-sdk-activedirectory:SDK-11"
+      ],
+      "supporting": [],
+      "existing_context": [
+        "https://github.com/deploymenttheory/go-sdk-activedirectory/issues/24"
+      ],
+      "body_sha256": "5071ee1515a36b8fe284486b61e7639a504d9512ef051aa9be1e7c4edfddff1f"
+    },
+    {
+      "id": "ACT-04",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[ACT-04] Implement object restore action",
+      "body": "backlog/tasks/ACT-04.md",
+      "milestone": "M7",
+      "labels": [
+        "type:task",
+        "priority:P1",
+        "area:act",
+        "component:provider"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:ACT-04 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-ACT",
+      "blockers": [
+        "deploymenttheory/terraform-provider-activedirectory:READ-07"
+      ],
+      "supporting": [
+        "deploymenttheory/terraform-provider-activedirectory:FND-07",
+        "deploymenttheory/terraform-provider-activedirectory:FND-05",
+        "deploymenttheory/terraform-provider-activedirectory:FND-06",
+        "deploymenttheory/go-sdk-activedirectory:SDK-11",
+        "deploymenttheory/terraform-provider-activedirectory:LAB-03"
+      ],
+      "existing_context": [],
+      "body_sha256": "85656350d698e4a7a0a32d7f8875857279a22b4d97319fecad2c66bb5bc95edb"
+    },
+    {
+      "id": "ACT-05",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[ACT-05] Implement directory server move action",
+      "body": "backlog/tasks/ACT-05.md",
+      "milestone": "M7",
+      "labels": [
+        "type:task",
+        "priority:P1",
+        "area:act",
+        "component:provider"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:ACT-05 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-ACT",
+      "blockers": [
+        "deploymenttheory/terraform-provider-activedirectory:TOPO-01",
+        "deploymenttheory/terraform-provider-activedirectory:LAB-03"
+      ],
+      "supporting": [
+        "deploymenttheory/terraform-provider-activedirectory:FND-07",
+        "deploymenttheory/terraform-provider-activedirectory:FND-05",
+        "deploymenttheory/terraform-provider-activedirectory:FND-06",
+        "deploymenttheory/go-sdk-activedirectory:SDK-11"
+      ],
+      "existing_context": [],
+      "body_sha256": "525389df07873a1b3e66c0a54eae233e0ac369badc521292d85049dfefbb0bb6"
+    },
+    {
+      "id": "ACT-06",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[ACT-06] Implement operation master role transfer action",
+      "body": "backlog/tasks/ACT-06.md",
+      "milestone": "M7",
+      "labels": [
+        "type:task",
+        "priority:P1",
+        "area:act",
+        "component:provider"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:ACT-06 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-ACT",
+      "blockers": [
+        "deploymenttheory/terraform-provider-activedirectory:FND-07",
+        "deploymenttheory/terraform-provider-activedirectory:FND-05",
+        "deploymenttheory/terraform-provider-activedirectory:FND-06",
+        "deploymenttheory/go-sdk-activedirectory:SDK-11",
+        "deploymenttheory/terraform-provider-activedirectory:LAB-03"
+      ],
+      "supporting": [],
+      "existing_context": [
+        "https://github.com/deploymenttheory/go-sdk-activedirectory/issues/32"
+      ],
+      "body_sha256": "5ac0d3afd4bd8b7fcdef15e10732b3e7c5019e16842eb964abcdedc5bfa5e446"
+    },
+    {
+      "id": "ACT-07",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[ACT-07] Implement operation master role seize action",
+      "body": "backlog/tasks/ACT-07.md",
+      "milestone": "M7",
+      "labels": [
+        "type:task",
+        "priority:P1",
+        "area:act",
+        "component:provider"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:ACT-07 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-ACT",
+      "blockers": [
+        "deploymenttheory/terraform-provider-activedirectory:FND-07",
+        "deploymenttheory/terraform-provider-activedirectory:FND-05",
+        "deploymenttheory/terraform-provider-activedirectory:FND-06",
+        "deploymenttheory/go-sdk-activedirectory:SDK-11",
+        "deploymenttheory/terraform-provider-activedirectory:LAB-03"
+      ],
+      "supporting": [],
+      "existing_context": [
+        "https://github.com/deploymenttheory/go-sdk-activedirectory/issues/32"
+      ],
+      "body_sha256": "0959a2c14c267b0903feb3beac3b7d15bf505e032df66ba19298345c915ad247"
+    },
+    {
+      "id": "ACT-08",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[ACT-08] Implement domain functional level set action",
+      "body": "backlog/tasks/ACT-08.md",
+      "milestone": "M7",
+      "labels": [
+        "type:task",
+        "priority:P1",
+        "area:act",
+        "component:provider"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:ACT-08 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-ACT",
+      "blockers": [
+        "deploymenttheory/terraform-provider-activedirectory:READ-01",
+        "deploymenttheory/terraform-provider-activedirectory:LAB-03"
+      ],
+      "supporting": [
+        "deploymenttheory/terraform-provider-activedirectory:FND-07",
+        "deploymenttheory/terraform-provider-activedirectory:FND-05",
+        "deploymenttheory/terraform-provider-activedirectory:FND-06",
+        "deploymenttheory/go-sdk-activedirectory:SDK-11"
+      ],
+      "existing_context": [
+        "https://github.com/deploymenttheory/go-sdk-activedirectory/issues/28"
+      ],
+      "body_sha256": "6dd271f7f0426491afd3a9eb27c1c500ce8b93e0d955d5272d5b1772b9b71053"
+    },
+    {
+      "id": "ACT-09",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[ACT-09] Implement forest functional level set action",
+      "body": "backlog/tasks/ACT-09.md",
+      "milestone": "M7",
+      "labels": [
+        "type:task",
+        "priority:P1",
+        "area:act",
+        "component:provider"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:ACT-09 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-ACT",
+      "blockers": [
+        "deploymenttheory/terraform-provider-activedirectory:READ-02",
+        "deploymenttheory/terraform-provider-activedirectory:LAB-03"
+      ],
+      "supporting": [
+        "deploymenttheory/terraform-provider-activedirectory:FND-07",
+        "deploymenttheory/terraform-provider-activedirectory:FND-05",
+        "deploymenttheory/terraform-provider-activedirectory:FND-06",
+        "deploymenttheory/go-sdk-activedirectory:SDK-11"
+      ],
+      "existing_context": [
+        "https://github.com/deploymenttheory/go-sdk-activedirectory/issues/28"
+      ],
+      "body_sha256": "1d352324d7bf2bb764a7c79a6347adeef8b11a8f7a3ece8dc91209764294ed73"
+    },
+    {
+      "id": "ACT-10",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[ACT-10] Implement optional feature enable action",
+      "body": "backlog/tasks/ACT-10.md",
+      "milestone": "M7",
+      "labels": [
+        "type:task",
+        "priority:P1",
+        "area:act",
+        "component:provider"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:ACT-10 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-ACT",
+      "blockers": [
+        "deploymenttheory/terraform-provider-activedirectory:READ-06",
+        "deploymenttheory/terraform-provider-activedirectory:LAB-03"
+      ],
+      "supporting": [
+        "deploymenttheory/terraform-provider-activedirectory:FND-07",
+        "deploymenttheory/terraform-provider-activedirectory:FND-05",
+        "deploymenttheory/terraform-provider-activedirectory:FND-06",
+        "deploymenttheory/go-sdk-activedirectory:SDK-11"
+      ],
+      "existing_context": [
+        "https://github.com/deploymenttheory/go-sdk-activedirectory/issues/29"
+      ],
+      "body_sha256": "e8b8df0b7b49d5c8dd1aa8810122e01fbc266340baca5a4c257e6c6cd4d0a936"
+    },
+    {
+      "id": "ACT-11",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[ACT-11] Implement optional feature disable action",
+      "body": "backlog/tasks/ACT-11.md",
+      "milestone": "M7",
+      "labels": [
+        "type:task",
+        "priority:P1",
+        "area:act",
+        "component:provider"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:ACT-11 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-ACT",
+      "blockers": [
+        "deploymenttheory/terraform-provider-activedirectory:READ-06",
+        "deploymenttheory/terraform-provider-activedirectory:LAB-03"
+      ],
+      "supporting": [
+        "deploymenttheory/terraform-provider-activedirectory:FND-07",
+        "deploymenttheory/terraform-provider-activedirectory:FND-05",
+        "deploymenttheory/terraform-provider-activedirectory:FND-06",
+        "deploymenttheory/go-sdk-activedirectory:SDK-11"
+      ],
+      "existing_context": [
+        "https://github.com/deploymenttheory/go-sdk-activedirectory/issues/29"
+      ],
+      "body_sha256": "6b11c1747f92b528adfbac17ec95e13e4e9a789d022cbd483958472406397dc9"
+    },
+    {
+      "id": "ACT-12",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[ACT-12] Implement object sync action",
+      "body": "backlog/tasks/ACT-12.md",
+      "milestone": "M7",
+      "labels": [
+        "type:task",
+        "priority:P1",
+        "area:act",
+        "component:provider"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:ACT-12 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-ACT",
+      "blockers": [
+        "deploymenttheory/terraform-provider-activedirectory:FND-07",
+        "deploymenttheory/terraform-provider-activedirectory:FND-05",
+        "deploymenttheory/terraform-provider-activedirectory:FND-06",
+        "deploymenttheory/go-sdk-activedirectory:SDK-11",
+        "deploymenttheory/terraform-provider-activedirectory:LAB-03"
+      ],
+      "supporting": [],
+      "existing_context": [
+        "https://github.com/deploymenttheory/go-sdk-activedirectory/issues/37"
+      ],
+      "body_sha256": "ad814491ec5c5bb1f88c1ea0160395da0028b3dc89de130137f37c1c8dbfc8cd"
+    },
+    {
+      "id": "ACT-13",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[ACT-13] Implement service account migration start action",
+      "body": "backlog/tasks/ACT-13.md",
+      "milestone": "M7",
+      "labels": [
+        "type:task",
+        "priority:P1",
+        "area:act",
+        "component:provider"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:ACT-13 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-ACT",
+      "blockers": [
+        "deploymenttheory/terraform-provider-activedirectory:FND-07",
+        "deploymenttheory/terraform-provider-activedirectory:FND-05",
+        "deploymenttheory/terraform-provider-activedirectory:FND-06",
+        "deploymenttheory/go-sdk-activedirectory:SDK-11",
+        "deploymenttheory/terraform-provider-activedirectory:LAB-03",
+        "deploymenttheory/go-sdk-activedirectory:SDK-06"
+      ],
+      "supporting": [],
+      "existing_context": [
+        "https://github.com/deploymenttheory/go-sdk-activedirectory/issues/51",
+        "https://github.com/deploymenttheory/go-sdk-activedirectory/issues/79"
+      ],
+      "body_sha256": "6e188267791ff464c614bf6599c258748290131111da27694448dee455596444"
+    },
+    {
+      "id": "ACT-14",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[ACT-14] Implement service account migration complete action",
+      "body": "backlog/tasks/ACT-14.md",
+      "milestone": "M7",
+      "labels": [
+        "type:task",
+        "priority:P1",
+        "area:act",
+        "component:provider"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:ACT-14 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-ACT",
+      "blockers": [
+        "deploymenttheory/terraform-provider-activedirectory:ACT-13"
+      ],
+      "supporting": [
+        "deploymenttheory/terraform-provider-activedirectory:FND-07",
+        "deploymenttheory/terraform-provider-activedirectory:FND-05",
+        "deploymenttheory/terraform-provider-activedirectory:FND-06",
+        "deploymenttheory/go-sdk-activedirectory:SDK-11"
+      ],
+      "existing_context": [
+        "https://github.com/deploymenttheory/go-sdk-activedirectory/issues/52",
+        "https://github.com/deploymenttheory/go-sdk-activedirectory/issues/79"
+      ],
+      "body_sha256": "b720e017c5a101bf68dac2d848354d3d5edb019109709d6906c3239882698ced"
+    },
+    {
+      "id": "ACT-15",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[ACT-15] Implement service account migration undo action",
+      "body": "backlog/tasks/ACT-15.md",
+      "milestone": "M7",
+      "labels": [
+        "type:task",
+        "priority:P1",
+        "area:act",
+        "component:provider"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:ACT-15 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-ACT",
+      "blockers": [
+        "deploymenttheory/terraform-provider-activedirectory:ACT-14"
+      ],
+      "supporting": [
+        "deploymenttheory/terraform-provider-activedirectory:FND-07",
+        "deploymenttheory/terraform-provider-activedirectory:FND-05",
+        "deploymenttheory/terraform-provider-activedirectory:FND-06",
+        "deploymenttheory/go-sdk-activedirectory:SDK-11"
+      ],
+      "existing_context": [
+        "https://github.com/deploymenttheory/go-sdk-activedirectory/issues/53",
+        "https://github.com/deploymenttheory/go-sdk-activedirectory/issues/79"
+      ],
+      "body_sha256": "e83a1c3e272929e16be7b9884cb78552effe8da58ceaee2fc4dc3ec1d97f745e"
+    },
+    {
+      "id": "ACT-16",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[ACT-16] Implement service account migration reset action",
+      "body": "backlog/tasks/ACT-16.md",
+      "milestone": "M7",
+      "labels": [
+        "type:task",
+        "priority:P1",
+        "area:act",
+        "component:provider"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:ACT-16 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-ACT",
+      "blockers": [
+        "deploymenttheory/terraform-provider-activedirectory:ACT-13"
+      ],
+      "supporting": [
+        "deploymenttheory/terraform-provider-activedirectory:FND-07",
+        "deploymenttheory/terraform-provider-activedirectory:FND-05",
+        "deploymenttheory/terraform-provider-activedirectory:FND-06",
+        "deploymenttheory/go-sdk-activedirectory:SDK-11"
+      ],
+      "existing_context": [
+        "https://github.com/deploymenttheory/go-sdk-activedirectory/issues/53",
+        "https://github.com/deploymenttheory/go-sdk-activedirectory/issues/79"
+      ],
+      "body_sha256": "400a8846dd21c7d478becbc24775f94a607a3b64c1f06973639d26a8206b7558"
+    },
+    {
+      "id": "CORE-14",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[CORE-14] Enable qualified cross-domain moves on the generic object lifecycle",
+      "body": "backlog/tasks/CORE-14.md",
+      "milestone": "M7",
+      "labels": [
+        "type:task",
+        "priority:P1",
+        "area:core",
+        "component:provider"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:CORE-14 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-CORE",
+      "blockers": [
+        "deploymenttheory/terraform-provider-activedirectory:CORE-05",
+        "deploymenttheory/go-sdk-activedirectory:SDK-12"
+      ],
+      "supporting": [],
+      "existing_context": [
+        "https://github.com/deploymenttheory/go-sdk-activedirectory/issues/31"
+      ],
+      "body_sha256": "a0a138190899e363e6f1e08c46b832c04d1c15ce10aaaee3ca742122277bf9f7"
+    },
+    {
+      "id": "REL-00",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[REL-00] Verify the first qualified subset for an experimental provider release",
+      "body": "backlog/tasks/REL-00.md",
+      "milestone": "M3",
+      "labels": [
+        "type:task",
+        "priority:P0",
+        "area:rel",
+        "component:verification"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:REL-00 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-REL",
+      "blockers": [
+        "deploymenttheory/terraform-provider-activedirectory:CORE-01",
+        "deploymenttheory/terraform-provider-activedirectory:CORE-02",
+        "deploymenttheory/terraform-provider-activedirectory:ACT-01"
+      ],
+      "supporting": [
+        "deploymenttheory/terraform-provider-activedirectory:FND-06"
+      ],
+      "existing_context": [],
+      "body_sha256": "0dbdc261d3636267bfa9348871055c14fbddcaf24ed908d00baa7c9b786d01f4"
+    },
+    {
+      "id": "REL-01",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[REL-01] Audit all included capabilities and client/server qualification evidence",
+      "body": "backlog/tasks/REL-01.md",
+      "milestone": "M8",
+      "labels": [
+        "type:task",
+        "priority:P0",
+        "area:rel",
+        "component:verification"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:REL-01 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-REL",
+      "blockers": [
+        "deploymenttheory/terraform-provider-activedirectory:CORE-01",
+        "deploymenttheory/terraform-provider-activedirectory:CORE-02",
+        "deploymenttheory/terraform-provider-activedirectory:CORE-03",
+        "deploymenttheory/terraform-provider-activedirectory:CORE-04",
+        "deploymenttheory/terraform-provider-activedirectory:CORE-07",
+        "deploymenttheory/terraform-provider-activedirectory:CORE-08",
+        "deploymenttheory/terraform-provider-activedirectory:CORE-09",
+        "deploymenttheory/terraform-provider-activedirectory:CORE-10",
+        "deploymenttheory/terraform-provider-activedirectory:CORE-11",
+        "deploymenttheory/terraform-provider-activedirectory:CORE-12",
+        "deploymenttheory/terraform-provider-activedirectory:CORE-13",
+        "deploymenttheory/terraform-provider-activedirectory:POL-02",
+        "deploymenttheory/terraform-provider-activedirectory:POL-03",
+        "deploymenttheory/terraform-provider-activedirectory:POL-04",
+        "deploymenttheory/terraform-provider-activedirectory:POL-07",
+        "deploymenttheory/terraform-provider-activedirectory:POL-08",
+        "deploymenttheory/terraform-provider-activedirectory:POL-11",
+        "deploymenttheory/terraform-provider-activedirectory:POL-12",
+        "deploymenttheory/terraform-provider-activedirectory:POL-14",
+        "deploymenttheory/terraform-provider-activedirectory:POL-17",
+        "deploymenttheory/terraform-provider-activedirectory:POL-18",
+        "deploymenttheory/terraform-provider-activedirectory:POL-19",
+        "deploymenttheory/terraform-provider-activedirectory:TOPO-02",
+        "deploymenttheory/terraform-provider-activedirectory:TOPO-03",
+        "deploymenttheory/terraform-provider-activedirectory:TOPO-04",
+        "deploymenttheory/terraform-provider-activedirectory:TOPO-05",
+        "deploymenttheory/terraform-provider-activedirectory:TOPO-06",
+        "deploymenttheory/terraform-provider-activedirectory:READ-03",
+        "deploymenttheory/terraform-provider-activedirectory:READ-04",
+        "deploymenttheory/terraform-provider-activedirectory:READ-05",
+        "deploymenttheory/terraform-provider-activedirectory:READ-08",
+        "deploymenttheory/terraform-provider-activedirectory:READ-09",
+        "deploymenttheory/terraform-provider-activedirectory:READ-10",
+        "deploymenttheory/terraform-provider-activedirectory:READ-11",
+        "deploymenttheory/terraform-provider-activedirectory:READ-12",
+        "deploymenttheory/terraform-provider-activedirectory:READ-13",
+        "deploymenttheory/terraform-provider-activedirectory:READ-14",
+        "deploymenttheory/terraform-provider-activedirectory:READ-15",
+        "deploymenttheory/terraform-provider-activedirectory:DIR-01",
+        "deploymenttheory/terraform-provider-activedirectory:DIR-02",
+        "deploymenttheory/terraform-provider-activedirectory:ACT-01",
+        "deploymenttheory/terraform-provider-activedirectory:ACT-02",
+        "deploymenttheory/terraform-provider-activedirectory:ACT-03",
+        "deploymenttheory/terraform-provider-activedirectory:ACT-04",
+        "deploymenttheory/terraform-provider-activedirectory:ACT-05",
+        "deploymenttheory/terraform-provider-activedirectory:ACT-06",
+        "deploymenttheory/terraform-provider-activedirectory:ACT-07",
+        "deploymenttheory/terraform-provider-activedirectory:ACT-08",
+        "deploymenttheory/terraform-provider-activedirectory:ACT-09",
+        "deploymenttheory/terraform-provider-activedirectory:ACT-10",
+        "deploymenttheory/terraform-provider-activedirectory:ACT-11",
+        "deploymenttheory/terraform-provider-activedirectory:ACT-12",
+        "deploymenttheory/terraform-provider-activedirectory:ACT-15",
+        "deploymenttheory/terraform-provider-activedirectory:ACT-16",
+        "deploymenttheory/terraform-provider-activedirectory:CORE-14"
+      ],
+      "supporting": [
+        "deploymenttheory/terraform-provider-activedirectory:CORE-05",
+        "deploymenttheory/terraform-provider-activedirectory:CORE-06",
+        "deploymenttheory/terraform-provider-activedirectory:POL-01",
+        "deploymenttheory/terraform-provider-activedirectory:POL-05",
+        "deploymenttheory/terraform-provider-activedirectory:POL-06",
+        "deploymenttheory/terraform-provider-activedirectory:POL-09",
+        "deploymenttheory/terraform-provider-activedirectory:POL-10",
+        "deploymenttheory/terraform-provider-activedirectory:POL-13",
+        "deploymenttheory/terraform-provider-activedirectory:POL-15",
+        "deploymenttheory/terraform-provider-activedirectory:POL-16",
+        "deploymenttheory/terraform-provider-activedirectory:TOPO-01",
+        "deploymenttheory/terraform-provider-activedirectory:READ-01",
+        "deploymenttheory/terraform-provider-activedirectory:READ-02",
+        "deploymenttheory/terraform-provider-activedirectory:READ-06",
+        "deploymenttheory/terraform-provider-activedirectory:READ-07",
+        "deploymenttheory/terraform-provider-activedirectory:ACT-13",
+        "deploymenttheory/terraform-provider-activedirectory:ACT-14"
+      ],
+      "existing_context": [],
+      "body_sha256": "2cf7d155594bb84e241b12228b523f6d75f26202f3b9c565d966a161588ae790"
+    },
+    {
+      "id": "REL-02",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[REL-02] Verify public examples, generated templates and user recovery guidance",
+      "body": "backlog/tasks/REL-02.md",
+      "milestone": "M8",
+      "labels": [
+        "type:task",
+        "priority:P0",
+        "area:rel",
+        "documentation"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:REL-02 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-REL",
+      "blockers": [
+        "deploymenttheory/terraform-provider-activedirectory:REL-01"
+      ],
+      "supporting": [],
+      "existing_context": [],
+      "body_sha256": "5752d6d88f6db2b146daf66977096c827ec745ad8657dc697200631acf62381d"
+    },
+    {
+      "id": "REL-03",
+      "repo": "deploymenttheory/terraform-provider-activedirectory",
+      "title": "[REL-03] Publish reproducible signed provider release artifacts after qualification",
+      "body": "backlog/tasks/REL-03.md",
+      "milestone": "M8",
+      "labels": [
+        "type:task",
+        "priority:P0",
+        "area:rel",
+        "component:infrastructure"
+      ],
+      "action": "create",
+      "marker": "<!-- weave-backlog:activedirectory-provider:v1:REL-03 -->",
+      "parent": "deploymenttheory/terraform-provider-activedirectory:EPIC-REL",
+      "blockers": [
+        "deploymenttheory/terraform-provider-activedirectory:REL-02"
+      ],
+      "supporting": [
+        "deploymenttheory/terraform-provider-activedirectory:FND-06"
+      ],
+      "existing_context": [],
+      "body_sha256": "7bec9e63fe95942bfa352e6376493b99a124be47568cdb16bdeaeb286a4aaef0"
+    }
+  ],
+  "repositories": {
+    "deploymenttheory/terraform-provider-activedirectory": {
+      "labels": [
+        {
+          "name": "type:backlog",
+          "color": "5319E7",
+          "description": "Approved-plan baseline index",
+          "action": "create_if_missing"
+        },
+        {
+          "name": "type:epic",
+          "color": "7057FF",
+          "description": "Coherent integrated outcome",
+          "action": "create_if_missing"
+        },
+        {
+          "name": "type:task",
+          "color": "0075CA",
+          "description": "Bounded implementation or verification work",
+          "action": "create_if_missing"
+        },
+        {
+          "name": "priority:P0",
+          "color": "B60205",
+          "description": "Foundation, integrity or release blocker",
+          "action": "create_if_missing"
+        },
+        {
+          "name": "priority:P1",
+          "color": "D93F0B",
+          "description": "Required planned provider capability",
+          "action": "create_if_missing"
+        },
+        {
+          "name": "area:fnd",
+          "color": "1D76DB",
+          "description": "Provider foundation",
+          "action": "create_if_missing"
+        },
+        {
+          "name": "area:lab",
+          "color": "1D76DB",
+          "description": "Acceptance infrastructure",
+          "action": "create_if_missing"
+        },
+        {
+          "name": "area:core",
+          "color": "1D76DB",
+          "description": "Core directory management",
+          "action": "create_if_missing"
+        },
+        {
+          "name": "area:pol",
+          "color": "1D76DB",
+          "description": "Policies and access control",
+          "action": "create_if_missing"
+        },
+        {
+          "name": "area:topo",
+          "color": "1D76DB",
+          "description": "Replication topology",
+          "action": "create_if_missing"
+        },
+        {
+          "name": "area:read",
+          "color": "1D76DB",
+          "description": "Discovery and observations",
+          "action": "create_if_missing"
+        },
+        {
+          "name": "area:dir",
+          "color": "1D76DB",
+          "description": "Adopted directory settings",
+          "action": "create_if_missing"
+        },
+        {
+          "name": "area:act",
+          "color": "1D76DB",
+          "description": "Explicit directory actions",
+          "action": "create_if_missing"
+        },
+        {
+          "name": "area:rel",
+          "color": "1D76DB",
+          "description": "Integrated release qualification",
+          "action": "create_if_missing"
+        },
+        {
+          "name": "documentation",
+          "color": "0075ca",
+          "description": "Improvements or additions to documentation",
+          "action": "reuse"
+        },
+        {
+          "name": "component:provider",
+          "color": "0E8A16",
+          "description": "Owned work in provider",
+          "action": "create_if_missing"
+        },
+        {
+          "name": "component:verification",
+          "color": "0E8A16",
+          "description": "Owned work in verification",
+          "action": "create_if_missing"
+        },
+        {
+          "name": "component:infrastructure",
+          "color": "0E8A16",
+          "description": "Owned work in infrastructure",
+          "action": "create_if_missing"
+        }
+      ],
+      "milestones": [
+        {
+          "id": "M1",
+          "title": "M1 - Provider foundation",
+          "description": "Root Framework module, isolated registries/mocks, schema and docs tooling, mandatory CI and reproducible build commands exist. No live feature qualification is claimed.",
+          "due_on": null,
+          "action": "create_if_missing"
+        },
+        {
+          "id": "M2",
+          "title": "M2 - Portable authenticated directory foundation",
+          "description": "Portable LDAP, verified TLS, Kerberos CBT, SASL signing/sealing, outcome contracts, client integration and Linux/Windows lab connectivity pass their acceptance gates.",
+          "due_on": null,
+          "action": "create_if_missing"
+        },
+        {
+          "id": "M3",
+          "title": "M3 - Four-surface reference slice",
+          "description": "OU and user resource/data/list lifecycles and the unlock action have unit, docs/examples and applicable eight-cell live evidence; no-change and failure recovery are demonstrated.",
+          "due_on": null,
+          "action": "create_if_missing"
+        },
+        {
+          "id": "M4",
+          "title": "M4 - Core directory management",
+          "description": "Core objects, supported managed service accounts, account settings and individual relationships meet the same delivery bar.",
+          "due_on": null,
+          "action": "create_if_missing"
+        },
+        {
+          "id": "M5",
+          "title": "M5 - Policies and access control",
+          "description": "Password, authentication, central access, claims and resource property families pass descriptor/condition, privilege and relationship qualification.",
+          "due_on": null,
+          "action": "create_if_missing"
+        },
+        {
+          "id": "M6",
+          "title": "M6 - Topology and observations",
+          "description": "Topology, adopted settings, discovery and portable diagnostics cover the applicable client/server matrix without incomplete-read data loss.",
+          "due_on": null,
+          "action": "create_if_missing"
+        },
+        {
+          "id": "M7",
+          "title": "M7 - Advanced directory actions",
+          "description": "Explicitly acknowledged high-impact actions are qualified in isolated/restorable fixtures with outcome and recovery evidence.",
+          "due_on": null,
+          "action": "create_if_missing"
+        },
+        {
+          "id": "M8",
+          "title": "M8 - Provider release qualification",
+          "description": "All included surfaces, examples/templates, dependency and evidence audits, release artifacts and security checks pass; macOS live evidence remains explicitly unclaimed.",
+          "due_on": null,
+          "action": "create_if_missing"
+        }
+      ]
+    },
+    "deploymenttheory/go-sdk-activedirectory": {
+      "labels": [
+        {
+          "name": "type:backlog",
+          "color": "5319E7",
+          "description": "Approved-plan baseline index",
+          "action": "create_if_missing"
+        },
+        {
+          "name": "type:epic",
+          "color": "7057FF",
+          "description": "Coherent integrated outcome",
+          "action": "create_if_missing"
+        },
+        {
+          "name": "type:task",
+          "color": "0075CA",
+          "description": "Bounded implementation or verification work",
+          "action": "create_if_missing"
+        },
+        {
+          "name": "priority:P0",
+          "color": "B60205",
+          "description": "Foundation, integrity or release blocker",
+          "action": "create_if_missing"
+        },
+        {
+          "name": "area:sdk",
+          "color": "1D76DB",
+          "description": "Portable SDK foundation and capabilities",
+          "action": "create_if_missing"
+        },
+        {
+          "name": "component:sdk",
+          "color": "0E8A16",
+          "description": "Owned work in sdk",
+          "action": "create_if_missing"
+        },
+        {
+          "name": "component:verification",
+          "color": "0E8A16",
+          "description": "Owned work in verification",
+          "action": "create_if_missing"
+        }
+      ],
+      "milestones": [
+        {
+          "id": "M2",
+          "title": "M2 - Portable authenticated directory foundation",
+          "description": "Portable LDAP, verified TLS, Kerberos CBT, SASL signing/sealing, outcome contracts, client integration and Linux/Windows lab connectivity pass their acceptance gates.",
+          "due_on": null,
+          "action": "create_if_missing"
+        },
+        {
+          "id": "M5",
+          "title": "M5 - Policies and access control",
+          "description": "Password, authentication, central access, claims and resource property families pass descriptor/condition, privilege and relationship qualification.",
+          "due_on": null,
+          "action": "create_if_missing"
+        },
+        {
+          "id": "M6",
+          "title": "M6 - Topology and observations",
+          "description": "Topology, adopted settings, discovery and portable diagnostics cover the applicable client/server matrix without incomplete-read data loss.",
+          "due_on": null,
+          "action": "create_if_missing"
+        },
+        {
+          "id": "M7",
+          "title": "M7 - Advanced directory actions",
+          "description": "Explicitly acknowledged high-impact actions are qualified in isolated/restorable fixtures with outcome and recovery evidence.",
+          "due_on": null,
+          "action": "create_if_missing"
+        }
+      ]
+    }
+  },
+  "dependencies": [
+    {
+      "blocked": "deploymenttheory/go-sdk-activedirectory:SDK-01",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory#135"
+    },
+    {
+      "blocked": "deploymenttheory/go-sdk-activedirectory:SDK-02",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-01"
+    },
+    {
+      "blocked": "deploymenttheory/go-sdk-activedirectory:SDK-03",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-02"
+    },
+    {
+      "blocked": "deploymenttheory/go-sdk-activedirectory:SDK-04",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-03"
+    },
+    {
+      "blocked": "deploymenttheory/go-sdk-activedirectory:SDK-05",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-04"
+    },
+    {
+      "blocked": "deploymenttheory/go-sdk-activedirectory:SDK-06",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-02"
+    },
+    {
+      "blocked": "deploymenttheory/go-sdk-activedirectory:SDK-07",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-04"
+    },
+    {
+      "blocked": "deploymenttheory/go-sdk-activedirectory:SDK-07",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:LAB-02"
+    },
+    {
+      "blocked": "deploymenttheory/go-sdk-activedirectory:SDK-08",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-06"
+    },
+    {
+      "blocked": "deploymenttheory/go-sdk-activedirectory:SDK-09",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-02"
+    },
+    {
+      "blocked": "deploymenttheory/go-sdk-activedirectory:SDK-09",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory#135"
+    },
+    {
+      "blocked": "deploymenttheory/go-sdk-activedirectory:SDK-09",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory#140"
+    },
+    {
+      "blocked": "deploymenttheory/go-sdk-activedirectory:SDK-09",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory#157"
+    },
+    {
+      "blocked": "deploymenttheory/go-sdk-activedirectory:SDK-10",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-04"
+    },
+    {
+      "blocked": "deploymenttheory/go-sdk-activedirectory:SDK-11",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-05"
+    },
+    {
+      "blocked": "deploymenttheory/go-sdk-activedirectory:SDK-11",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-09"
+    },
+    {
+      "blocked": "deploymenttheory/go-sdk-activedirectory:SDK-11",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:LAB-02"
+    },
+    {
+      "blocked": "deploymenttheory/go-sdk-activedirectory:SDK-12",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-05"
+    },
+    {
+      "blocked": "deploymenttheory/go-sdk-activedirectory:SDK-12",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:LAB-03"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:FND-02",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-01"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:FND-03",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-02"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:FND-03",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-01"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:FND-04",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-03"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:FND-04",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:LAB-02"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:FND-05",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-01"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:FND-06",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-01"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:FND-07",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-04"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:FND-07",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-09"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:LAB-02",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:LAB-01"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:LAB-03",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:LAB-02"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:CORE-01",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-07"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:CORE-01",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-05"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:CORE-01",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-06"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:CORE-01",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-11"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:CORE-01",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-06"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:CORE-02",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-07"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:CORE-02",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-05"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:CORE-02",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-06"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:CORE-02",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-11"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:CORE-03",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-07"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:CORE-03",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-05"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:CORE-03",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-06"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:CORE-03",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-11"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:CORE-04",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-07"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:CORE-04",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-05"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:CORE-04",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-06"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:CORE-04",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-11"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:CORE-05",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-07"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:CORE-05",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-05"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:CORE-05",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-06"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:CORE-05",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-11"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:CORE-06",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-07"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:CORE-06",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-05"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:CORE-06",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-06"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:CORE-06",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-11"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:CORE-06",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-06"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:CORE-06",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:LAB-03"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:CORE-07",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-07"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:CORE-07",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-05"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:CORE-07",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-06"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:CORE-07",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-11"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:CORE-08",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-07"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:CORE-08",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-05"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:CORE-08",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-06"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:CORE-08",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-11"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:CORE-09",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:CORE-06"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:CORE-10",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-07"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:CORE-10",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-05"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:CORE-10",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-06"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:CORE-10",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-11"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:CORE-11",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-07"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:CORE-11",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-05"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:CORE-11",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-06"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:CORE-11",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-11"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:CORE-12",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-07"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:CORE-12",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-05"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:CORE-12",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-06"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:CORE-12",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-11"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:CORE-13",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-07"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:CORE-13",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-05"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:CORE-13",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-06"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:CORE-13",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-11"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:POL-01",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-07"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:POL-01",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-05"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:POL-01",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-06"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:POL-01",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-11"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:POL-02",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:POL-01"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:POL-03",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-07"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:POL-03",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-05"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:POL-03",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-06"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:POL-03",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-11"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:POL-04",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-07"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:POL-04",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-05"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:POL-04",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-06"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:POL-04",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-11"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:POL-05",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-07"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:POL-05",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-05"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:POL-05",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-06"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:POL-05",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-11"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:POL-05",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-08"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:POL-05",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:LAB-03"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:POL-06",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-07"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:POL-06",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-05"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:POL-06",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-06"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:POL-06",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-11"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:POL-06",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-08"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:POL-06",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:LAB-03"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:POL-07",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:POL-06"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:POL-08",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:POL-05"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:POL-08",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:POL-06"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:POL-09",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-07"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:POL-09",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-05"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:POL-09",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-06"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:POL-09",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-11"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:POL-09",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-08"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:POL-09",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:LAB-03"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:POL-10",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-07"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:POL-10",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-05"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:POL-10",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-06"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:POL-10",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-11"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:POL-10",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-06"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:POL-10",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:LAB-03"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:POL-11",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:POL-09"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:POL-11",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:POL-10"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:POL-12",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-07"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:POL-12",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-05"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:POL-12",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-06"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:POL-12",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-11"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:POL-12",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-06"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:POL-12",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:LAB-03"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:POL-13",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-07"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:POL-13",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-05"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:POL-13",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-06"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:POL-13",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-11"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:POL-13",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:LAB-03"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:POL-14",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:POL-13"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:POL-15",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-07"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:POL-15",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-05"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:POL-15",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-06"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:POL-15",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-11"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:POL-15",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-06"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:POL-15",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:LAB-03"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:POL-16",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-07"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:POL-16",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-05"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:POL-16",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-06"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:POL-16",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-11"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:POL-16",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-06"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:POL-16",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:LAB-03"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:POL-17",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:POL-15"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:POL-17",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:POL-16"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:POL-18",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-07"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:POL-18",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-05"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:POL-18",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-06"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:POL-18",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-11"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:POL-19",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-07"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:POL-19",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-05"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:POL-19",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-06"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:POL-19",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-11"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:POL-19",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-08"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:TOPO-01",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-07"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:TOPO-01",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-05"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:TOPO-01",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-06"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:TOPO-01",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-11"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:TOPO-02",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-07"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:TOPO-02",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-05"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:TOPO-02",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-06"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:TOPO-02",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-11"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:TOPO-03",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-07"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:TOPO-03",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-05"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:TOPO-03",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-06"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:TOPO-03",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-11"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:TOPO-04",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-07"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:TOPO-04",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-05"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:TOPO-04",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-06"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:TOPO-04",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-11"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:TOPO-05",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-07"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:TOPO-05",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-05"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:TOPO-05",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-06"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:TOPO-05",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-11"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:TOPO-06",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-07"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:TOPO-06",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-05"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:TOPO-06",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-06"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:TOPO-06",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-11"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:TOPO-06",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:LAB-03"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:READ-01",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-07"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:READ-01",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-05"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:READ-01",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-06"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:READ-01",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-11"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:READ-01",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-10"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:READ-02",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-07"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:READ-02",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-05"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:READ-02",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-06"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:READ-02",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-11"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:READ-02",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-10"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:READ-03",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-07"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:READ-03",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-05"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:READ-03",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-06"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:READ-03",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-11"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:READ-03",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-10"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:READ-04",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-07"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:READ-04",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-05"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:READ-04",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-06"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:READ-04",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-11"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:READ-04",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-10"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:READ-04",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:LAB-03"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:READ-05",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-07"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:READ-05",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-05"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:READ-05",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-06"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:READ-05",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-11"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:READ-06",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-07"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:READ-06",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-05"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:READ-06",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-06"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:READ-06",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-11"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:READ-07",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-07"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:READ-07",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-05"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:READ-07",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-06"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:READ-07",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-11"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:READ-07",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:LAB-03"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:READ-08",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-07"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:READ-08",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-05"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:READ-08",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-06"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:READ-08",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-11"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:READ-08",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:LAB-03"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:READ-09",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-07"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:READ-09",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-05"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:READ-09",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-06"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:READ-09",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-11"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:READ-09",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:LAB-03"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:READ-10",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-07"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:READ-10",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-05"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:READ-10",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-06"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:READ-10",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-11"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:READ-10",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:LAB-03"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:READ-11",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-07"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:READ-11",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-05"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:READ-11",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-06"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:READ-11",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-11"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:READ-11",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-07"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:READ-12",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-07"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:READ-12",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-05"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:READ-12",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-06"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:READ-12",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-11"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:READ-12",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-07"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:READ-13",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-07"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:READ-13",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-05"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:READ-13",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-06"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:READ-13",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-11"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:READ-13",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-07"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:READ-14",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-07"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:READ-14",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-05"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:READ-14",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-06"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:READ-14",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-11"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:READ-14",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-07"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:READ-14",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory#35"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:READ-15",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-07"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:READ-15",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-05"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:READ-15",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-06"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:READ-15",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-11"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:READ-15",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-07"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:READ-15",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory#35"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:DIR-01",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:READ-01"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:DIR-02",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:READ-02"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:ACT-01",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-07"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:ACT-01",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-05"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:ACT-01",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-06"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:ACT-01",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-11"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:ACT-02",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-07"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:ACT-02",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-05"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:ACT-02",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-06"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:ACT-02",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-11"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:ACT-03",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-07"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:ACT-03",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-05"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:ACT-03",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-06"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:ACT-03",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-11"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:ACT-04",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:READ-07"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:ACT-05",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:TOPO-01"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:ACT-05",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:LAB-03"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:ACT-06",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-07"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:ACT-06",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-05"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:ACT-06",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-06"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:ACT-06",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-11"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:ACT-06",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:LAB-03"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:ACT-07",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-07"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:ACT-07",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-05"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:ACT-07",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-06"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:ACT-07",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-11"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:ACT-07",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:LAB-03"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:ACT-08",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:READ-01"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:ACT-08",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:LAB-03"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:ACT-09",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:READ-02"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:ACT-09",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:LAB-03"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:ACT-10",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:READ-06"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:ACT-10",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:LAB-03"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:ACT-11",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:READ-06"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:ACT-11",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:LAB-03"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:ACT-12",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-07"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:ACT-12",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-05"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:ACT-12",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-06"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:ACT-12",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-11"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:ACT-12",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:LAB-03"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:ACT-13",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-07"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:ACT-13",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-05"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:ACT-13",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:FND-06"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:ACT-13",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-11"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:ACT-13",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:LAB-03"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:ACT-13",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-06"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:ACT-14",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:ACT-13"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:ACT-15",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:ACT-14"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:ACT-16",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:ACT-13"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:CORE-14",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:CORE-05"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:CORE-14",
+      "blocked_by": "deploymenttheory/go-sdk-activedirectory:SDK-12"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:REL-00",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:CORE-01"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:REL-00",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:CORE-02"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:REL-00",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:ACT-01"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:REL-01",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:CORE-01"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:REL-01",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:CORE-02"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:REL-01",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:CORE-03"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:REL-01",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:CORE-04"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:REL-01",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:CORE-07"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:REL-01",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:CORE-08"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:REL-01",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:CORE-09"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:REL-01",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:CORE-10"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:REL-01",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:CORE-11"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:REL-01",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:CORE-12"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:REL-01",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:CORE-13"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:REL-01",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:POL-02"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:REL-01",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:POL-03"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:REL-01",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:POL-04"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:REL-01",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:POL-07"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:REL-01",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:POL-08"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:REL-01",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:POL-11"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:REL-01",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:POL-12"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:REL-01",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:POL-14"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:REL-01",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:POL-17"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:REL-01",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:POL-18"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:REL-01",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:POL-19"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:REL-01",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:TOPO-02"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:REL-01",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:TOPO-03"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:REL-01",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:TOPO-04"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:REL-01",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:TOPO-05"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:REL-01",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:TOPO-06"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:REL-01",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:READ-03"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:REL-01",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:READ-04"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:REL-01",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:READ-05"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:REL-01",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:READ-08"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:REL-01",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:READ-09"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:REL-01",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:READ-10"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:REL-01",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:READ-11"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:REL-01",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:READ-12"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:REL-01",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:READ-13"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:REL-01",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:READ-14"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:REL-01",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:READ-15"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:REL-01",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:DIR-01"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:REL-01",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:DIR-02"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:REL-01",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:ACT-01"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:REL-01",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:ACT-02"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:REL-01",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:ACT-03"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:REL-01",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:ACT-04"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:REL-01",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:ACT-05"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:REL-01",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:ACT-06"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:REL-01",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:ACT-07"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:REL-01",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:ACT-08"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:REL-01",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:ACT-09"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:REL-01",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:ACT-10"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:REL-01",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:ACT-11"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:REL-01",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:ACT-12"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:REL-01",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:ACT-15"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:REL-01",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:ACT-16"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:REL-01",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:CORE-14"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:REL-02",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:REL-01"
+    },
+    {
+      "blocked": "deploymenttheory/terraform-provider-activedirectory:REL-03",
+      "blocked_by": "deploymenttheory/terraform-provider-activedirectory:REL-02"
+    }
+  ],
+  "ready_frontier": [
+    "deploymenttheory/terraform-provider-activedirectory:FND-01",
+    "deploymenttheory/terraform-provider-activedirectory:LAB-01"
+  ],
+  "existing_external_blockers": [
+    "deploymenttheory/go-sdk-activedirectory#135",
+    "deploymenttheory/go-sdk-activedirectory#140",
+    "deploymenttheory/go-sdk-activedirectory#157",
+    "deploymenttheory/go-sdk-activedirectory#35"
+  ],
+  "publication": {
+    "approval_required": true,
+    "issue_writes_performed": false,
+    "metadata_writes_performed": false,
+    "native_parents_required": true,
+    "native_blockers_required": true,
+    "remove_or_close_existing": false,
+    "substitutions": "Resolve local links to managed issue bodies into issue URLs; resolve architecture/source document links to the approved provider commit, preserving anchors. Stable markers and titles remain unchanged.",
+    "recovery": "Persist approved package digest, issue/database-ID/URL map, observed revisions and append-only publication journal in task-local temporary storage outside tracked docs. Re-read remote identities after ambiguous writes."
+  }
+}
