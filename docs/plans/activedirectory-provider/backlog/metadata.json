@@ -578,7 +578,7 @@
         "type:task",
         "priority:P0",
         "area:fnd",
-        "component:documentation"
+        "documentation"
       ],
       "action": "create",
       "marker": "<!-- weave-backlog:activedirectory-provider:v1:FND-05 -->",
@@ -2816,7 +2816,7 @@
         "type:task",
         "priority:P0",
         "area:rel",
-        "component:documentation"
+        "documentation"
       ],
       "action": "create",
       "marker": "<!-- weave-backlog:activedirectory-provider:v1:REL-02 -->",
@@ -2859,92 +2859,110 @@
         {
           "name": "type:backlog",
           "color": "5319E7",
-          "description": "Approved-plan baseline index"
+          "description": "Approved-plan baseline index",
+          "action": "create_if_missing"
         },
         {
           "name": "type:epic",
           "color": "7057FF",
-          "description": "Coherent integrated outcome"
+          "description": "Coherent integrated outcome",
+          "action": "create_if_missing"
         },
         {
           "name": "type:task",
           "color": "0075CA",
-          "description": "Bounded implementation or verification work"
+          "description": "Bounded implementation or verification work",
+          "action": "create_if_missing"
         },
         {
           "name": "priority:P0",
           "color": "B60205",
-          "description": "Foundation, integrity or release blocker"
+          "description": "Foundation, integrity or release blocker",
+          "action": "create_if_missing"
         },
         {
           "name": "priority:P1",
           "color": "D93F0B",
-          "description": "Required planned provider capability"
+          "description": "Required planned provider capability",
+          "action": "create_if_missing"
         },
         {
           "name": "area:fnd",
           "color": "1D76DB",
-          "description": "Provider foundation"
+          "description": "Provider foundation",
+          "action": "create_if_missing"
         },
         {
           "name": "area:lab",
           "color": "1D76DB",
-          "description": "Acceptance infrastructure"
+          "description": "Acceptance infrastructure",
+          "action": "create_if_missing"
         },
         {
           "name": "area:core",
           "color": "1D76DB",
-          "description": "Core directory management"
+          "description": "Core directory management",
+          "action": "create_if_missing"
         },
         {
           "name": "area:pol",
           "color": "1D76DB",
-          "description": "Policies and access control"
+          "description": "Policies and access control",
+          "action": "create_if_missing"
         },
         {
           "name": "area:topo",
           "color": "1D76DB",
-          "description": "Replication topology"
+          "description": "Replication topology",
+          "action": "create_if_missing"
         },
         {
           "name": "area:read",
           "color": "1D76DB",
-          "description": "Discovery and observations"
+          "description": "Discovery and observations",
+          "action": "create_if_missing"
         },
         {
           "name": "area:dir",
           "color": "1D76DB",
-          "description": "Adopted directory settings"
+          "description": "Adopted directory settings",
+          "action": "create_if_missing"
         },
         {
           "name": "area:act",
           "color": "1D76DB",
-          "description": "Explicit directory actions"
+          "description": "Explicit directory actions",
+          "action": "create_if_missing"
         },
         {
           "name": "area:rel",
           "color": "1D76DB",
-          "description": "Integrated release qualification"
+          "description": "Integrated release qualification",
+          "action": "create_if_missing"
+        },
+        {
+          "name": "documentation",
+          "color": "0075ca",
+          "description": "Improvements or additions to documentation",
+          "action": "reuse"
         },
         {
           "name": "component:provider",
           "color": "0E8A16",
-          "description": "Owned work in provider"
+          "description": "Owned work in provider",
+          "action": "create_if_missing"
         },
         {
           "name": "component:verification",
           "color": "0E8A16",
-          "description": "Owned work in verification"
-        },
-        {
-          "name": "component:documentation",
-          "color": "0E8A16",
-          "description": "Owned work in documentation"
+          "description": "Owned work in verification",
+          "action": "create_if_missing"
         },
         {
           "name": "component:infrastructure",
           "color": "0E8A16",
-          "description": "Owned work in infrastructure"
+          "description": "Owned work in infrastructure",
+          "action": "create_if_missing"
         }
       ],
       "milestones": [
@@ -3011,37 +3029,44 @@
         {
           "name": "type:backlog",
           "color": "5319E7",
-          "description": "Approved-plan baseline index"
+          "description": "Approved-plan baseline index",
+          "action": "create_if_missing"
         },
         {
           "name": "type:epic",
           "color": "7057FF",
-          "description": "Coherent integrated outcome"
+          "description": "Coherent integrated outcome",
+          "action": "create_if_missing"
         },
         {
           "name": "type:task",
           "color": "0075CA",
-          "description": "Bounded implementation or verification work"
+          "description": "Bounded implementation or verification work",
+          "action": "create_if_missing"
         },
         {
           "name": "priority:P0",
           "color": "B60205",
-          "description": "Foundation, integrity or release blocker"
+          "description": "Foundation, integrity or release blocker",
+          "action": "create_if_missing"
         },
         {
           "name": "area:sdk",
           "color": "1D76DB",
-          "description": "Portable SDK foundation and capabilities"
+          "description": "Portable SDK foundation and capabilities",
+          "action": "create_if_missing"
         },
         {
           "name": "component:sdk",
           "color": "0E8A16",
-          "description": "Owned work in sdk"
+          "description": "Owned work in sdk",
+          "action": "create_if_missing"
         },
         {
           "name": "component:verification",
           "color": "0E8A16",
-          "description": "Owned work in verification"
+          "description": "Owned work in verification",
+          "action": "create_if_missing"
         }
       ],
       "milestones": [
