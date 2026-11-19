@@ -69,10 +69,11 @@ func TestProviderProtocolV6(t *testing.T) {
 		t.Fatalf("get provider metadata: %v", err)
 	}
 	assertNoProtocolErrors(t, metadata.Diagnostics)
-	if schema.DataSourceSchemas["activedirectory_service_account"] == nil || schema.DataSourceSchemas["activedirectory_service_accounts"] == nil {
-		t.Fatal("production managed service account discovery was not registered")
+	if schema.ResourceSchemas["activedirectory_service_account"] == nil || schema.ListResourceSchemas["activedirectory_service_account"] == nil ||
+		schema.DataSourceSchemas["activedirectory_service_account"] == nil || schema.DataSourceSchemas["activedirectory_service_accounts"] == nil {
+		t.Fatal("production managed service account surfaces were not registered")
 	}
-	if len(metadata.Resources) < 4 || len(metadata.DataSources) < 10 || len(metadata.ListResources) < 4 {
+	if len(metadata.Resources) < 5 || len(metadata.DataSources) < 10 || len(metadata.ListResources) < 5 {
 		t.Fatal("protocol metadata omitted registered directory services")
 	}
 	if len(metadata.Actions) != 1 || metadata.Actions[0].TypeName != "activedirectory_account_unlock" {
