@@ -137,6 +137,7 @@ function Remove-ProviderAccountChildren([string]$RunId,[string]$Server,[string]$
     $objects=@(Get-ADObject -Server $Server -SearchBase $rootDn -SearchScope Subtree -LDAPFilter '(objectClass=*)' -Properties description,displayName -ErrorAction Stop|Where-Object ObjectGUID -NE $root.ObjectGUID)
     if($objects.Count-gt2){throw 'Unexpected account fixture descendants'}
     $known=@()
+    $retiredPolicies=@()
     foreach($platform in @('windows','linux')){
         $journal='C:\adsdk-portable-tls\'+$RunId+'\account-'+$platform+'.json'
         if(Test-Path -LiteralPath $journal){
@@ -182,7 +183,8 @@ function Remove-ProviderAccountChildren([string]$RunId,[string]$Server,[string]$
             Remove-ADFineGrainedPasswordPolicy -Server $Server -Identity $policy.ObjectGUID -Confirm:$false -ErrorAction Stop
             $hex=($policy.ObjectGUID.ToByteArray()|ForEach-Object {'\'+$_.ToString('x2')})-join''
             if(@(Get-ADObject -Server $Server -LDAPFilter ('(objectGUID='+$hex+')') -ErrorAction Stop).Count-ne0){throw 'Owned account policy remains live'}
+            $retiredPolicies+=@{guid=$policy.ObjectGUID.ToString();dn=$expectedPolicyDn;verified_absent=$true}
         }
     }
-    [pscustomobject]@{verified=$true;reconciled_children=$removed;remaining=0}
+    [pscustomobject]@{verified=$true;reconciled_children=$removed;known_account_guids=@($known|ForEach-Object {$_.ToString()});retired_policies=$retiredPolicies;remaining=0}
 }

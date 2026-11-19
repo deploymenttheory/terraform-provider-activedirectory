@@ -161,7 +161,7 @@ func (l *accountLab) cleanup(ctx context.Context) (bool, error) {
 	if l.observer == nil {
 		return false, errLabAccount
 	}
-	observed, err := l.observer.Directory.ResolveIdentity(ctx, l.identity, shared.ResolveIdentityOptions{Properties: []string{"description"}})
+	observed, err := l.observer.Directory.ResolveIdentity(ctx, l.identity, shared.ResolveIdentityOptions{Properties: []string{"objectGUID", "description"}})
 	if lifecycle.ConfirmedAbsent(observed, err) {
 		return true, nil
 	}
