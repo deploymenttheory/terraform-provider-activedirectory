@@ -126,6 +126,10 @@ OU feature acceptance runs against the owned lab from Linux and Windows clients 
 for fixtures, cases and cleanup. Each subsequent feature needs its own applicable qualification.
 macOS receives build and unit coverage.
 
+Managed-service-account lab tests also require a persistent KDS root key. See the
+[KDS fixture guide](docs/development/service-account-kds-fixtures.md) for guarded provisioning,
+replication and maturity checks in the owned two-DC profiles.
+
 ## Repository layout
 
 ```text
