@@ -29,6 +29,8 @@ github.com/deploymenttheory/go-bindings-win32 v0.7.0 h1:d2if0o2jOh9awqEKOFud08ah
 github.com/deploymenttheory/go-bindings-win32 v0.7.0/go.mod h1:J3mOfF0N1uFmI8Cm3GPtq1YJYnwAKUkOsmc36GYbm0w=
 github.com/deploymenttheory/go-sdk-activedirectory v0.2.1-0.20261119140358-7dbf8c8efdad h1:vyy3y07nd/rRAN4MG8SoABvvk4RSoNK33eoQT7CXJCQ=
 github.com/deploymenttheory/go-sdk-activedirectory v0.2.1-0.20261119140358-7dbf8c8efdad/go.mod h1:C3yUhFT1DoOrfPOknQz+QAgtBnP2oZC3zIR+197Htrc=
+github.com/deploymenttheory/go-sdk-activedirectory v0.2.1-0.20261119203218-b4ebca6eeb40 h1:MNhrVVdcGir/JA4tBhB1SER7efvQZU4Jhs7YdEjXmMg=
+github.com/deploymenttheory/go-sdk-activedirectory v0.2.1-0.20261119203218-b4ebca6eeb40/go.mod h1:C3yUhFT1DoOrfPOknQz+QAgtBnP2oZC3zIR+197Htrc=
 github.com/emirpasic/gods v1.18.1 h1:FXtiHYKDGKCW2KzwZKx0iC0PQmdlorYgdFG9jPXJ1Bc=
 github.com/emirpasic/gods v1.18.1/go.mod h1:8tpGGwCnJ5H4r6BWwaV6OrWmMoPhUl5jm/FMNAnJvWQ=
 github.com/fatih/color v1.13.0/go.mod h1:kLAiJbzzSOZDVNGyDpeOxJ47H46qBXwg5ILebYFFOfk=
