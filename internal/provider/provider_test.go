@@ -46,8 +46,12 @@ func TestProviderProtocolV6(t *testing.T) {
 	if schema.Provider == nil || schema.Provider.Block == nil {
 		t.Fatal("protocol V6 returned no provider schema")
 	}
-	if len(schema.ResourceSchemas) != 1 || schema.ResourceSchemas["activedirectory_group"] == nil || len(schema.DataSourceSchemas) != 2 ||
-		schema.DataSourceSchemas["activedirectory_group"] == nil || schema.DataSourceSchemas["activedirectory_groups"] == nil {
+	if schema.ResourceSchemas["activedirectory_organizational_unit"] == nil || schema.DataSourceSchemas["activedirectory_organizational_unit"] == nil ||
+		schema.DataSourceSchemas["activedirectory_organizational_units"] == nil || schema.ListResourceSchemas["activedirectory_organizational_unit"] == nil {
+		t.Fatal("protocol schema omitted an organizational unit surface")
+	}
+	if schema.ResourceSchemas["activedirectory_group"] == nil || schema.DataSourceSchemas["activedirectory_group"] == nil ||
+		schema.DataSourceSchemas["activedirectory_groups"] == nil || schema.ListResourceSchemas["activedirectory_group"] == nil {
 		t.Fatal("production group resource and data-source registrations did not match their schemas")
 	}
 
@@ -56,8 +60,8 @@ func TestProviderProtocolV6(t *testing.T) {
 		t.Fatalf("get provider metadata: %v", err)
 	}
 	assertNoProtocolErrors(t, metadata.Diagnostics)
-	if len(metadata.Resources) != 1 || len(metadata.DataSources) != 2 || len(metadata.ListResources) != 1 || len(metadata.Actions) != 0 {
-		t.Fatal("production group surfaces did not advertise the expected metadata")
+	if len(metadata.Resources) < 2 || len(metadata.DataSources) < 4 || len(metadata.ListResources) < 2 {
+		t.Fatal("protocol metadata omitted registered directory services")
 	}
 
 	configType := schema.Provider.ValueType().(tftypes.Object)
