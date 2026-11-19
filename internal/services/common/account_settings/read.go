@@ -37,7 +37,7 @@ func Read(ctx context.Context, service client.AccountSettings, target shared.Ide
 	var err error
 	result.Control, err = service.AccountControl(ctx, target, shared.ResolveIdentityOptions{Properties: []string{"distinguishedName"}})
 	if err != nil {
-		result.ConfirmedAbsent = lifecycle.ConfirmedAbsent(result.Control.Observation, err)
+		result.ConfirmedAbsent = result.Control.Account == nil && lifecycle.ConfirmedAbsent(result.Control.Observation, err)
 		return result, fmt.Errorf("read account settings: %w", err)
 	}
 	if result.Control.Account == nil {

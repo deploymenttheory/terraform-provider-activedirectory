@@ -73,3 +73,24 @@ func TestReadStopsAfterFailedResolution(t *testing.T) {
 		}
 	}
 }
+
+// TestReadAbsenceRejectsPositiveOrMixedObservations retains adopted settings when any returned account or error contradicts absence.
+func TestReadAbsenceRejectsPositiveOrMixedObservations(t *testing.T) {
+	t.Parallel()
+	target, _ := shared.IdentityByGUID("dc93656c-f745-4926-9bbb-31e7bbecb68b")
+	for _, row := range []struct {
+		account *accounts.AccountControlState
+		err     error
+		absent  bool
+	}{
+		{nil, shared.ErrDirectoryObjectNotFound, true},
+		{nil, errors.Join(shared.ErrDirectoryObjectNotFound, shared.ErrObjectWritePermission), false},
+		{&accounts.AccountControlState{}, shared.ErrDirectoryObjectNotFound, false},
+	} {
+		service := &readFixture{control: accounts.AccountControlResult{Account: row.account}, controlErr: row.err}
+		result, err := Read(context.Background(), service, target)
+		if err == nil || result.ConfirmedAbsent != row.absent || service.expirationCalls != 0 {
+			t.Fatal("contradictory account data or errors authorized state removal")
+		}
+	}
+}
