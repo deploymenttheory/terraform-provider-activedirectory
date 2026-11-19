@@ -65,6 +65,17 @@ func (p *ActiveDirectoryProvider) Configure(ctx context.Context, req provider.Co
 }
 
 func connectionErrorDetail(err error) string {
+	var kerberos *shared.KerberosError
+	if errors.As(err, &kerberos) && kerberos.Code != 0 {
+		return fmt.Sprintf(
+			"Kerberos authentication returned protocol code %d. Check the explicit account, realm, service identity, encryption support and clock synchronization.",
+			kerberos.Code,
+		)
+	}
+	var ldap *shared.LDAPError
+	if errors.As(err, &ldap) {
+		return fmt.Sprintf("LDAP returned status %d while establishing or qualifying the directory session. Server diagnostic text is withheld to protect credentials.", ldap.Code)
+	}
 	switch {
 	case errors.Is(err, client.ErrProtection):
 		return "The established session did not report the required TLS, Kerberos mutual authentication, channel binding or SASL protection."
@@ -82,10 +93,6 @@ func connectionErrorDetail(err error) string {
 		return "The directory connection or qualification read exceeded its timeout. Check endpoint and KDC connectivity."
 	case errors.Is(err, context.Canceled):
 		return "The directory connection or qualification read was canceled. No authentication fallback was attempted."
-	}
-	var ldap *shared.LDAPError
-	if errors.As(err, &ldap) {
-		return fmt.Sprintf("LDAP returned status %d while establishing or qualifying the directory session. Server diagnostic text is withheld to protect credentials.", ldap.Code)
 	}
 	return "The protected directory session could not be established or qualified. " +
 		"Check endpoint connectivity, explicit authentication inputs, certificate trust and the selected transport/security policy."

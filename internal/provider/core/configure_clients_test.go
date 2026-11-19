@@ -207,6 +207,7 @@ func TestConnectionErrorsExposeSafeCauseWithoutPeerDiagnostics(t *testing.T) {
 		{shared.ErrTLSNegotiation, "Verified TLS negotiation failed"},
 		{shared.ErrKerberosExpired, "has expired"},
 		{shared.ErrKerberosAuthentication, "Kerberos authentication failed"},
+		{&shared.KerberosError{Code: 14}, "Kerberos authentication returned protocol code 14"},
 		{shared.ErrUnsupportedDirectory, "capability observation"},
 		{config.ErrBackendUnavailable, "execution host"},
 		{context.DeadlineExceeded, "exceeded its timeout"},
