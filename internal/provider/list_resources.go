@@ -9,6 +9,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/list"
 	"github.com/hashicorp/terraform-plugin-framework/provider"
 
+	computer "github.com/deploymenttheory/terraform-provider-activedirectory/internal/services/list-resources/computers/computer"
 	organizationalUnit "github.com/deploymenttheory/terraform-provider-activedirectory/internal/services/list-resources/organizational_units/organizational_unit"
 )
 
@@ -16,5 +17,5 @@ var _ provider.ProviderWithListResources = &ActiveDirectoryProvider{}
 
 // ListResources explicitly registers discovery services for Terraform query and import workflows.
 func (p *ActiveDirectoryProvider) ListResources(_ context.Context) []func() list.ListResource {
-	return []func() list.ListResource{organizationalUnit.NewOrganizationalUnitListResource}
+	return []func() list.ListResource{organizationalUnit.NewOrganizationalUnitListResource, computer.NewComputerListResource}
 }

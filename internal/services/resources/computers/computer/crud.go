@@ -60,31 +60,8 @@ func (r *ComputerResource) Create(ctx context.Context, req resource.CreateReques
 	if outcome.RecoveryDN != "" {
 		plan.RecoveryDN = types.StringValue(outcome.RecoveryDN)
 	}
-	plan.PasswordWOVersion = types.Int64Value(0)
-	if result.Password != nil && result.Password.State == shared.ObjectWriteAccepted && result.Password.TargetGUID != nil &&
-		result.Password.TargetGUID.String() == plan.ID.ValueString() && !shared.IsUncertain(err) {
-		plan.PasswordWOVersion = types.Int64Value(pending.PasswordVersion)
-	}
-	if result.Computer != nil && !outcome.ID.IsNull() && !outcome.ID.IsUnknown() {
-		resp.Diagnostics.Append(mapState(&plan, result.Computer)...)
-	}
-	if request.InitialPassword != nil &&
-		(result.Password == nil || result.Password.State != shared.ObjectWriteAccepted || plan.PasswordWOVersion.ValueInt64() != pending.PasswordVersion) {
-		resp.Diagnostics.AddError(
-			"Computer password stage unacknowledged",
-			"The SDK did not acknowledge password setup for this GUID. The accepted creation and unresolved intent are retained.",
-		)
-	}
-	if request.Control.Enabled != nil && *request.Control.Enabled && (result.Enable == nil || result.Enable.State != shared.ObjectWriteAccepted || !result.Enable.Verified ||
-		result.Enable.TargetGUID == nil || result.Enable.TargetGUID.String() != plan.ID.ValueString()) {
-		resp.Diagnostics.AddError("Computer enable stage incomplete", "The SDK did not verify requested enablement. Earlier accepted stages and GUID are retained.")
-	}
-	if err == nil && !result.Complete {
-		resp.Diagnostics.AddError(
-			"Computer creation stages incomplete",
-			"The SDK did not complete every requested stage. Preserve accepted identity and reconcile before another write.",
-		)
-	}
+	requestedEnable := request.Control.Enabled != nil && *request.Control.Enabled
+	resp.Diagnostics.Append(observeCreationStages(&plan, pending.PasswordVersion, request.InitialPassword != nil, requestedEnable, result, err)...)
 	if !resp.Diagnostics.HasError() {
 		resp.Diagnostics.Append(r.refresh(ctx, &plan)...)
 	}

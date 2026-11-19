@@ -33,6 +33,11 @@ Windows/Linux amd64 against Server 2016, 2019, 2022 and 2025, including target r
 explicit recovery, retained disabled status and independently verified fixture/policy cleanup.
 It selects an account by GUID on an explicitly acknowledged DC and never enables a disabled
 account or retries a failed or uncertain unlock automatically.
+Computer lifecycle, singular/plural data sources and list discovery are implemented with typed
+account settings, versioned write-only passwords and stable GUID import. This manages directory
+objects only; it never joins or configures a host. See the [computer resource](docs/resources/computer.md)
+and [computer acceptance guide](docs/development/computer-acceptance.md). Live qualification is in progress.
+
 Requirements: Go 1.27.4 for development and Terraform 1.14 or newer for the provider's four service surfaces.
 
 ```hcl
