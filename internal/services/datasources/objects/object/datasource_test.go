@@ -44,7 +44,7 @@ func TestTerraformUnitObjectLookup(t *testing.T) {
 	var seenGUID, seenDN atomic.Bool
 	var mode atomic.Int32
 	service := &mocks.Service{Read: func(_ context.Context, id shared.Identity, options shared.ResolveIdentityOptions) (shared.IdentityResult, error) {
-		if !slices.Contains(options.Properties, "jpegphoto") || !slices.Contains(options.Properties, "objectclass") || slices.Contains(options.Properties, "*") {
+		if !slices.Contains(options.Properties, "thumbnailphoto") || !slices.Contains(options.Properties, "objectclass") || slices.Contains(options.Properties, "*") {
 			t.Error("lookup did not preserve explicit raw and identity property selection")
 		}
 		switch id.Form() {
@@ -69,7 +69,7 @@ func TestTerraformUnitObjectLookup(t *testing.T) {
 		{Config: guidConfig, Check: resource.ComposeAggregateTestCheckFunc(
 			resource.TestCheckResourceAttr("data."+DataSourceName+".test", "id", guid),
 			resource.TestCheckResourceAttr("data."+DataSourceName+".test", "object_class", "contact"),
-			resource.TestCheckTypeSetElemAttr("data."+DataSourceName+".test", "observed_attributes.jpegphoto.*", "/wCA"),
+			resource.TestCheckTypeSetElemAttr("data."+DataSourceName+".test", "observed_attributes.thumbnailphoto.*", "/wCA"),
 			resource.TestCheckResourceAttr("data."+DataSourceName+".test", "attribute_status.telephonenumber", "absent"),
 			resource.TestCheckResourceAttr("data."+DataSourceName+".test", "attribute_status.member", "partial"),
 			resource.TestCheckResourceAttr("data."+DataSourceName+".test", "attribute_ranges.%", "1"))},

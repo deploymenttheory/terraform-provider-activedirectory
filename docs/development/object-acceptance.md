@@ -12,7 +12,7 @@ The observer verifies that GUID, DN and marker before fixture effects. Every sub
 auxiliary has a bounded run/test/platform name and permanent description marker. The
 attribute being cleared is displayName, never the ownership marker.
 
-The lifecycle case covers contact creation, binary jpegPhoto replacement, selective value
+The lifecycle case covers contact creation, binary thumbnailPhoto replacement, selective value
 add/remove while preserving an independently added value, same-GUID rename/move, normalized
 manager DN readback, selected-attribute JSON import, identity import/generated configuration,
 GUID/DN lookup, actual paged and caller-bounded queries, list snapshots, explicit clearing,

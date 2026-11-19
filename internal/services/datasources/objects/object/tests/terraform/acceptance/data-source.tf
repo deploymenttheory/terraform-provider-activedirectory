@@ -10,5 +10,5 @@ provider "activedirectory" {
 variable "object_guid" { type = string }
 data "activedirectory_object" "test" {
   object_guid = var.object_guid
-  properties  = ["description", "jpegPhoto", "telephoneNumber"]
+  properties  = ["description", "thumbnailPhoto", "telephoneNumber"]
 }

@@ -7,6 +7,6 @@ list "activedirectory_object" "owned" {
     ldap_filter  = __FILTER__
     page_size    = 2
     result_limit = 10
-    properties   = ["description", "displayName", "jpegPhoto", "manager", "otherTelephone"]
+    properties   = ["description", "displayName", "thumbnailPhoto", "manager", "otherTelephone"]
   }
 }

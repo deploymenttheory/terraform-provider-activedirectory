@@ -16,23 +16,23 @@ resource "activedirectory_object" "test" {
   add_values       = __ADD_VALUES__
   remove_values    = __REMOVE_VALUES__
   clear_attributes = __CLEAR_ATTRIBUTES__
-  properties       = ["description", "displayName", "jpegPhoto", "manager", "otherTelephone", "telephoneNumber"]
+  properties       = ["description", "displayName", "thumbnailPhoto", "manager", "otherTelephone", "telephoneNumber"]
 }
 data "activedirectory_object" "lookup" {
   object_guid = activedirectory_object.test.id
-  properties  = ["description", "displayName", "jpegPhoto", "manager", "otherTelephone"]
+  properties  = ["description", "displayName", "thumbnailPhoto", "manager", "otherTelephone"]
 }
 data "activedirectory_objects" "scoped" {
   base_dn      = __ROOT_DN__
   ldap_filter  = __FILTER__
   page_size    = 2
   result_limit = 10
-  properties   = ["description", "displayName", "jpegPhoto", "manager", "otherTelephone"]
+  properties   = ["description", "displayName", "thumbnailPhoto", "manager", "otherTelephone"]
   depends_on   = [activedirectory_object.test]
 }
 data "activedirectory_object" "by_dn" {
   dn         = activedirectory_object.test.distinguished_name
-  properties = ["description", "jpegPhoto"]
+  properties = ["description", "thumbnailPhoto"]
 }
 data "activedirectory_objects" "paged" {
   base_dn      = __ROOT_DN__

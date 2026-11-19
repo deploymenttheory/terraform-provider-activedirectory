@@ -43,8 +43,8 @@ resource "activedirectory_object" "application" {
   parent_dn    = "OU=Contacts,DC=example,DC=test"
   object_class = "contact"
   attributes = {
-    description = [base64encode("Application contact")]
-    jpegPhoto   = [filebase64(var.jpeg_photo_path)]
+    description    = [base64encode("Application contact")]
+    thumbnailPhoto = [filebase64(var.jpeg_photo_path)]
   }
   add_values = {
     otherTelephone = [base64encode("+44 20 7946 0123")]
@@ -116,7 +116,7 @@ import {
   to = activedirectory_object.application
   id = jsonencode({
     id         = "dc93656c-f745-4926-9bbb-31e7bbecb68b"
-    attributes = ["description", "jpegPhoto"]
+    attributes = ["description", "thumbnailPhoto"]
     properties = ["displayName", "telephoneNumber"]
   })
 }

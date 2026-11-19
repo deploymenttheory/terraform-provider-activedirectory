@@ -154,7 +154,7 @@ func listRequest(t *testing.T, r *ObjectListResource) list.ListRequest {
 	model := ObjectListModel{
 		BaseDN: types.StringValue("DC=unit,DC=invalid"), Scope: types.StringValue("one_level"), LDAPFilter: types.StringNull(),
 		PageSize: types.Int64Value(2), ResultLimit: types.Int64Value(10),
-		Properties: types.ListValueMust(types.StringType, []attr.Value{types.StringValue("description"), types.StringValue("jpegPhoto")}),
+		Properties: types.ListValueMust(types.StringType, []attr.Value{types.StringValue("description"), types.StringValue("thumbnailPhoto")}),
 	}
 	if diagnostics := plan.Set(t.Context(), &model); diagnostics.HasError() {
 		t.Fatal(diagnostics)

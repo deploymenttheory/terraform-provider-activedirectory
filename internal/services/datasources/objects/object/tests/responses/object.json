@@ -3,6 +3,6 @@
   "name": "Fixture contact",
   "dn": "CN=Fixture contact,OU=owned,DC=unit,DC=invalid",
   "classes": ["top", "person", "organizationalPerson", "contact"],
-  "properties": ["description", "jpegPhoto", "telephoneNumber", "member"],
-  "attributes": {"description": ["Zml4dHVyZSBkZXNjcmlwdGlvbg=="], "jpegphoto": ["/wCA"], "member;range=0-1499": ["Q049T3RoZXIsREM9dW5pdCxEQz1pbnZhbGlk"]}
+  "properties": ["description", "thumbnailPhoto", "telephoneNumber", "member"],
+  "attributes": {"description": ["Zml4dHVyZSBkZXNjcmlwdGlvbg=="], "thumbnailphoto": ["/wCA"], "member;range=0-1499": ["Q049T3RoZXIsREM9dW5pdCxEQz1pbnZhbGlk"]}
 }

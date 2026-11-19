@@ -14,7 +14,7 @@ resource "activedirectory_object" "test" {
   name         = "fixture"
   parent_dn    = "OU=first,DC=unit,DC=invalid"
   object_class = "contact"
-  attributes   = { description = ["Zmlyc3Q="], jpegPhoto = ["/wCA"] }
+  attributes   = { description = ["Zmlyc3Q="], thumbnailPhoto = ["/wCA"] }
   add_values   = { otherTelephone = ["b2xk", "a2VlcA=="] }
   properties   = ["telephoneNumber"]
 }

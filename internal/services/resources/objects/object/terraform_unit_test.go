@@ -29,14 +29,14 @@ func TestTerraformUnitObjectLifecycle(t *testing.T) {
 	resource.Test(t, resource.TestCase{IsUnitTest: true, ProtoV6ProviderFactories: unitProviderFactories(t, directory.callbacks(t)), Steps: []resource.TestStep{
 		{Config: initial, Check: resource.ComposeAggregateTestCheckFunc(
 			resource.TestCheckResourceAttr(ResourceName+".test", "id", fixtureGUID),
-			resource.TestCheckTypeSetElemAttr(ResourceName+".test", "attributes.jpegPhoto.*", "/wCA"),
-			resource.TestCheckTypeSetElemAttr(ResourceName+".test", "observed_attributes.jpegphoto.*", "/wCA"))},
+			resource.TestCheckTypeSetElemAttr(ResourceName+".test", "attributes.thumbnailPhoto.*", "/wCA"),
+			resource.TestCheckTypeSetElemAttr(ResourceName+".test", "observed_attributes.thumbnailphoto.*", "/wCA"))},
 		{Config: initial, PlanOnly: true},
 		{Config: strings.Replace(initial, `"contact"`, `"CONTACT"`, 1)},
 		{Config: initial},
 		{
 			ResourceName: ResourceName + ".test", ImportState: true, ImportStateVerify: true,
-			ImportStateId:           `{"id":"` + fixtureGUID + `","attributes":["description","jpegPhoto"],"properties":["telephoneNumber"]}`,
+			ImportStateId:           `{"id":"` + fixtureGUID + `","attributes":["description","thumbnailPhoto"],"properties":["telephoneNumber"]}`,
 			ImportStateVerifyIgnore: []string{"add_values", "observed_attributes", "attribute_status", "attribute_ranges"},
 		},
 		{

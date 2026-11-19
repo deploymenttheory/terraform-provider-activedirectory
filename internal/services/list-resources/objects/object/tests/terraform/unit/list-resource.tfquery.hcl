@@ -9,7 +9,7 @@ list "activedirectory_object" "test" {
   include_resource = true
   limit            = 10
   config {
-    properties   = ["description", "jpegPhoto"]
+    properties   = ["description", "thumbnailPhoto"]
     base_dn      = "DC=unit,DC=invalid"
     scope        = "one_level"
     page_size    = 2

@@ -10,7 +10,7 @@ provider "activedirectory" {
   password    = "not-a-real-credential"
 }
 data "activedirectory_objects" "test" {
-  properties   = ["description", "jpegPhoto"]
+  properties   = ["description", "thumbnailPhoto"]
   ldap_filter  = "(objectClass=contact)"
   base_dn      = "DC=unit,DC=invalid"
   scope        = "one_level"

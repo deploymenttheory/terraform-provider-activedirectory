@@ -4,7 +4,7 @@ import {
   to = activedirectory_object.application
   id = jsonencode({
     id         = "dc93656c-f745-4926-9bbb-31e7bbecb68b"
-    attributes = ["description", "jpegPhoto"]
+    attributes = ["description", "thumbnailPhoto"]
     properties = ["displayName", "telephoneNumber"]
   })
 }

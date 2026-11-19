@@ -41,7 +41,7 @@ func TestTerraformUnitObjectDiscovery(t *testing.T) {
 	var mode atomic.Int32
 	service := &mocks.Service{List: func(_ context.Context, options shared.SearchOptions) (shared.SearchResult, error) {
 		if options.Base != "DC=unit,DC=invalid" || options.Filter != "(objectClass=contact)" || options.Scope != shared.ScopeOneLevel || options.PageSize != 2 ||
-			!slices.Contains(options.Properties, "jpegphoto") {
+			!slices.Contains(options.Properties, "thumbnailphoto") {
 			t.Error("generic discovery changed the explicit search boundary or raw property selection")
 		}
 		switch mode.Load() {

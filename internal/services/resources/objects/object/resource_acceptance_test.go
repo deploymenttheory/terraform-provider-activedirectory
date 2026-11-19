@@ -80,14 +80,14 @@ func TestAccObjectLifecycle(t *testing.T) {
 	managerDN := "CN=" + lab.prefix + "-manager," + lab.parentDN
 	var managerGUID string
 	initialAttributes := map[string][]string{
-		"description": {encodedText(lab.marker)}, "displayName": {encodedText("first display")}, "jpegPhoto": {"/wCA"},
+		"description": {encodedText(lab.marker)}, "displayName": {encodedText("first display")}, "thumbnailPhoto": {"/wCA"},
 	}
 	updatedAttributes := map[string][]string{
-		"description": {encodedText(lab.marker)}, "displayName": {encodedText("second display")}, "jpegPhoto": {"AP+A"},
+		"description": {encodedText(lab.marker)}, "displayName": {encodedText("second display")}, "thumbnailPhoto": {"AP+A"},
 		"manager": {encodedText(strings.ToLower(managerDN))},
 	}
 	clearedAttributes := map[string][]string{
-		"description": {encodedText(lab.marker)}, "jpegPhoto": {"AP+A"}, "manager": {encodedText(strings.ToLower(managerDN))},
+		"description": {encodedText(lab.marker)}, "thumbnailPhoto": {"AP+A"}, "manager": {encodedText(strings.ToLower(managerDN))},
 	}
 	initial := lab.objectConfig(t, "initial", "contact", lab.parentDN, initialAttributes,
 		map[string][]string{"otherTelephone": {encodedText("old"), encodedText("keep")}}, nil, nil)
@@ -157,7 +157,7 @@ func TestAccObjectLifecycle(t *testing.T) {
 	}
 	resource.Test(t, resource.TestCase{ProtoV6ProviderFactories: lab.factories(t), CheckDestroy: lab.checkDestroy, Steps: []resource.TestStep{
 		{Config: initial, ConfigPlanChecks: checks, Check: resource.ComposeAggregateTestCheckFunc(check,
-			resource.TestCheckTypeSetElemAttr(ResourceName+".test", "observed_attributes.jpegphoto.*", "/wCA"))},
+			resource.TestCheckTypeSetElemAttr(ResourceName+".test", "observed_attributes.thumbnailphoto.*", "/wCA"))},
 		{Config: initial, PlanOnly: true},
 		{Config: updated, PreConfig: prepareUpdate, ConfigPlanChecks: checks, Check: resource.ComposeAggregateTestCheckFunc(verifyManager,
 			resource.TestCheckResourceAttr("data.activedirectory_objects.scoped", "objects.#", "1"),
@@ -169,14 +169,14 @@ func TestAccObjectLifecycle(t *testing.T) {
 			resource.TestCheckResourceAttrPair(ResourceName+".test", "id", "data.activedirectory_object.by_dn", "id"),
 			resource.TestCheckTypeSetElemAttr(ResourceName+".test", "observed_attributes.othertelephone.*", encodedText("keep")),
 			resource.TestCheckTypeSetElemAttr(ResourceName+".test", "observed_attributes.othertelephone.*", encodedText("unowned")),
-			resource.TestCheckTypeSetElemAttr("data.activedirectory_object.lookup", "observed_attributes.jpegphoto.*", "AP+A"))},
+			resource.TestCheckTypeSetElemAttr("data.activedirectory_object.lookup", "observed_attributes.thumbnailphoto.*", "AP+A"))},
 		{Config: updated, PlanOnly: true},
 		{
 			ResourceName: ResourceName + ".test", ImportState: true, ImportStateVerify: true,
 			ImportStateIdFunc: func(_ *terraform.State) (string, error) {
 				encoded, err := json.Marshal(importSelection{
-					ID: lab.childGUID, Attributes: []string{"description", "displayName", "jpegPhoto", "manager"},
-					Properties: []string{"description", "displayName", "jpegPhoto", "manager", "otherTelephone", "telephoneNumber"},
+					ID: lab.childGUID, Attributes: []string{"description", "displayName", "thumbnailPhoto", "manager"},
+					Properties: []string{"description", "displayName", "thumbnailPhoto", "manager", "otherTelephone", "telephoneNumber"},
 				})
 				return string(encoded), err
 			},

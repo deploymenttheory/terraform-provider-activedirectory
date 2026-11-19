@@ -4,5 +4,5 @@ data "activedirectory_objects" "contacts" {
   scope        = "one_level"
   page_size    = 100
   result_limit = 500
-  properties   = ["description", "jpegPhoto", "telephoneNumber"]
+  properties   = ["description", "thumbnailPhoto", "telephoneNumber"]
 }

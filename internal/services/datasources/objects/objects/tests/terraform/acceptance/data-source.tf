@@ -14,5 +14,5 @@ data "activedirectory_objects" "test" {
   scope        = "subtree"
   page_size    = 2
   result_limit = 10
-  properties   = ["description", "jpegPhoto", "telephoneNumber"]
+  properties   = ["description", "thumbnailPhoto", "telephoneNumber"]
 }

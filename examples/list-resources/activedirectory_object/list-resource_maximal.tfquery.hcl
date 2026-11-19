@@ -8,6 +8,6 @@ list "activedirectory_object" "contacts" {
     scope        = "one_level"
     page_size    = 50
     result_limit = 500
-    properties   = ["description", "jpegPhoto"]
+    properties   = ["description", "thumbnailPhoto"]
   }
 }
