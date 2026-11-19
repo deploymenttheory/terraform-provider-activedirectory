@@ -11,3 +11,6 @@ go.sum text eol=lf
 *.tf text eol=lf
 *.sh text eol=lf
 *.yml text eol=lf
+*.sh text eol=lf
+*.tfquery.hcl text eol=lf
+Makefile text eol=lf
