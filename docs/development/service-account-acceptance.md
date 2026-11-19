@@ -9,7 +9,8 @@ tests preserve accepted stage identity and refuse hidden/partial clear proof or 
 Live provider qualification remains pending. The required clients are Windows/Linux amd64
 against Server 2016, 2019, 2022 and 2025; missing fixture evidence is not a passing result.
 Use the guarded runners described in [testing](testing.md), selecting
-`TestAccServiceAccountLifecycle` and `TestAccServiceAccountCreationForms`. The feature-local
+`TestAccServiceAccountLifecycle`, `TestAccServiceAccountCreationForms` and
+`TestAccServiceAccountPasswordFailure`. The feature-local
 fixtures and embedded Terraform configurations now exist; actual results remain pending.
 Never retrieve a managed password to verify a resource.
 
@@ -24,6 +25,12 @@ creation password and version replacement, and outbound-only gMSA creation. Thre
 objects exercise page-size-one discovery, complete/bounded results and list consumer limits.
 Plans/state are checked for bind and creation secrets. Every subject GUID is tracked through
 independent absence checks; auxiliary groups/OUs retain permanent markers and leaf-only cleanup.
+
+The password-failure case requests a deliberately noncompliant fixture-only sMSA password.
+It checks that accepted creation remains disabled with the same GUID, a later apply cannot
+replay or replace that object, and explicit import/independent fixture retirement can recover.
+This follows the documented [New-ADServiceAccount password behavior](https://learn.microsoft.com/en-us/powershell/module/activedirectory/new-adserviceaccount?view=windowsserver2025-ps#-accountpassword).
+It changes no domain password policy and performs no password-read or login probe.
 
 `tests/fixtures/prerequisites.ps1` beside the resource provides a read-only preflight helper.
 It verifies the selected AD DS target and reads explicit service-account class definitions

@@ -11,6 +11,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"regexp"
 	"strconv"
 	"strings"
 	"testing"
@@ -19,6 +20,10 @@ import (
 	"github.com/hashicorp/terraform-plugin-testing/plancheck"
 	"github.com/hashicorp/terraform-plugin-testing/querycheck"
 	"github.com/hashicorp/terraform-plugin-testing/terraform"
+
+	"github.com/deploymenttheory/go-sdk-activedirectory/activedirectory/services/service_accounts"
+	"github.com/deploymenttheory/go-sdk-activedirectory/activedirectory/shared"
+	"github.com/deploymenttheory/terraform-provider-activedirectory/internal/lifecycle"
 )
 
 type labSecretPlan struct{ secrets []string }
@@ -35,6 +40,56 @@ func (c labSecretPlan) CheckPlan(_ context.Context, req plancheck.CheckPlanReque
 			return
 		}
 	}
+}
+
+// TestAccServiceAccountPasswordFailure verifies the cmdlet-compatible disabled partial creation and blocks blind replacement after password rejection.
+func TestAccServiceAccountPasswordFailure(t *testing.T) {
+	lab := newServiceAccountLab(t)
+	lab.secret = "not-complex-enough"
+	t.Setenv("TF_VAR_service_account_password", lab.secret)
+	configuration := lab.configuration(t, "rejected-password.tf", "__NAME__", strconv.Quote(lab.prefix+"-rejected"), "__SAM__", strconv.Quote(lab.sam("rejected")+"$"))
+	observe := func() {
+		lab.mu.Lock()
+		defer lab.mu.Unlock()
+		result, err := lab.observer.ServiceAccounts.ServiceAccounts(t.Context(), shared.SearchOptions{
+			Base: lab.parentDN, Scope: shared.ScopeSubtree, Filter: "(name=" + lab.prefix + "*)", PageSize: 2, ResultLimit: 2,
+		})
+		if err != nil || !result.Observation.Complete || result.Observation.LimitReached || len(result.Accounts) != 1 {
+			t.Fatal("partial creation did not resolve to exactly one owned account")
+		}
+		account := result.Accounts[0]
+		if account.GUID == nil || account.Kind != service_accounts.ServiceAccountStandalone || account.AccountControl.Enabled == nil || *account.AccountControl.Enabled {
+			t.Fatal("rejected password creation did not retain a disabled standalone account")
+		}
+		if _, err := lab.ownedObject(t.Context(), account.GUID.String()); err != nil {
+			t.Fatal("partial creation ownership did not verify")
+		}
+		if lab.childGUID != "" && lab.childGUID != account.GUID.String() {
+			t.Fatal("failed creation was replayed or replaced")
+		}
+		lab.childGUID = account.GUID.String()
+		lab.guids[lab.childGUID] = true
+	}
+	retire := func() {
+		observe()
+		lab.mu.Lock()
+		defer lab.mu.Unlock()
+		target, _ := shared.IdentityByGUID(lab.childGUID)
+		result, err := lab.observer.ServiceAccounts.DeleteServiceAccount(t.Context(), service_accounts.DeleteServiceAccountRequest{Identity: target})
+		if !lifecycle.ConfirmedDeletion(result.Mutation, err) {
+			t.Fatal("independent partial-creation fixture retirement did not verify")
+		}
+	}
+	resource.Test(t, resource.TestCase{ProtoV6ProviderFactories: lab.factories(t), CheckDestroy: lab.checkDestroy, Steps: []resource.TestStep{
+		{
+			Config:           configuration,
+			ConfigPlanChecks: resource.ConfigPlanChecks{PreApply: []plancheck.PlanCheck{labSecretPlan{secrets: []string{os.Getenv("AD_PASSWORD"), lab.secret}}}},
+			ExpectError:      regexp.MustCompile("Directory mutation did not complete"),
+		},
+		{Config: configuration, PreConfig: observe, ExpectError: regexp.MustCompile("Service account mutation still unresolved")},
+		{ResourceName: ResourceName + ".test", ImportState: true, ImportStateVerify: true, ImportStateVerifyIgnore: []string{"password_wo_version"}},
+		{Config: configuration, Destroy: true, PreConfig: retire},
+	}})
 }
 
 // sam uses a bounded hash rather than truncating a long fixture name into a colliding sAMAccountName.

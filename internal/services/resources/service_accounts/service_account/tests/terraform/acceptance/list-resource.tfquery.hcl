@@ -1,8 +1,3 @@
-provider "activedirectory" {
-  auth_method = "simple"
-  transport   = "ldaps"
-}
-
 list "activedirectory_service_account" "owned" {
   provider         = activedirectory
   include_resource = true
