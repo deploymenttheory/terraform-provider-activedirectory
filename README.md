@@ -1,5 +1,8 @@
 # Terraform Provider for Active Directory
 
+Developer documentation: [testing](docs/development/client-acceptance.md) and
+[examples and generated documentation](docs/development/documentation.md).
+
 Terraform Plugin Framework provider for Active Directory Domain Services, built on the
 [Deployment Theory Active Directory SDK](https://github.com/deploymenttheory/go-sdk-activedirectory).
 

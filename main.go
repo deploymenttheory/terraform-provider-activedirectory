@@ -3,7 +3,7 @@
 
 package main
 
-//go:generate go run github.com/hashicorp/terraform-plugin-docs/cmd/tfplugindocs@v0.25.0 generate --provider-name terraform-provider-activedirectory
+//go:generate go run github.com/hashicorp/terraform-plugin-docs/cmd/tfplugindocs@v0.25.0 generate --provider-name terraform-provider-activedirectory --tf-version 1.17.2
 
 import (
 	"context"

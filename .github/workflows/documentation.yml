@@ -1,0 +1,35 @@
+name: provider | Documentation
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  documentation:
+    name: Documentation coverage and drift
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden runner
+        uses: step-security/harden-runner@1d88384fd173af6ecb012dfd0264a306b711241a # v2.22.4
+        with:
+          egress-policy: audit
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Set up Go
+        uses: actions/setup-go@7a3fe6cf4cb3a834922a1244abfce67bcef6a0c5 # v6.2.0
+        with:
+          go-version-file: go.mod
+          cache-dependency-path: go.sum
+      - name: Build pinned documentation generator
+        run: |
+          go install github.com/hashicorp/terraform-plugin-docs/cmd/tfplugindocs@v0.25.0
+          echo "TF_DOCS_GENERATOR=$(go env GOPATH)/bin/tfplugindocs" >> "$GITHUB_ENV"
+      - name: Check representative rendering for all four surfaces
+        run: go test -mod=readonly ./internal/documentation -run '^TestFourSurfaceGeneration$' -count=1
+      - name: Check authored coverage and generated drift
+        run: make check-docs
