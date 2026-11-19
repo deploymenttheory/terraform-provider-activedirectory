@@ -1,13 +1,15 @@
-// Copyright (c) Deployment Theory.
-// SPDX-License-Identifier: MPL-2.0
+// Copyright (c) 2026 Deployment Theory.
+// SPDX-License-Identifier: MIT
 
 package provider
 
 import (
 	"context"
+	"sync"
 
 	"github.com/hashicorp/terraform-plugin-framework/provider"
-	"github.com/hashicorp/terraform-plugin-framework/provider/schema"
+
+	"github.com/deploymenttheory/terraform-provider-activedirectory/internal/client"
 )
 
 var (
@@ -20,6 +22,10 @@ var (
 type ActiveDirectoryProvider struct {
 	version  string
 	registry Registry
+	mu       sync.Mutex
+	clients  *client.Bundle
+	open     client.Factory
+	closed   bool
 }
 
 // NewActiveDirectoryProvider creates the shared core for one provider server.
@@ -31,15 +37,4 @@ func NewActiveDirectoryProvider(version string) *ActiveDirectoryProvider {
 func (p *ActiveDirectoryProvider) Metadata(_ context.Context, _ provider.MetadataRequest, resp *provider.MetadataResponse) {
 	resp.TypeName = "activedirectory"
 	resp.Version = p.version
-}
-
-// Schema defines provider configuration. Authentication is added by the SDK client foundation.
-func (p *ActiveDirectoryProvider) Schema(_ context.Context, _ provider.SchemaRequest, resp *provider.SchemaResponse) {
-	resp.Schema = schema.Schema{
-		MarkdownDescription: "Manage Active Directory Domain Services using the Deployment Theory Active Directory provider.",
-	}
-}
-
-// Configure prepares shared service configuration. The empty foundation does not open directory connections.
-func (p *ActiveDirectoryProvider) Configure(_ context.Context, _ provider.ConfigureRequest, _ *provider.ConfigureResponse) {
 }

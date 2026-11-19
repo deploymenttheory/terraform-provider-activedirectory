@@ -1,5 +1,5 @@
-// Copyright (c) Deployment Theory.
-// SPDX-License-Identifier: MPL-2.0
+// Copyright (c) 2026 Deployment Theory.
+// SPDX-License-Identifier: MIT
 
 package provider
 
@@ -11,6 +11,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/list"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
+
+	"github.com/deploymenttheory/terraform-provider-activedirectory/internal/client"
 )
 
 // Registry defines the service constructors available to one provider instance.
@@ -24,9 +26,10 @@ type Registry struct {
 
 // NewWithRegistry creates an isolated provider core without constructing services or opening clients.
 // Constructor slices are copied so callers cannot alter another provider's registrations.
-func NewWithRegistry(version string, registry Registry) *ActiveDirectoryProvider {
-	return &ActiveDirectoryProvider{
+func NewWithRegistry(version string, registry Registry, options ...Option) *ActiveDirectoryProvider {
+	p := &ActiveDirectoryProvider{
 		version: version,
+		open:    client.Open,
 		registry: Registry{
 			Resources:     slices.Clone(registry.Resources),
 			DataSources:   slices.Clone(registry.DataSources),
@@ -34,6 +37,18 @@ func NewWithRegistry(version string, registry Registry) *ActiveDirectoryProvider
 			Actions:       slices.Clone(registry.Actions),
 		},
 	}
+	for _, option := range options {
+		option(p)
+	}
+	return p
+}
+
+// Option customizes construction without changing schema or importing production registrations.
+type Option func(*ActiveDirectoryProvider)
+
+// WithClientFactory supplies an injectable client factory for feature-local tests.
+func WithClientFactory(factory client.Factory) Option {
+	return func(p *ActiveDirectoryProvider) { p.open = factory }
 }
 
 // Resources returns an independent slice of this provider's resource constructors.

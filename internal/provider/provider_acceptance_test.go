@@ -1,5 +1,5 @@
-// Copyright (c) Deployment Theory.
-// SPDX-License-Identifier: MPL-2.0
+// Copyright (c) 2026 Deployment Theory.
+// SPDX-License-Identifier: MIT
 
 package provider_test
 

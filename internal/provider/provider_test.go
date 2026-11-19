@@ -1,5 +1,5 @@
-// Copyright (c) Deployment Theory.
-// SPDX-License-Identifier: MPL-2.0
+// Copyright (c) 2026 Deployment Theory.
+// SPDX-License-Identifier: MIT
 
 package provider_test
 
@@ -59,8 +59,14 @@ func TestProviderProtocolV6(t *testing.T) {
 		t.Fatal("empty foundation unexpectedly advertised service metadata")
 	}
 
-	configType := tftypes.Object{AttributeTypes: map[string]tftypes.Type{}}
-	config, err := tfprotov6.NewDynamicValue(configType, tftypes.NewValue(configType, map[string]tftypes.Value{}))
+	configType := schema.Provider.ValueType().(tftypes.Object)
+	attributes := make(map[string]tftypes.Value, len(configType.AttributeTypes))
+	for name, attributeType := range configType.AttributeTypes {
+		attributes[name] = tftypes.NewValue(attributeType, nil)
+	}
+	// Explicitly invalid authentication ensures this protocol check never consumes live environment credentials.
+	attributes["auth_method"] = tftypes.NewValue(tftypes.String, "unsupported-auth")
+	config, err := tfprotov6.NewDynamicValue(configType, tftypes.NewValue(configType, attributes))
 	if err != nil {
 		t.Fatalf("encode empty provider configuration: %v", err)
 	}
@@ -74,7 +80,9 @@ func TestProviderProtocolV6(t *testing.T) {
 	if err != nil {
 		t.Fatalf("configure provider: %v", err)
 	}
-	assertNoProtocolErrors(t, configured.Diagnostics)
+	if len(configured.Diagnostics) == 0 {
+		t.Fatal("unconfigured credentials unexpectedly established a directory client")
+	}
 }
 
 func assertNoProtocolErrors(t *testing.T, diagnostics []*tfprotov6.Diagnostic) {
