@@ -60,6 +60,14 @@ managed passwords or install an account on a host. Explicit sMSA password input 
 and creation-only; changing its version replaces the account. See the
 [acceptance guide](docs/development/service-account-acceptance.md) for the current lab qualification gate.
 
+Generic object lifecycle, GUID/DN lookup, bounded data sources and list discovery are implemented
+with explicit schema classes and binary-safe raw attribute ownership. See the
+[object resource](docs/resources/object.md) for import and recovery semantics and the
+[object acceptance guide](docs/development/object-acceptance.md) for guarded lab cases.
+Both lifecycle and nonempty-leaf acceptance cases pass from Windows/Linux amd64 against
+Server 2016, 2019, 2022 and 2025 using verified LDAPS. All 16 cases have independently
+verified process, directory and TLS cleanup; the original lab baselines were restored.
+
 Requirements: Go 1.27.4 for development and Terraform 1.14 or newer for the provider's four service surfaces.
 
 ```hcl

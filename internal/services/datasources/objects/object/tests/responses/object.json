@@ -1,0 +1,8 @@
+{
+  "guid": "dc93656c-f745-4926-9bbb-31e7bbecb68b",
+  "name": "Fixture contact",
+  "dn": "CN=Fixture contact,OU=owned,DC=unit,DC=invalid",
+  "classes": ["top", "person", "organizationalPerson", "contact"],
+  "properties": ["description", "thumbnailPhoto", "telephoneNumber", "member"],
+  "attributes": {"description": ["Zml4dHVyZSBkZXNjcmlwdGlvbg=="], "thumbnailphoto": ["/wCA"], "member;range=0-1499": ["Q049T3RoZXIsREM9dW5pdCxEQz1pbnZhbGlk"]}
+}

@@ -59,6 +59,10 @@ func TestProviderProtocolV6(t *testing.T) {
 		t.Fatal("production group resource and data-source registrations did not match their schemas")
 	}
 
+	if schema.ResourceSchemas["activedirectory_object"] == nil || schema.ListResourceSchemas["activedirectory_object"] == nil ||
+		schema.DataSourceSchemas["activedirectory_object"] == nil || schema.DataSourceSchemas["activedirectory_objects"] == nil {
+		t.Fatal("production generic object surfaces were not registered")
+	}
 	if schema.ResourceSchemas["activedirectory_computer"] == nil || schema.DataSourceSchemas["activedirectory_computer"] == nil ||
 		schema.DataSourceSchemas["activedirectory_computers"] == nil || schema.ListResourceSchemas["activedirectory_computer"] == nil {
 		t.Fatal("protocol schema omitted a computer surface")
@@ -73,7 +77,7 @@ func TestProviderProtocolV6(t *testing.T) {
 		schema.DataSourceSchemas["activedirectory_service_account"] == nil || schema.DataSourceSchemas["activedirectory_service_accounts"] == nil {
 		t.Fatal("production managed service account surfaces were not registered")
 	}
-	if len(metadata.Resources) < 5 || len(metadata.DataSources) < 10 || len(metadata.ListResources) < 5 {
+	if len(metadata.Resources) < 6 || len(metadata.DataSources) < 12 || len(metadata.ListResources) < 6 {
 		t.Fatal("protocol metadata omitted registered directory services")
 	}
 	if len(metadata.Actions) != 1 || metadata.Actions[0].TypeName != "activedirectory_account_unlock" {
