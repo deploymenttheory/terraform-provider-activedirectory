@@ -70,3 +70,6 @@ ordinary-reader permission fixtures, real Terraform cases and independent cleanu
 
 See [account unlock acceptance](account-unlock-acceptance.md) for explicit invocation,
 ordinary-account refusal, retained disabled status and owned fixture cleanup.
+
+See [computer acceptance](computer-acceptance.md) for directory-only staged lifecycle, password
+observation, explicit post-creation settings and independently verified unjoined fixture cleanup.

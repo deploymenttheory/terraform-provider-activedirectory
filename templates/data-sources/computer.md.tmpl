@@ -1,0 +1,22 @@
+---
+page_title: "activedirectory_computer Data Source - Active Directory"
+subcategory: "Computers"
+description: |-
+  Observe one computer by explicit GUID or DN.
+---
+
+# activedirectory_computer (Data Source)
+
+{{ .Description | trimspace }}
+
+{{ tffile "examples/data-sources/activedirectory_computer/providers.tf" }}
+
+{{ tffile "examples/data-sources/activedirectory_computer/data-source.tf" }}
+
+{{ tffile "examples/data-sources/activedirectory_computer/data-source_maximal.tf" }}
+
+Supply exactly one known `object_guid` or `dn`. Optional hidden/unavailable attributes remain
+null; the data source does not fabricate false flags, expose password values or own attributes.
+Missing, denied and incomplete observations return diagnostics.
+
+{{ .SchemaMarkdown | trimspace }}

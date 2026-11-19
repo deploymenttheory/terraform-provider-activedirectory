@@ -1,0 +1,29 @@
+---
+page_title: "activedirectory_computer List Resource - Active Directory"
+subcategory: "Computers"
+description: |-
+  Discover stable computer identities and optional import configuration snapshots.
+---
+
+# activedirectory_computer (List Resource)
+
+{{ .Description | trimspace }}
+
+{{ tffile "examples/list-resources/activedirectory_computer/providers.tf" }}
+
+{{ tffile "examples/list-resources/activedirectory_computer/list-resource.tfquery.hcl" }}
+
+{{ tffile "examples/list-resources/activedirectory_computer/list-resource_maximal.tfquery.hcl" }}
+
+Keep provider requirements/configuration in `providers.tf` beside the query file. The provider
+performs a bounded SDK query when iteration starts, sorts by GUID, then respects cancellation
+and consumer stop. It does not expose an unbounded LDAP page stream. Terraform's `limit` can
+lower the configured result bound. Reaching the bound does not prove complete absence of more
+matches, and failures retain usable observed identities without claiming search completion.
+
+Identity is exactly `{ id = objectGUID }`. Resource snapshots contain observable typed fields
+and no password. Historical password-version metadata cannot be discovered; generated/imported
+resources start at zero. An unavailable required sAMAccountName prevents a managed snapshot.
+Configuration generation does not authorize password resets or account enablement changes.
+
+{{ .SchemaMarkdown | trimspace }}

@@ -33,11 +33,16 @@ Windows/Linux amd64 against Server 2016, 2019, 2022 and 2025, including target r
 explicit recovery, retained disabled status and independently verified fixture/policy cleanup.
 It selects an account by GUID on an explicitly acknowledged DC and never enables a disabled
 account or retries a failed or uncertain unlock automatically.
-
 This branch adds the `activedirectory_user` resource, singular/plural user data sources and
 the `activedirectory_user` list resource. User management supports GUID import, rename/move,
 typed properties, account flags, expiration and versioned write-only passwords.
 See the [user resource](docs/resources/user.md) and [user acceptance guide](docs/development/user-acceptance.md).
+
+Computer lifecycle, singular/plural data sources and list discovery are implemented with typed
+account settings, versioned write-only passwords and stable GUID import. This manages directory
+objects only; it never joins or configures a host. See the [computer resource](docs/resources/computer.md)
+and [computer acceptance guide](docs/development/computer-acceptance.md). The lifecycle and password-observation
+cases pass from Windows/Linux amd64 against Server 2016, 2019, 2022 and 2025 using verified LDAPS.
 
 This branch adds the `activedirectory_group` resource, singular/plural group data sources and
 the `activedirectory_group` list resource. Group management supports GUID import, same-domain
