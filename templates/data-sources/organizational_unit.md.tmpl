@@ -1,0 +1,30 @@
+---
+page_title: "activedirectory_organizational_unit Data Source"
+subcategory: "Organizational Units"
+description: |-
+  {{ .Description | trimspace }}
+---
+
+# activedirectory_organizational_unit
+
+{{ .Description | trimspace }}
+
+Configure verified LDAPS using environment-delivered credentials:
+
+{{ tffile "examples/data-sources/activedirectory_organizational_unit/providers.tf" }}
+
+## Minimal example
+
+{{ tffile "examples/data-sources/activedirectory_organizational_unit/data-source.tf" }}
+
+## Extended example
+
+{{ tffile "examples/data-sources/activedirectory_organizational_unit/data-source_maximal.tf" }}
+
+## Observation semantics
+
+Supply exactly one of `object_guid` or `dn`. The output `id` is always the observed object GUID.
+Missing/inaccessible objects and incomplete reads report diagnostics. Hidden optional values remain
+null; deletion protection is never inferred from an unavailable security descriptor.
+
+{{ .SchemaMarkdown | trimspace }}
