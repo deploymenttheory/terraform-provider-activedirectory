@@ -27,6 +27,7 @@ type unitDirectory struct {
 	exists            bool
 	calls             map[string]int
 	borrowedPasswords [][]byte
+	sid               *shared.SID
 }
 
 func newUnitDirectory(t *testing.T) *unitDirectory {
@@ -83,6 +84,7 @@ func (d *unitDirectory) snapshot(t *testing.T) *computers.Computer {
 		ComputerProperties: properties,
 		AccountControl:     fixtureControl(control, d.model.ChangePasswordAtLogon),
 		GUID:               &guid,
+		SID:                d.sid,
 		Name:               &name,
 		DistinguishedName:  dn,
 		Raw:                object,
