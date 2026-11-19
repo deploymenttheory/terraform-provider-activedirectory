@@ -6,6 +6,7 @@ package user
 import (
 	"strconv"
 	"strings"
+	"unicode/utf8"
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -58,6 +59,10 @@ func constructProperties(model *UserResourceModel) (users.UserProperties, diag.D
 			diagnostics.AddError("Unknown user property", field.terraform+" must be known before submitting a user change.")
 		} else if !field.value.IsNull() {
 			value := field.value.ValueString()
+			if !utf8.ValidString(value) || strings.ContainsRune(value, 0) {
+				diagnostics.AddError("Invalid user property text", "Typed user properties must be valid directory text without NUL bytes.")
+				continue
+			}
 			*field.target = &value
 		}
 	}
@@ -144,7 +149,8 @@ func validateInitialPassword(version types.Int64, password types.String) diag.Di
 	if version.IsUnknown() || version.ValueInt64() < 0 || password.IsUnknown() {
 		diagnostics.AddError("Unknown password intent", "Password input and its nonnegative version must be known before user creation.")
 	}
-	if !password.IsNull() && (password.ValueString() == "" || version.ValueInt64() < 1) {
+	if !password.IsNull() &&
+		(password.ValueString() == "" || !utf8.ValidString(password.ValueString()) || strings.ContainsRune(password.ValueString(), 0) || version.ValueInt64() < 1) {
 		diagnostics.AddError("Invalid password intent", "A nonempty password_wo requires an explicit positive password_wo_version.")
 	}
 	if password.IsNull() && version.ValueInt64() > 0 {
