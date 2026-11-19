@@ -57,7 +57,8 @@ Standalone and group-managed service accounts have a [managed lifecycle](docs/re
 data sources, and [list discovery](docs/list-resources/service_account.md). They retain GUID identity
 through rename/move, preserve unrelated reader-policy ACEs through the SDK, and never retrieve
 managed passwords or install an account on a host. Explicit sMSA password input is write-only
-and creation-only; changing its version replaces the account. Lab qualification remains in progress.
+and creation-only; changing its version replaces the account. See the
+[acceptance guide](docs/development/service-account-acceptance.md) for the current lab qualification gate.
 
 Requirements: Go 1.27.4 for development and Terraform 1.14 or newer for the provider's four service surfaces.
 
