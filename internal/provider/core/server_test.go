@@ -14,6 +14,8 @@ import (
 	provider "github.com/deploymenttheory/terraform-provider-activedirectory/internal/provider/core"
 )
 
+var errPrivateCleanup = errors.New("private peer cleanup response")
+
 type managedFixture struct {
 	frameworkprovider.Provider
 	closed bool
@@ -27,7 +29,7 @@ func TestProtocolStopClosesClientsAndRedactsCleanupErrors(t *testing.T) {
 	for _, failure := range []bool{false, true} {
 		p := &managedFixture{}
 		if failure {
-			p.err = errors.New("private peer cleanup response")
+			p.err = errPrivateCleanup
 		}
 		server := provider.NewProtocol6Server(p)
 		response, err := server.StopProvider(context.Background(), &tfprotov6.StopProviderRequest{})

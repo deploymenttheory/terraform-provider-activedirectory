@@ -95,6 +95,8 @@ func (r *reporter) Errorf(format string, args ...any) {
 	r.failures = append(r.failures, fmt.Sprintf(format, args...))
 }
 
+var errPrivatePeerDetail = errors.New("private peer detail")
+
 func TestCleanupErrorsAndPartialObservationsRemainFailures(t *testing.T) {
 	t.Parallel()
 	for _, test := range []struct {
@@ -102,7 +104,7 @@ func TestCleanupErrorsAndPartialObservationsRemainFailures(t *testing.T) {
 		err         error
 		wantFailure bool
 	}{
-		{false, nil, true}, {true, errors.New("private peer detail"), true}, {true, nil, false},
+		{false, nil, true}, {true, errPrivatePeerDetail, true}, {true, nil, false},
 	} {
 		r := &reporter{}
 		acceptance.RegisterCleanup(r, "OU fixture", func(context.Context) (bool, error) { return test.verified, test.err })
