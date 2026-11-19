@@ -21,4 +21,5 @@ type OrganizationalUnitResourceModel struct {
 	ManagedBy                       types.String `tfsdk:"managed_by"`
 	ProtectedFromAccidentalDeletion types.Bool   `tfsdk:"protected_from_accidental_deletion"`
 	RecoveryDN                      types.String `tfsdk:"recovery_dn"`
+	ClearProperties                 types.Set    `tfsdk:"clear_properties"`
 }

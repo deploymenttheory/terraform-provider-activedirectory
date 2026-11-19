@@ -90,8 +90,11 @@ func constructUpdate(current, plan *OrganizationalUnitResourceModel, target shar
 	request := organizational_units.UpdateOrganizationalUnitRequest{Identity: target}
 	ignored := organizational_units.OUProperties{}
 	before, after := propertyBindings(current, &ignored), propertyBindings(plan, &request.Properties)
+	previousClears, _ := clearProperties(current.ClearProperties)
+	requestedClears, _ := clearProperties(plan.ClearProperties)
 	for index, field := range after {
-		if field.value.Equal(*before[index].value) {
+		newClear := requestedClears[strings.ToLower(field.ldap)] && !previousClears[strings.ToLower(field.ldap)]
+		if field.value.Equal(*before[index].value) && !newClear {
 			continue
 		}
 		if field.value.IsNull() {
@@ -112,8 +115,10 @@ func constructUpdate(current, plan *OrganizationalUnitResourceModel, target shar
 func hasPropertyChanges(current, plan *OrganizationalUnitResourceModel) bool {
 	ignored := organizational_units.OUProperties{}
 	before, after := propertyBindings(current, &ignored), propertyBindings(plan, &ignored)
+	previousClears, _ := clearProperties(current.ClearProperties)
+	requestedClears, _ := clearProperties(plan.ClearProperties)
 	for index, field := range after {
-		if !field.value.Equal(*before[index].value) {
+		if !field.value.Equal(*before[index].value) || (requestedClears[strings.ToLower(field.ldap)] && !previousClears[strings.ToLower(field.ldap)]) {
 			return true
 		}
 	}

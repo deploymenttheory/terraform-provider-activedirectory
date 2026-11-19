@@ -185,7 +185,7 @@ func TestAcceptedRenameSurvivesLaterDeniedMove(t *testing.T) {
 		t.Fatal(diagnostics)
 	}
 	response := resource.UpdateResponse{State: state}
-	r.Update(t.Context(), resource.UpdateRequest{State: state, Plan: planned}, &response)
+	r.Update(t.Context(), resource.UpdateRequest{State: state, Plan: planned, Config: tfsdk.Config{Schema: schemaResponse.Schema, Raw: planned.Raw}}, &response)
 	var after OrganizationalUnitResourceModel
 	if diagnostics := response.State.Get(t.Context(), &after); diagnostics.HasError() {
 		t.Fatal(diagnostics)
@@ -200,6 +200,7 @@ func minimalModel() OrganizationalUnitResourceModel {
 	return OrganizationalUnitResourceModel{
 		Name: types.StringValue("fixture"), ParentDN: types.StringValue("DC=unit,DC=invalid"),
 		ID: types.StringUnknown(), DistinguishedName: types.StringUnknown(), RecoveryDN: types.StringUnknown(),
+		ClearProperties:                 types.SetNull(types.StringType),
 		ProtectedFromAccidentalDeletion: types.BoolValue(false),
 	}
 }
@@ -212,5 +213,6 @@ func createRequest(t *testing.T, r *OrganizationalUnitResource, model Organizati
 	if diagnostics := plan.Set(t.Context(), &model); diagnostics.HasError() {
 		t.Fatal(diagnostics)
 	}
-	return resource.CreateRequest{Plan: plan}, resource.CreateResponse{State: tfsdk.State{Schema: schemaResponse.Schema, Raw: plan.Raw}}
+	return resource.CreateRequest{Plan: plan, Config: tfsdk.Config{Schema: schemaResponse.Schema, Raw: plan.Raw}},
+		resource.CreateResponse{State: tfsdk.State{Schema: schemaResponse.Schema, Raw: plan.Raw}}
 }

@@ -10,7 +10,19 @@ The provider is under development. The current foundation serves Terraform plugi
 directory resources, data sources, list resources and actions are being added through the
 [approved implementation backlog](docs/plans/activedirectory-provider/backlog/INDEX.md).
 Provider configuration opens and qualifies a protected AD DS session using SDK v0.2.0.
-Directory service implementations are being added separately.
+Organizational unit lifecycle and discovery are implemented; live lab qualification is in progress.
+
+| Surface | Type | Documentation |
+| --- | --- | --- |
+| Resource | `activedirectory_organizational_unit` | [Lifecycle, protection and import](docs/resources/organizational_unit.md) |
+| Data source | `activedirectory_organizational_unit` | [GUID/DN lookup](docs/data-sources/organizational_unit.md) |
+| Data source | `activedirectory_organizational_units` | [Bounded discovery](docs/data-sources/organizational_units.md) |
+| List resource | `activedirectory_organizational_unit` | [Query and import discovery](docs/list-resources/organizational_unit.md) |
+
+OUs retain their GUID through same-domain rename/move. Deletion is nonrecursive and never
+disables protection automatically. Omitted optional properties remain unmanaged; clearing an
+attribute requires explicit `clear_properties` intent. Uncertain writes retain recovery state
+and block further mutations until reconciliation. Actions follow through the approved backlog.
 
 Requirements: Go 1.27.4 for development and Terraform 1.14 or newer for the provider's four service surfaces.
 
@@ -75,7 +87,9 @@ main.go                         Provider process and build version
 internal/provider/              Provider factory and service registrations
 internal/provider/core/         Shared schema and configuration
 internal/client/                Public SDK contracts and session qualification
-examples/provider/              Provider configuration example
+internal/services/              Feature-local resources, data sources and discovery
+examples/                       Secure provider and per-surface Terraform examples
+templates/                      Per-surface documentation templates
 docs/plans/activedirectory-provider/  Approved architecture and implementation backlog
 ```
 

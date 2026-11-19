@@ -16,6 +16,7 @@ import (
 	"github.com/deploymenttheory/go-sdk-activedirectory/activedirectory/shared"
 	"github.com/deploymenttheory/terraform-provider-activedirectory/internal/identity"
 	"github.com/deploymenttheory/terraform-provider-activedirectory/internal/lifecycle"
+	common "github.com/deploymenttheory/terraform-provider-activedirectory/internal/services/common/organizational_units"
 )
 
 // mapState applies usable directory observations while retaining explicitly managed hidden values.
@@ -41,43 +42,29 @@ func mapState(model *OrganizationalUnitResourceModel, unit *organizational_units
 	}
 	ignored := organizational_units.OUProperties{}
 	for _, field := range propertyBindings(model, &ignored) {
-		if field.value.IsNull() {
-			continue
-		}
 		observed := lifecycle.ObserveString(unit.Raw, field.ldap)
 		diagnostics.Append(observed.Diagnostics...)
-		if observed.Usable {
+		switch {
+		case observed.Usable:
 			*field.value = observed.Value
-		} else {
+		case !field.value.IsNull() && !field.value.IsUnknown():
 			diagnostics.AddWarning(
 				"OU property unavailable",
 				"A managed property was hidden, absent or incomplete. Its previous value is retained; omission does not prove a clear.",
 			)
+		default:
+			*field.value = types.StringNull()
 		}
 	}
 	if unit.ProtectedFromAccidentalDeletion != nil {
 		model.ProtectedFromAccidentalDeletion = types.BoolValue(*unit.ProtectedFromAccidentalDeletion)
-	} else {
-		diagnostics.AddError("OU protection unavailable", "Deletion protection could not be observed. Its previous value is retained.")
 	}
 	return diagnostics
 }
 
 // observedParent locates the first unescaped RFC4514 separator after SDK validation, preserving wire spelling.
 func observedParent(dn string) (string, bool) {
-	if _, err := shared.IdentityByDN(dn); err != nil {
-		return "", false
-	}
-	for index := 0; index < len(dn); index++ {
-		if dn[index] == '\\' {
-			index++
-			continue
-		}
-		if dn[index] == ',' {
-			return dn[index+1:], true
-		}
-	}
-	return "", false
+	return common.ParentDN(dn)
 }
 
 // persistState records known identity before returning a failure from later readback/workflow stages.

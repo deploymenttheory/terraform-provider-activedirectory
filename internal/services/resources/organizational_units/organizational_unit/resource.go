@@ -26,6 +26,7 @@ var (
 	_ resource.ResourceWithConfigure   = &OrganizationalUnitResource{}
 	_ resource.ResourceWithImportState = &OrganizationalUnitResource{}
 	_ resource.ResourceWithIdentity    = &OrganizationalUnitResource{}
+	_ resource.ResourceWithModifyPlan  = &OrganizationalUnitResource{}
 )
 
 // OrganizationalUnitResource manages one OU and never recursively deletes child objects.
@@ -67,6 +68,11 @@ func (*OrganizationalUnitResource) Schema(_ context.Context, _ resource.SchemaRe
 		"parent_dn":          schema.StringAttribute{Required: true, Description: "Parent distinguished name. Changes move the OU within its domain."},
 		"distinguished_name": schema.StringAttribute{Computed: true, Description: "Current directory-observed distinguished name."},
 		"recovery_dn":        schema.StringAttribute{Computed: true, Description: "Recovery locator retained when an accepted creation's GUID could not be observed."},
+		"clear_properties": schema.SetAttribute{
+			Optional:    true,
+			ElementType: types.StringType,
+			Description: "Explicit attributes to clear on an existing OU: description, displayName, l, c, st, street, postalCode or managedBy. Omitted properties remain unmanaged.",
+		},
 		"protected_from_accidental_deletion": schema.BoolAttribute{
 			Optional: true, Computed: true, Default: booldefault.StaticBool(true),
 			Description: "Deletion protection, default true. Apply false explicitly before deleting or moving a protected OU. Destroy never disables protection automatically.",
@@ -77,7 +83,11 @@ func (*OrganizationalUnitResource) Schema(_ context.Context, _ resource.SchemaRe
 		"country": "Country code.", "state": "State or province.", "street_address": "Street address.",
 		"postal_code": "Postal code.", "managed_by": "Explicit distinguished name of the managing object.",
 	} {
-		attributes[name] = schema.StringAttribute{Optional: true, Description: description}
+		attributes[name] = schema.StringAttribute{
+			Optional: true, Computed: true,
+			Description:   description + " Omit to retain the directory value; use clear_properties to clear explicitly.",
+			PlanModifiers: []planmodifier.String{stringplanmodifier.UseStateForUnknown()},
+		}
 	}
 	resp.Schema = schema.Schema{
 		Description: "Manages one Active Directory organizational unit using stable GUID identity. Deletion is always nonrecursive.",
@@ -94,7 +104,7 @@ func (*OrganizationalUnitResource) IdentitySchema(_ context.Context, _ resource.
 
 // ImportState accepts a canonicalizable GUID or the equivalent Framework identity object.
 func (*OrganizationalUnitResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
-	if req.Identity != nil {
+	if req.ID == "" && req.Identity != nil {
 		var id types.String
 		resp.Diagnostics.Append(req.Identity.GetAttribute(ctx, path.Root("id"), &id)...)
 		if resp.Diagnostics.HasError() {
