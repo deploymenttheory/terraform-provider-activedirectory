@@ -58,3 +58,19 @@ server builds, fixture identities, process retirement, independently verified
 cleanup and restored VM/Linux baselines. macOS/arm64 build or unit checks are not
 live qualification. Link mutations must never affect privileged groups, policy,
 foreign trusts or directory objects outside the isolated owned root.
+
+## Portable range dependency
+
+Initial Windows/Server2025 run `gm-25-20261119t233630082z` acknowledged the first
+independent fixture link but failed its ranged readback before Terraform applied
+resources. The portable SDK session lacked the reader interface required by
+`GroupMemberLinks`. Process retirement, directory/reader/TLS cleanup and baseline
+restoration verified; the failed receipt and matching source/binary manifests are
+retained unchanged.
+
+[SDK PR219](https://github.com/deploymenttheory/go-sdk-activedirectory/pull/219)
+implements that interface on the existing protected bounded read path. Its public
+service wire regression fails before the patch and passes afterward for plain,
+TTL and partial ranges. The provider pins immutable
+`v0.2.1-0.20261119234403-7470f08ad229`; fixed-pin lab requalification is required.
+No provider-side range workaround is introduced.

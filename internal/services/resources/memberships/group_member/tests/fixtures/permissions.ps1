@@ -88,6 +88,8 @@ function New-ProviderGroupMemberPermissionFixture(
     $native = Get-ADGroup -Server $Server -Identity ([guid]$state.group_guid) -Properties member -ErrorAction Stop
     if (@($native.member).Count -ne 1 -or $native.member[0] -cne $state.member_dn) { throw 'Hidden membership changed during native qualification' }
     $guidFilter = (([guid]$state.group_guid).ToByteArray() | ForEach-Object { '\' + $_.ToString('x2') }) -join ''
+    $state.reader_member_count = @($reader.member).Count
+    $state.admin_member_count = @($native.member).Count
     $state.native_positive_count = @(Get-ADGroup -Server $Server -Credential $ActorCredential -SearchBase $state.group_dn -SearchScope Base -LDAPFilter ('(&(objectGUID=' + $guidFilter + ')(member=' + $state.member_dn + '))') -ErrorAction Stop).Count
     $state.native_negative_count = @(Get-ADGroup -Server $Server -Credential $ActorCredential -SearchBase $state.group_dn -SearchScope Base -LDAPFilter ('(&(objectGUID=' + $guidFilter + ')(!(member=' + $state.member_dn + ')))') -ErrorAction Stop).Count
     $state.phase = 'verified'
