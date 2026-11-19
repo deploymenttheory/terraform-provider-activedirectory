@@ -1,75 +1,78 @@
-# Template
+# Terraform Provider for Active Directory
 
-This repository serves as a **Default Template Repository** according official [GitHub Contributing Guidelines][ProjectSetup] for healthy contributions. It brings you clean default Templates for several areas:
+Terraform Plugin Framework provider for Active Directory Domain Services, built on the
+[Deployment Theory Active Directory SDK](https://github.com/deploymenttheory/go-sdk-activedirectory).
 
-- [Azure DevOps Pull Requests](.azuredevops/PULL_REQUEST_TEMPLATE.md) ([`.azuredevops\PULL_REQUEST_TEMPLATE.md`](`.azuredevops\PULL_REQUEST_TEMPLATE.md`))
-- [Azure Pipelines](.pipelines/pipeline.yml) ([`.pipelines/pipeline.yml`](`.pipelines/pipeline.yml`))
-- [GitHub Workflows](.github/workflows/)
-  - [Super Linter](.github/workflows/linter.yml) ([`.github/workflows/linter.yml`](`.github/workflows/linter.yml`))
-  - [Sample Workflows](.github/workflows/workflow.yml) ([`.github/workflows/workflow.yml`](`.github/workflows/workflow.yml`))
-- [GitHub Pull Requests](.github/PULL_REQUEST_TEMPLATE.md) ([`.github/PULL_REQUEST_TEMPLATE.md`](`.github/PULL_REQUEST_TEMPLATE.md`))
-- [GitHub Issues](.github/ISSUE_TEMPLATE/)
-  - [Feature Requests](.github/ISSUE_TEMPLATE/FEATURE_REQUEST.md) ([`.github/ISSUE_TEMPLATE/FEATURE_REQUEST.md`](`.github/ISSUE_TEMPLATE/FEATURE_REQUEST.md`))
-  - [Bug Reports](.github/ISSUE_TEMPLATE/BUG_REPORT.md) ([`.github/ISSUE_TEMPLATE/BUG_REPORT.md`](`.github/ISSUE_TEMPLATE/BUG_REPORT.md`))
-- [Codeowners](.github/CODEOWNERS) ([`.github/CODEOWNERS`](`.github/CODEOWNERS`)) _adjust usernames once cloned_
-- [Wiki and Documentation](docs/) ([`docs/`](`docs/`))
-- [gitignore](.gitignore) ([`.gitignore`](.gitignore))
-- [gitattributes](.gitattributes) ([`.gitattributes`](.gitattributes))
-- [Changelog](CHANGELOG.md) ([`CHANGELOG.md`](`CHANGELOG.md`))
-- [Code of Conduct](CODE_OF_CONDUCT.md) ([`CODE_OF_CONDUCT.md`](`CODE_OF_CONDUCT.md`))
-- [Contribution](CONTRIBUTING.md) ([`CONTRIBUTING.md`](`CONTRIBUTING.md`))
-- [License](LICENSE) ([`LICENSE`](`LICENSE`)) _adjust projectname once cloned_
-- [Readme](README.md) ([`README.md`](`README.md`))
-- [Security](SECURITY.md) ([`SECURITY.md`](`SECURITY.md`))
+The provider is under development. The current foundation serves Terraform plugin protocol V6;
+directory resources, data sources, list resources and actions are being added through the
+[approved implementation backlog](docs/plans/activedirectory-provider/backlog/INDEX.md).
+The foundation does not connect to Active Directory or manage directory objects.
 
+Requirements: Go 1.27.4 for development and Terraform 1.14 or newer for the provider's four service surfaces.
 
-## Status
+```hcl
+terraform {
+  required_version = ">= 1.14.0"
 
-[![Super Linter](<https://github.com/segraef/Template/actions/workflows/linter.yml/badge.svg>)](<https://github.com/segraef/Template/actions/workflows/linter.yml>)
+  required_providers {
+    activedirectory = {
+      source = "deploymenttheory/activedirectory"
+    }
+  }
+}
 
-[![Sample Workflow](<https://github.com/segraef/Template/actions/workflows/workflow.yml/badge.svg>)](<https://github.com/segraef/Template/actions/workflows/workflow.yml>)
+provider "activedirectory" {}
+```
 
-## Creating a repository from a template
+The provider has not been published to the Terraform Registry. This configuration becomes usable
+after installing a development build; the empty foundation has no authentication settings yet.
+Secure SDK authentication configuration is the next client foundation step.
 
-You can [generate](https://github.com/segraef/Template/generate) a new repository with the same directory structure and files as an existing repository. More details can be found [here][CreateFromTemplate].
+## Development
 
-## Reporting Issues and Feedback
+Run commands from the repository root:
 
-### Issues and Bugs
+```shell
+go mod download
+go test ./...
+go vet ./...
+go build -o bin/terraform-provider-activedirectory .
+golangci-lint run --fix=false
+```
 
-If you find any bugs, please file an issue in the [GitHub Issues][GitHubIssues] page. Please fill out the provided template with the appropriate information.
+The Terraform CLI foundation test runs without a domain controller:
 
-If you are taking the time to mention a problem, even a seemingly minor one, it is greatly appreciated, and a totally valid contribution to this project. **Thank you!**
+```powershell
+$env:TF_ACC = "1"
+$env:TF_ACC_TERRAFORM_PATH = (Get-Command terraform).Source
+go test ./internal/provider -run '^TestAccProviderFoundation$' -count=1
+```
 
-## Feedback
+```shell
+TF_ACC=1 TF_ACC_TERRAFORM_PATH="$(command -v terraform)" \
+  go test ./internal/provider -run '^TestAccProviderFoundation$' -count=1
+```
 
-If there is a feature you would like to see in here, please file an issue or feature request in the [GitHub Issues][GitHubIssues] page to provide direct feedback.
+This verifies Terraform CLI planning and state, alongside the unit tests for protocol V6 schema,
+configuration validation and provider instance isolation. It does not claim directory acceptance.
+Directory feature acceptance will run against the owned lab from Linux and Windows clients on
+Windows Server 2016, 2019, 2022 and 2025 where applicable. macOS receives build and unit coverage.
 
-## Contribution
+## Repository layout
 
-If you would like to become an active contributor to this repository or project, please follow the instructions provided in [`CONTRIBUTING.md`][Contributing].
+```text
+main.go                         Provider process and build version
+internal/provider/              Provider factory and service registrations
+internal/provider/core/         Shared schema and configuration
+examples/provider/              Provider configuration example
+docs/plans/activedirectory-provider/  Approved architecture and implementation backlog
+```
 
-## Learn More
+The architecture follows the
+[Microsoft 365 provider](https://github.com/deploymenttheory/terraform-provider-microsoft365),
+with service implementations added under `internal/services/` and SDK connections owned by
+`internal/client/`. See the [architecture](docs/plans/activedirectory-provider/architecture.md)
+and [implementation sequence](docs/plans/activedirectory-provider/implementation-plan.md).
 
-* [GitHub Documentation][GitHubDocs]
-* [Azure DevOps Documentation][AzureDevOpsDocs]
-* [Microsoft Azure Documentation][MicrosoftAzureDocs]
-
-<!-- References -->
-
-<!-- Local -->
-[ProjectSetup]: <https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions>
-[CreateFromTemplate]: <https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/creating-a-repository-on-github/creating-a-repository-from-a-template>
-[GitHubDocs]: <https://docs.github.com/>
-[AzureDevOpsDocs]: <https://docs.microsoft.com/en-us/azure/devops/?view=azure-devops>
-[GitHubIssues]: <https://github.com/segraef/Template/issues>
-[Contributing]: CONTRIBUTING.md
-
-<!-- External -->
-[Az]: <https://img.shields.io/powershellgallery/v/Az.svg?style=flat-square&label=Az>
-[AzGallery]: <https://www.powershellgallery.com/packages/Az/>
-[PowerShellCore]: <https://github.com/PowerShell/PowerShell/releases/latest>
-
-<!-- Docs -->
-[MicrosoftAzureDocs]: <https://docs.microsoft.com/en-us/azure/>
-[PowerShellDocs]: <https://docs.microsoft.com/en-us/powershell/>
+Report defects through [GitHub issues](https://github.com/deploymenttheory/terraform-provider-activedirectory/issues).
+See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidance.
