@@ -47,6 +47,11 @@ See the [group resource](docs/resources/group.md) for ownership and recovery gui
 The [group acceptance guide](docs/development/group-acceptance.md) describes live lab cases
 and their independently verified cleanup requirements.
 
+Generic object lifecycle, GUID/DN lookup, bounded data sources and list discovery are implemented
+with explicit schema classes and binary-safe raw attribute ownership. See the
+[object resource](docs/resources/object.md) for import and recovery semantics. Live qualification
+of this feature is in progress.
+
 Requirements: Go 1.27.4 for development and Terraform 1.14 or newer for the provider's four service surfaces.
 
 ```hcl

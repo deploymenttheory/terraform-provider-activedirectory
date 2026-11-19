@@ -1,0 +1,28 @@
+---
+page_title: "activedirectory_object List Resource - Active Directory"
+subcategory: "Objects"
+description: |-
+  Discover generic object GUIDs and resource snapshots through explicit bounded searches.
+---
+
+# activedirectory_object (List Resource)
+
+{{ .Description | trimspace }}
+
+{{ tffile "examples/list-resources/activedirectory_object/providers.tf" }}
+
+{{ tffile "examples/list-resources/activedirectory_object/list-resource.tfquery.hcl" }}
+
+{{ tffile "examples/list-resources/activedirectory_object/list-resource_maximal.tfquery.hcl" }}
+
+No object class is inferred. The SDK materializes one bounded search, then the provider
+sorts by GUID and respects cancellation/consumer stop. Terraform's `limit` can lower the
+configured materialization bound. Partial rows precede failure diagnostics; duplicate GUIDs
+never become duplicate import identities. Reaching a bound does not prove search exhaustion.
+
+`properties` selects raw read-only observations. Snapshots use the actual managed resource
+schema and its GUID identity; the instantiated class must be visible for a resource snapshot.
+Generated resources leave raw ownership unset. Add explicit attribute/value ownership only
+after review, or use the managed resource's selected-attribute JSON import form.
+
+{{ .SchemaMarkdown | trimspace }}

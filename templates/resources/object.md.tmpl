@@ -1,0 +1,57 @@
+---
+page_title: "activedirectory_object Resource - Active Directory"
+subcategory: "Objects"
+description: |-
+  Manage an explicitly selected AD DS schema instance and owned raw attributes by GUID.
+---
+
+# activedirectory_object (Resource)
+
+{{ .Description | trimspace }}
+
+{{ tffile "examples/resources/activedirectory_object/providers.tf" }}
+
+{{ tffile "examples/resources/activedirectory_object/resource.tf" }}
+
+{{ tffile "examples/resources/activedirectory_object/resource_maximal.tf" }}
+
+`name` is a literal naming value; the SDK resolves the selected schema class's naming
+attribute. Same-domain rename/move retain the GUID. Selecting a different `object_class` requires
+replacement; class-name casing edits retain identity. Never use typed and generic resources to manage the same GUID/attributes.
+
+`attributes` owns complete value sets only for named attributes. `add_values` and
+`remove_values` own selected value intent while preserving other values. Only a disjoint
+remove/add pair may share an attribute. Omission relinquishes that intent without undoing
+values. An empty set is invalid; one empty base64 string is one zero-length value.
+`clear_attributes` and `remove_values` require an existing or imported object. The server's
+strict LDAP matching/errors remain authoritative, including removing a missing value.
+
+{{ tffile "examples/resources/activedirectory_object/clear-and-remove.tf" }}
+
+Raw values use canonical padded base64, not inferred text/number/DN conversions. Base64
+preserves binary values but does not encrypt Terraform state. Configured intent stays
+separate from `observed_attributes`, `attribute_status` and incomplete `attribute_ranges`.
+An omitted or hidden attribute never proves an independently verified clear.
+
+Accepted schema normalization retains requested intent and actual returned bytes. An
+unchanged acknowledged observation does not issue another write; positively observed
+drift can schedule reconciliation through `needs_update`. Accepted or uncertain failures
+retain identity and a durable recovery checkpoint. No automatic rollback/retry occurs.
+Uncertain removal/clear is not reconciled by a later omitted attribute. Failed creation
+stays blocked because Terraform can taint it; recover the verified existing GUID explicitly.
+Deletion is leaf-only and requires positive same-GUID deletion proof; it never removes a tree.
+
+## Import
+
+Plain GUID and identity imports adopt class/name/location without guessing raw attribute
+ownership. Use JSON string import to adopt explicitly selected visible raw values.
+Selected owned attributes must be present and complete; unavailable values cause a diagnostic.
+`properties` selects extra read-only observations. Import never writes to the directory.
+
+{{ tffile "examples/resources/activedirectory_object/import-by-string-id.tf" }}
+
+{{ tffile "examples/resources/activedirectory_object/import-by-identity.tf" }}
+
+{{ tffile "examples/resources/activedirectory_object/import-selected-attributes.tf" }}
+
+{{ .SchemaMarkdown | trimspace }}
