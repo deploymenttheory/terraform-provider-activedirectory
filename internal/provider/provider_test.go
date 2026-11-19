@@ -46,8 +46,9 @@ func TestProviderProtocolV6(t *testing.T) {
 	if schema.Provider == nil || schema.Provider.Block == nil {
 		t.Fatal("protocol V6 returned no provider schema")
 	}
-	if len(schema.ResourceSchemas) != 0 || len(schema.DataSourceSchemas) != 0 {
-		t.Fatal("empty foundation unexpectedly registered directory services")
+	if schema.ResourceSchemas["activedirectory_organizational_unit"] == nil || schema.DataSourceSchemas["activedirectory_organizational_unit"] == nil ||
+		schema.DataSourceSchemas["activedirectory_organizational_units"] == nil || schema.ListResourceSchemas["activedirectory_organizational_unit"] == nil {
+		t.Fatal("protocol schema omitted an organizational unit surface")
 	}
 
 	metadata, err := server.GetMetadata(ctx, &tfprotov6.GetMetadataRequest{})
@@ -55,9 +56,11 @@ func TestProviderProtocolV6(t *testing.T) {
 		t.Fatalf("get provider metadata: %v", err)
 	}
 	assertNoProtocolErrors(t, metadata.Diagnostics)
-	if len(metadata.Resources) != 0 || len(metadata.DataSources) != 0 || len(metadata.ListResources) != 0 || len(metadata.Actions) != 1 ||
-		metadata.Actions[0].TypeName != "activedirectory_account_unlock" {
-		t.Fatal("provider service metadata does not match its account unlock registration")
+	if len(metadata.Resources) < 1 || len(metadata.DataSources) < 2 || len(metadata.ListResources) < 1 {
+		t.Fatal("protocol metadata omitted registered organizational unit services")
+	}
+	if len(metadata.Actions) != 1 || metadata.Actions[0].TypeName != "activedirectory_account_unlock" {
+		t.Fatal("protocol metadata omitted the registered account unlock action")
 	}
 
 	configType := schema.Provider.ValueType().(tftypes.Object)

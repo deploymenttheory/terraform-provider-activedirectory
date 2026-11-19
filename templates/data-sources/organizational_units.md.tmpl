@@ -1,0 +1,31 @@
+---
+page_title: "activedirectory_organizational_units Data Source"
+subcategory: "Organizational Units"
+description: |-
+  {{ .Description | trimspace }}
+---
+
+# activedirectory_organizational_units
+
+{{ .Description | trimspace }}
+
+Configure verified LDAPS using environment-delivered credentials:
+
+{{ tffile "examples/data-sources/activedirectory_organizational_units/providers.tf" }}
+
+## Minimal example
+
+{{ tffile "examples/data-sources/activedirectory_organizational_units/data-source.tf" }}
+
+## Extended example
+
+{{ tffile "examples/data-sources/activedirectory_organizational_units/data-source_maximal.tf" }}
+
+## Observation semantics
+
+Results are sorted by object GUID. `complete` and `limit_reached` distinguish a completed search
+from caller-bounded retrieval; a bound does not prove additional matches exist. Failed/partial SDK
+reads retain usable observations and report an error. Hidden optional attributes remain null.
+Filters are raw LDAP syntax, scoped to organizational units by the SDK; PowerShell expressions are not parsed.
+
+{{ .SchemaMarkdown | trimspace }}

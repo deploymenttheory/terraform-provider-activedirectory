@@ -10,6 +10,22 @@ The provider is under development. The current foundation serves Terraform plugi
 directory resources, data sources, list resources and actions are being added through the
 [approved implementation backlog](docs/plans/activedirectory-provider/backlog/INDEX.md).
 Provider configuration opens and qualifies a protected AD DS session using SDK v0.2.0.
+Organizational unit lifecycle and discovery passed real Terraform lab acceptance from Windows and
+Linux amd64 against Windows Server 2016, 2019, 2022 and 2025. The 32 cases cover CRUD, rename/move,
+GUID/identity import, generated configuration, data/list discovery, explicit clearing, protected
+and nonempty deletion, denied writes and hidden attributes. Owned fixture cleanup was verified.
+
+| Surface | Type | Documentation |
+| --- | --- | --- |
+| Resource | `activedirectory_organizational_unit` | [Lifecycle, protection and import](docs/resources/organizational_unit.md) |
+| Data source | `activedirectory_organizational_unit` | [GUID/DN lookup](docs/data-sources/organizational_unit.md) |
+| Data source | `activedirectory_organizational_units` | [Bounded discovery](docs/data-sources/organizational_units.md) |
+| List resource | `activedirectory_organizational_unit` | [Query and import discovery](docs/list-resources/organizational_unit.md) |
+
+OUs retain their GUID through same-domain rename/move. Deletion is nonrecursive and never
+disables protection automatically. Omitted optional properties remain unmanaged; clearing an
+attribute requires explicit `clear_properties` intent. Uncertain writes retain recovery state
+and block further mutations until reconciliation.
 
 The `activedirectory_account_unlock` action includes unit tests, examples and
 [generated documentation](docs/actions/account_unlock.md). Actual Terraform acceptance passed from
@@ -17,8 +33,6 @@ Windows/Linux amd64 against Server 2016, 2019, 2022 and 2025, including target r
 explicit recovery, retained disabled status and independently verified fixture/policy cleanup.
 It selects an account by GUID on an explicitly acknowledged DC and never enables a disabled
 account or retries a failed or uncertain unlock automatically.
-Directory service implementations are being added separately.
-
 Requirements: Go 1.27.4 for development and Terraform 1.14 or newer for the provider's four service surfaces.
 
 ```hcl
@@ -72,8 +86,10 @@ TF_ACC=1 TF_ACC_TERRAFORM_PATH="$(command -v terraform)" \
 
 This verifies Terraform CLI planning and state, alongside the unit tests for protocol V6 schema,
 configuration validation and provider instance isolation. It does not claim directory acceptance.
-Directory feature acceptance will run against the owned lab from Linux and Windows clients on
-Windows Server 2016, 2019, 2022 and 2025 where applicable. macOS receives build and unit coverage.
+OU feature acceptance runs against the owned lab from Linux and Windows clients on Windows Server
+2016, 2019, 2022 and 2025. See the [OU acceptance guide](docs/development/organizational-unit-acceptance.md)
+for fixtures, cases and cleanup. Each subsequent feature needs its own applicable qualification.
+macOS receives build and unit coverage.
 
 ## Repository layout
 
@@ -82,7 +98,9 @@ main.go                         Provider process and build version
 internal/provider/              Provider factory and service registrations
 internal/provider/core/         Shared schema and configuration
 internal/client/                Public SDK contracts and session qualification
-examples/provider/              Provider configuration example
+internal/services/              Feature-local resources, data sources and discovery
+examples/                       Secure provider and per-surface Terraform examples
+templates/                      Per-surface documentation templates
 docs/plans/activedirectory-provider/  Approved architecture and implementation backlog
 ```
 
