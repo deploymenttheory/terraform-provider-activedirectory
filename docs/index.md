@@ -1,0 +1,157 @@
+---
+page_title: "Active Directory Provider"
+subcategory: ""
+description: |-
+  Manage Active Directory Domain Services using the Deployment Theory Active Directory provider.
+---
+
+# Active Directory Provider
+
+Manage Active Directory Domain Services through one explicitly protected SDK session. Credentials are provider configuration and are never stored in resource state. No authentication or transport fallback is performed.
+
+Requires Terraform 1.14 or newer. The provider runs directly on Linux, Windows and macOS.
+Portable authentication supports verified LDAPS/StartTLS simple bind, Kerberos over TLS with
+certificate-derived channel binding, and Kerberos LDAP signing/sealing. The provider checks
+actual negotiated protection and AD DS capabilities before publishing its shared SDK client.
+Channel-binding emission does not claim the server acknowledged checking it.
+
+## Example usage
+
+```terraform
+terraform {
+  required_version = ">= 1.14.0"
+
+  required_providers {
+    activedirectory = {
+      source = "deploymenttheory/activedirectory"
+    }
+  }
+}
+
+# Supply AD_USERNAME and AD_PASSWORD through your secret manager or process environment.
+# TLS uses system trust. For a private CA, set ca_cert_pem = file("/path/to/ca.pem").
+provider "activedirectory" {
+  host        = "dc.example.test"
+  auth_method = "simple"
+  transport   = "ldaps"
+}
+```
+
+## Kerberos over verified TLS
+
+```terraform
+terraform {
+  required_version = ">= 1.14.0"
+  required_providers {
+    activedirectory = { source = "deploymenttheory/activedirectory" }
+  }
+}
+
+variable "directory_password" {
+  type      = string
+  sensitive = true
+  ephemeral = true
+}
+
+provider "activedirectory" {
+  backend                    = "portable"
+  host                       = "dc.example.test"
+  partition                  = "DC=example,DC=test"
+  auth_method                = "kerberos"
+  transport                  = "ldaps"
+  username                   = "terraform-service"
+  password                   = var.directory_password
+  kerberos_realm             = "EXAMPLE.TEST"
+  kerberos_spn               = "ldap/dc.example.test"
+  kerberos_credential_source = "password"
+  timeout_seconds            = 30
+}
+```
+
+## Kerberos with SASL sealing
+
+```terraform
+terraform {
+  required_version = ">= 1.14.0"
+  required_providers {
+    activedirectory = { source = "deploymenttheory/activedirectory" }
+  }
+}
+
+# The keytab is caller-owned and must be protected on the Terraform execution host.
+# Use sasl_protection = "sign" when integrity without confidentiality is explicitly intended.
+provider "activedirectory" {
+  backend                    = "portable"
+  host                       = "dc.example.test"
+  auth_method                = "kerberos"
+  transport                  = "ldap"
+  sasl_protection            = "seal"
+  username                   = "terraform-service"
+  kerberos_realm             = "EXAMPLE.TEST"
+  kerberos_spn               = "ldap/dc.example.test"
+  kerberos_credential_source = "keytab"
+  kerberos_keytab_file       = "/run/secrets/terraform.keytab"
+}
+```
+
+## Kerberos with an explicit credential cache
+
+```terraform
+terraform {
+  required_version = ">= 1.14.0"
+  required_providers {
+    activedirectory = { source = "deploymenttheory/activedirectory" }
+  }
+}
+
+# Supply a valid caller-owned cache. The provider never looks up an ambient cache.
+provider "activedirectory" {
+  backend                        = "portable"
+  host                           = "dc.example.test"
+  auth_method                    = "kerberos"
+  transport                      = "starttls"
+  username                       = "terraform-service"
+  kerberos_realm                 = "EXAMPLE.TEST"
+  kerberos_spn                   = "ldap/dc.example.test"
+  kerberos_credential_source     = "credential_cache"
+  kerberos_credential_cache_file = "/run/secrets/terraform.ccache"
+}
+```
+
+Provider credentials are never resource attributes. Prefer process environment variables from
+your secret manager, or ephemeral sensitive Terraform variables, as illustrated above. Explicit
+configuration takes precedence over environment variables; unknown values do not use environment
+fallbacks. Empty environment variables use documented defaults. No credentials are retried with
+another mechanism, source or transport. The provider does not support skipping TLS verification.
+
+The native backend is opt-in and available only on supported Windows hosts. Native Negotiate
+may use the current Windows identity only when explicitly selected and no credentials are supplied.
+Private CA roots supplied through `ca_cert_pem` require the portable backend.
+
+One SDK session is shared by this provider instance's resources, data sources, list resources
+and actions. SDK calls serialize session access and use bounded operation contexts. Configure
+RPC completion leaves the session available for later operations; provider stop and explicit
+test cleanup close it. Different provider aliases receive independent clients.
+
+<!-- schema generated by tfplugindocs -->
+## Schema
+
+### Optional
+
+- `auth_method` (String) Explicit authentication: kerberos or simple; negotiate is available only with backend = native. May be set with AD_AUTH_METHOD.
+- `backend` (String) SDK backend: portable (default) or native. Native is available only on supported Windows hosts.
+- `ca_cert_pem` (String) PEM CA certificates added to system trust for portable TLS. Certificate and hostname verification are mandatory. May be set with AD_CA_CERT_PEM.
+- `domain` (String) Domain for explicit native Negotiate credentials. Omit for simple bind and Kerberos.
+- `host` (String) LDAP server FQDN or IP address, without a URL scheme or port. May be set with AD_HOST.
+- `kerberos_credential_cache_file` (String, Sensitive) Caller-owned credential cache path. No ambient cache lookup. May be set with AD_KERBEROS_CREDENTIAL_CACHE_FILE.
+- `kerberos_credential_source` (String) Explicit Kerberos credential source: password, keytab or credential_cache. May be set with AD_KERBEROS_CREDENTIAL_SOURCE.
+- `kerberos_keytab_file` (String, Sensitive) Caller-owned keytab path for the keytab credential source. May be set with AD_KERBEROS_KEYTAB_FILE.
+- `kerberos_realm` (String) Explicit Kerberos DNS realm. May be set with AD_KERBEROS_REALM.
+- `kerberos_spn` (String) Explicit service identity ldap/<endpoint-FQDN>. May be set with AD_KERBEROS_SPN.
+- `partition` (String) Explicit naming context DN. Otherwise the SDK uses the server's default naming context. May be set with AD_PARTITION.
+- `password` (String, Sensitive) Password for simple bind, explicit native Negotiate, or Kerberos password authentication. May be set with AD_PASSWORD.
+- `port` (Number) LDAP port. Defaults to 636 for LDAPS and 389 for LDAP/StartTLS.
+- `sasl_protection` (String) Kerberos LDAP traffic protection: sign or seal (default). Over TLS use none or omit. May be set with AD_SASL_PROTECTION.
+- `timeout_seconds` (Number) Operation timeout in seconds, from 1 to 2147483647. Defaults to 30.
+- `transport` (String) Transport: ldaps (default), starttls or ldap. LDAP requires Kerberos signing/sealing. May be set with AD_TRANSPORT.
+- `username` (String, Sensitive) Explicit bind name or Kerberos principal name without the realm suffix. May be set with AD_USERNAME.
