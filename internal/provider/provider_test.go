@@ -50,6 +50,10 @@ func TestProviderProtocolV6(t *testing.T) {
 		schema.DataSourceSchemas["activedirectory_organizational_units"] == nil || schema.ListResourceSchemas["activedirectory_organizational_unit"] == nil {
 		t.Fatal("protocol schema omitted an organizational unit surface")
 	}
+	if schema.ResourceSchemas["activedirectory_user"] == nil || schema.DataSourceSchemas["activedirectory_user"] == nil ||
+		schema.DataSourceSchemas["activedirectory_users"] == nil || schema.ListResourceSchemas["activedirectory_user"] == nil {
+		t.Fatal("user lifecycle and discovery schemas were not registered")
+	}
 	if schema.ResourceSchemas["activedirectory_group"] == nil || schema.DataSourceSchemas["activedirectory_group"] == nil ||
 		schema.DataSourceSchemas["activedirectory_groups"] == nil || schema.ListResourceSchemas["activedirectory_group"] == nil {
 		t.Fatal("production group resource and data-source registrations did not match their schemas")
@@ -60,7 +64,7 @@ func TestProviderProtocolV6(t *testing.T) {
 		t.Fatalf("get provider metadata: %v", err)
 	}
 	assertNoProtocolErrors(t, metadata.Diagnostics)
-	if len(metadata.Resources) < 2 || len(metadata.DataSources) < 4 || len(metadata.ListResources) < 2 {
+	if len(metadata.Resources) < 3 || len(metadata.DataSources) < 6 || len(metadata.ListResources) < 3 {
 		t.Fatal("protocol metadata omitted registered directory services")
 	}
 	if len(metadata.Actions) != 1 || metadata.Actions[0].TypeName != "activedirectory_account_unlock" {

@@ -3,7 +3,7 @@ module github.com/deploymenttheory/terraform-provider-activedirectory
 go 1.27.4
 
 require (
-	github.com/deploymenttheory/go-sdk-activedirectory v0.2.0
+	github.com/deploymenttheory/go-sdk-activedirectory v0.2.1-0.20261119140358-7dbf8c8efdad
 	github.com/hashicorp/terraform-plugin-framework v1.19.0
 	github.com/hashicorp/terraform-plugin-go v0.31.0
 	github.com/hashicorp/terraform-plugin-log v0.11.0

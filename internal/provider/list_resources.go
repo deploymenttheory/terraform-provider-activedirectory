@@ -9,13 +9,18 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/list"
 	"github.com/hashicorp/terraform-plugin-framework/provider"
 
-	"github.com/deploymenttheory/terraform-provider-activedirectory/internal/services/list-resources/groups/group"
+	group "github.com/deploymenttheory/terraform-provider-activedirectory/internal/services/list-resources/groups/group"
 	organizationalUnit "github.com/deploymenttheory/terraform-provider-activedirectory/internal/services/list-resources/organizational_units/organizational_unit"
+	user "github.com/deploymenttheory/terraform-provider-activedirectory/internal/services/list-resources/users/user"
 )
 
 var _ provider.ProviderWithListResources = &ActiveDirectoryProvider{}
 
-// ListResources explicitly registers discovery services for Terraform query and import workflows.
+// ListResources explicitly registers the included directory list-resources on the production provider.
 func (p *ActiveDirectoryProvider) ListResources(_ context.Context) []func() list.ListResource {
-	return []func() list.ListResource{organizationalUnit.NewOrganizationalUnitListResource, group.NewGroupListResource}
+	return []func() list.ListResource{
+		organizationalUnit.NewOrganizationalUnitListResource,
+		user.NewUserListResource,
+		group.NewGroupListResource,
+	}
 }

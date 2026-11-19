@@ -8,11 +8,16 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 
-	"github.com/deploymenttheory/terraform-provider-activedirectory/internal/services/resources/groups/group"
+	group "github.com/deploymenttheory/terraform-provider-activedirectory/internal/services/resources/groups/group"
 	organizationalUnit "github.com/deploymenttheory/terraform-provider-activedirectory/internal/services/resources/organizational_units/organizational_unit"
+	user "github.com/deploymenttheory/terraform-provider-activedirectory/internal/services/resources/users/user"
 )
 
-// Resources explicitly registers the managed resources included in the production provider.
+// Resources explicitly registers the included directory resources on the production provider.
 func (p *ActiveDirectoryProvider) Resources(_ context.Context) []func() resource.Resource {
-	return []func() resource.Resource{organizationalUnit.NewOrganizationalUnitResource, group.NewGroupResource}
+	return []func() resource.Resource{
+		organizationalUnit.NewOrganizationalUnitResource,
+		user.NewUserResource,
+		group.NewGroupResource,
+	}
 }
