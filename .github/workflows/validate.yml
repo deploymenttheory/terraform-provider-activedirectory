@@ -7,6 +7,7 @@ on:
       - 'go.mod'
       - 'go.sum'
       - 'examples/**'
+      - 'scripts/**'
       - '.github/workflows/validate.yml'
   push:
     branches: [main]
@@ -38,7 +39,8 @@ jobs:
       - name: Verify dependencies
         run: go mod download && go mod verify
       - name: Unit tests
-        run: go test -mod=readonly ./...
+        shell: bash
+        run: bash ./scripts/run-unit.sh
       - name: Vet
         run: go vet -mod=readonly ./...
       - name: Check dependency files

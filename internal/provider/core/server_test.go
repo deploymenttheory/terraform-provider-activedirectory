@@ -11,7 +11,7 @@ import (
 	frameworkprovider "github.com/hashicorp/terraform-plugin-framework/provider"
 	"github.com/hashicorp/terraform-plugin-go/tfprotov6"
 
-	"github.com/deploymenttheory/terraform-provider-activedirectory/internal/provider"
+	provider "github.com/deploymenttheory/terraform-provider-activedirectory/internal/provider/core"
 )
 
 type managedFixture struct {
