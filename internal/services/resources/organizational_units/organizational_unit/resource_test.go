@@ -21,6 +21,30 @@ const fixtureGUID = "a3e9767a-200e-43dd-bb1d-e5ab400e5d6f"
 
 var errPrivateFixture = errors.New("private-fixture-password")
 
+func TestMutationRetainsDNWhenReadbackBelongsToAnotherGUID(t *testing.T) {
+	guid, _ := shared.ParseGUID(fixtureGUID)
+	other, _ := shared.ParseGUID("4cdd7c9a-d7bc-4c87-a45d-926c57b6358b")
+	before := "OU=original,DC=unit,DC=invalid"
+	after := "OU=renamed,DC=unit,DC=invalid"
+	for _, observed := range []shared.GUID{other, guid} {
+		model := minimalModel()
+		model.ID = types.StringValue(fixtureGUID)
+		model.DistinguishedName = types.StringValue(before)
+		result := shared.ObjectMutationResult{
+			State: shared.ObjectWriteAccepted, TargetGUID: &guid, Verified: true,
+			After: &shared.Object{DistinguishedName: after, Attributes: map[string][][]byte{"objectguid": {observed.Bytes()}}},
+		}
+		diagnostics := recordMutation(&model, result, nil)
+		if observed == other {
+			if !diagnostics.HasError() || model.ID.ValueString() != fixtureGUID || model.DistinguishedName.ValueString() != before {
+				t.Fatal("contradictory readback replaced the stored GUID or DN")
+			}
+		} else if diagnostics.HasError() || model.DistinguishedName.ValueString() != after {
+			t.Fatal("same-GUID mutation observation was discarded")
+		}
+	}
+}
+
 func TestCreateRetainsAcceptedIdentityAndDoesNotReplayAfterProtectionFailure(t *testing.T) {
 	guid, err := shared.ParseGUID(fixtureGUID)
 	if err != nil {

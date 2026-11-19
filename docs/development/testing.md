@@ -58,3 +58,6 @@ GUID/marker checks; the shared helper does not infer object ownership or replay 
 Successful teardown calls alone are not proof of cleanup. Retain the verification failure and
 reconcile accepted or uncertain effects before another mutation. Historical failure records
 remain unchanged. Summarize validation in implementation PRs; keep bulk lab logs local.
+
+See [OU acceptance](organizational-unit-acceptance.md) for the first feature's owned directory,
+ordinary-reader permission fixtures, real Terraform cases and independent cleanup sequence.

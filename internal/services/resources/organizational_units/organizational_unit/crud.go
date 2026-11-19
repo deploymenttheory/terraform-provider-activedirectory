@@ -296,7 +296,11 @@ func recordMutation(state *OrganizationalUnitResourceModel, result shared.Object
 	outcome := lifecycle.ObserveMutation(state.ID, result, err)
 	state.ID = outcome.ID
 	if result.After != nil && result.After.DistinguishedName != "" {
-		state.DistinguishedName = types.StringValue(result.After.DistinguishedName)
+		value, valueErr := result.After.Values("objectGUID").Single()
+		guid, guidErr := value.GUID()
+		if _, validDN := observedParent(result.After.DistinguishedName); valueErr == nil && guidErr == nil && validDN && guid.String() == state.ID.ValueString() {
+			state.DistinguishedName = types.StringValue(result.After.DistinguishedName)
+		}
 	}
 	return outcome.Diagnostics
 }
