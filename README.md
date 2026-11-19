@@ -25,8 +25,14 @@ and nonempty deletion, denied writes and hidden attributes. Owned fixture cleanu
 OUs retain their GUID through same-domain rename/move. Deletion is nonrecursive and never
 disables protection automatically. Omitted optional properties remain unmanaged; clearing an
 attribute requires explicit `clear_properties` intent. Uncertain writes retain recovery state
-and block further mutations until reconciliation. Actions follow through the approved backlog.
+and block further mutations until reconciliation.
 
+The `activedirectory_account_unlock` action includes unit tests, examples and
+[generated documentation](docs/actions/account_unlock.md). Actual Terraform acceptance passed from
+Windows/Linux amd64 against Server 2016, 2019, 2022 and 2025, including target refusal, denied writes,
+explicit recovery, retained disabled status and independently verified fixture/policy cleanup.
+It selects an account by GUID on an explicitly acknowledged DC and never enables a disabled
+account or retries a failed or uncertain unlock automatically.
 Requirements: Go 1.27.4 for development and Terraform 1.14 or newer for the provider's four service surfaces.
 
 ```hcl
