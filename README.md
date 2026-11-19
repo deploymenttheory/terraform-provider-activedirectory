@@ -40,7 +40,7 @@ Run commands from the repository root:
 
 ```shell
 go mod download
-go test ./...
+pwsh ./scripts/run-unit.ps1
 go vet ./...
 go build -o bin/terraform-provider-activedirectory .
 golangci-lint run --fix=false
@@ -85,6 +85,8 @@ See [provider registrations](docs/development/provider-registrations.md) for pro
 lists and the isolated factory pattern used by feature tests.
 The [client acceptance guide](docs/development/client-acceptance.md) describes the real Terraform
 connection probe and its lab-only environment variables.
+See [testing](docs/development/testing.md) for feature-local SDK mocks, isolated Terraform factories,
+the Linux unit command and explicit live-lab authorization/cleanup requirements.
 
 Report defects through [GitHub issues](https://github.com/deploymenttheory/terraform-provider-activedirectory/issues).
 See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidance.

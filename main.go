@@ -17,6 +17,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
 	"github.com/deploymenttheory/terraform-provider-activedirectory/internal/provider"
+	providercore "github.com/deploymenttheory/terraform-provider-activedirectory/internal/provider/core"
 )
 
 var (
@@ -54,7 +55,7 @@ func serve(debug bool) error {
 		options = append(options, tf6server.WithManagedDebug())
 	}
 	err := tf6server.Serve("registry.terraform.io/deploymenttheory/activedirectory", func() tfprotov6.ProviderServer {
-		return provider.NewProtocol6Server(instance)
+		return providercore.NewProtocol6Server(instance)
 	}, options...)
 	if err != nil {
 		return fmt.Errorf("serve Active Directory protocol V6: %w", err)

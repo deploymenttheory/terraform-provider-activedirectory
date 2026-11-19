@@ -16,12 +16,15 @@ $env:AD_HOST = "adsdk25dc1.ad.sdk.test"
 $env:AD_AUTH_METHOD = "simple"
 $env:AD_TRANSPORT = "ldaps"
 # Supply AD_USERNAME, AD_PASSWORD and AD_CA_CERT_PEM through the lab's secret delivery.
-go test ./internal/provider/core -run '^TestAccProviderLabConnection$' -count=1 -timeout=10m
+./scripts/run-acceptance.ps1 -AuthorizeLab -Target $env:AD_HOST -ServerVersion 2025 `
+  -RunId tfad-client-2025-001 -Partition 'DC=ad,DC=sdk,DC=test'
 ```
 
 ```shell
-TF_ACC=1 TF_ACC_AD_LAB=1 TF_ACC_TERRAFORM_PATH="$(command -v terraform)" \
-  go test ./internal/provider/core -run '^TestAccProviderLabConnection$' -count=1 -timeout=10m
+TF_ACC=1 AD_ACCEPTANCE_AUTHORIZED=1 TF_ACC_TERRAFORM_PATH="$(command -v terraform)" \
+  AD_ACCEPTANCE_HOSTS="$AD_HOST" AD_ACCEPTANCE_PARTITION='DC=ad,DC=sdk,DC=test' \
+  AD_ACCEPTANCE_SERVER_VERSION=2025 AD_ACCEPTANCE_RUN_ID=tfad-client-2025-001 \
+  bash ./scripts/run-acceptance.sh
 ```
 
 Both commands execute Terraform CLI. The probe expects `DC=ad,DC=sdk,DC=test` and the exact

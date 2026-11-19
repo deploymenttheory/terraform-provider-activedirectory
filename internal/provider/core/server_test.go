@@ -11,8 +11,10 @@ import (
 	frameworkprovider "github.com/hashicorp/terraform-plugin-framework/provider"
 	"github.com/hashicorp/terraform-plugin-go/tfprotov6"
 
-	"github.com/deploymenttheory/terraform-provider-activedirectory/internal/provider"
+	provider "github.com/deploymenttheory/terraform-provider-activedirectory/internal/provider/core"
 )
+
+var errPrivateCleanup = errors.New("private peer cleanup response")
 
 type managedFixture struct {
 	frameworkprovider.Provider
@@ -27,7 +29,7 @@ func TestProtocolStopClosesClientsAndRedactsCleanupErrors(t *testing.T) {
 	for _, failure := range []bool{false, true} {
 		p := &managedFixture{}
 		if failure {
-			p.err = errors.New("private peer cleanup response")
+			p.err = errPrivateCleanup
 		}
 		server := provider.NewProtocol6Server(p)
 		response, err := server.StopProvider(context.Background(), &tfprotov6.StopProviderRequest{})
@@ -40,5 +42,17 @@ func TestProtocolStopClosesClientsAndRedactsCleanupErrors(t *testing.T) {
 		if !failure && response.Error != "" {
 			t.Fatal("successful cleanup returned an error")
 		}
+	}
+}
+
+func TestShutdownAdapterPreservesListAndActionRPCs(t *testing.T) {
+	t.Parallel()
+	p := provider.NewWithRegistry("test", provider.Registry{})
+	server := provider.NewProtocol6Server(p)
+	if _, ok := server.(tfprotov6.ProviderServerWithListResource); !ok {
+		t.Error("shutdown adapter erased list-resource RPCs")
+	}
+	if _, ok := server.(tfprotov6.ProviderServerWithActions); !ok {
+		t.Error("shutdown adapter erased action RPCs")
 	}
 }

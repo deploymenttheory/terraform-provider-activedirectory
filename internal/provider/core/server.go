@@ -21,17 +21,26 @@ type ManagedProvider interface {
 // NewProtocol6Server serves the Framework provider with explicit client cleanup on StopProvider.
 // Feature test factories use this adapter so in-process acceptance sessions are closed too.
 func NewProtocol6Server(p ManagedProvider) tfprotov6.ProviderServer {
-	return &protocol6Server{ProviderServer: providerserver.NewProtocol6(p)(), provider: p}
+	server := providerserver.NewProtocol6(p)()
+	return &protocol6Server{frameworkProtocol6Server: server.(frameworkProtocol6Server), provider: p}
+}
+
+// frameworkProtocol6Server retains all four Framework surfaces while the adapter overrides only shutdown.
+// The pinned Framework implementation supplies these optional interfaces even when no services are registered.
+type frameworkProtocol6Server interface {
+	tfprotov6.ProviderServer
+	tfprotov6.ListResourceServer
+	tfprotov6.ActionServer
 }
 
 type protocol6Server struct {
-	tfprotov6.ProviderServer
+	frameworkProtocol6Server
 	provider ManagedProvider
 }
 
 // StopProvider cancels Framework operations before retiring the shared SDK session.
 func (s *protocol6Server) StopProvider(ctx context.Context, req *tfprotov6.StopProviderRequest) (*tfprotov6.StopProviderResponse, error) {
-	response, err := s.ProviderServer.StopProvider(ctx, req)
+	response, err := s.frameworkProtocol6Server.StopProvider(ctx, req)
 	if closeErr := s.provider.Close(); closeErr != nil {
 		if response == nil {
 			response = &tfprotov6.StopProviderResponse{}

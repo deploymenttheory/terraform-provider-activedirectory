@@ -17,8 +17,8 @@ import (
 
 	"github.com/deploymenttheory/go-sdk-activedirectory/activedirectory/config"
 	"github.com/deploymenttheory/go-sdk-activedirectory/activedirectory/shared"
+	"github.com/deploymenttheory/terraform-provider-activedirectory/internal/acceptance"
 	"github.com/deploymenttheory/terraform-provider-activedirectory/internal/client"
-	providerwrapper "github.com/deploymenttheory/terraform-provider-activedirectory/internal/provider"
 	providercore "github.com/deploymenttheory/terraform-provider-activedirectory/internal/provider/core"
 )
 
@@ -28,9 +28,7 @@ func TestAccProviderLabConnection(t *testing.T) {
 	if os.Getenv("TF_ACC_AD_LAB") != "1" {
 		t.Skip("set TF_ACC=1 and TF_ACC_AD_LAB=1 to run against the explicitly configured lab")
 	}
-	if os.Getenv("AD_HOST") == "" || os.Getenv("AD_AUTH_METHOD") == "" {
-		t.Fatal("live acceptance requires explicit AD_HOST and AD_AUTH_METHOD")
-	}
+	target := acceptance.PreCheck(t)
 	t.Chdir(t.TempDir())
 	t.Setenv(resource.EnvTfAccProviderNamespace, "deploymenttheory")
 	resource.Test(t, resource.TestCase{
@@ -44,7 +42,7 @@ func TestAccProviderLabConnection(t *testing.T) {
 						t.Error("close acceptance directory client")
 					}
 				})
-				return providerwrapper.NewProtocol6Server(p), nil
+				return providercore.NewProtocol6Server(p), nil
 			},
 		},
 		Steps: []resource.TestStep{{
@@ -59,8 +57,8 @@ provider "activedirectory" {}
 data "activedirectory_connection_probe" "lab" {}
 `,
 			Check: resource.ComposeAggregateTestCheckFunc(
-				resource.TestCheckResourceAttr("data.activedirectory_connection_probe.lab", "server_host", strings.ToLower(os.Getenv("AD_HOST"))),
-				resource.TestCheckResourceAttr("data.activedirectory_connection_probe.lab", "partition", "DC=ad,DC=sdk,DC=test"),
+				resource.TestCheckResourceAttr("data.activedirectory_connection_probe.lab", "server_host", strings.ToLower(target.Host)),
+				resource.TestCheckResourceAttr("data.activedirectory_connection_probe.lab", "partition", target.Partition),
 				resource.TestCheckResourceAttr("data.activedirectory_connection_probe.lab", "protected", "true"),
 			),
 		}},
