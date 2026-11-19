@@ -1,0 +1,7 @@
+{
+  "guid": "dc93656c-f745-4926-9bbb-31e7bbecb68b",
+  "distinguishedName": "CN=Account,OU=owned,DC=unit,DC=invalid",
+  "enabled": false,
+  "accountExpires": 0,
+  "passwordLastSet": 133000000000000000
+}

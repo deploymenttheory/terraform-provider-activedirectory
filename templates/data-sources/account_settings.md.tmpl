@@ -1,0 +1,34 @@
+---
+page_title: "activedirectory_account_settings Data Source - Active Directory"
+subcategory: "Accounts"
+description: |-
+  Read account-control, expiration and computed account state without owning settings.
+---
+
+# activedirectory_account_settings (Data Source)
+
+{{ .Description | trimspace }}
+
+## Provider configuration
+
+{{ tffile "examples/data-sources/activedirectory_account_settings/providers.tf" }}
+
+## GUID lookup
+
+{{ tffile "examples/data-sources/activedirectory_account_settings/data-source.tf" }}
+
+## DN lookup and status
+
+{{ tffile "examples/data-sources/activedirectory_account_settings/data-source_maximal.tf" }}
+
+Supply exactly one of `object_guid` or `dn`. After resolving the first lookup, the SDK
+expiration read is pinned to that account's GUID. Both complete unique identity observations
+must agree; incomplete or contradictory identity results emit no usable snapshot.
+
+Missing/hidden fields remain null rather than false or zero. `locked_out` and
+`password_expired` reflect the selected DC's computed state, not forest-wide convergence.
+`password_last_set` and `account_expires` are exact FILETIME outputs. `never_expires` is true
+for either documented native never-expire representation; `expires_at` is a finite UTC
+instant or null. This reads no password material, performs no login probe and changes nothing.
+
+{{ .SchemaMarkdown | trimspace }}

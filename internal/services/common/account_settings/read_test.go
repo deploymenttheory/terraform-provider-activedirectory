@@ -38,8 +38,11 @@ func TestReadPinsSubsequentObservationToResolvedGUID(t *testing.T) {
 	t.Parallel()
 	raw := observation(t, "dc93656c-f745-4926-9bbb-31e7bbecb68b")
 	service := &readFixture{
-		control:    accounts.AccountControlResult{Account: &accounts.AccountControlState{Raw: raw, DistinguishedName: raw.DistinguishedName}},
-		expiration: accounts.AccountExpirationResult{Expiration: &accounts.AccountExpiration{Raw: raw}},
+		control: accounts.AccountControlResult{
+			Account:     &accounts.AccountControlState{Raw: raw, DistinguishedName: raw.DistinguishedName},
+			Observation: shared.IdentityResult{Object: &raw, Complete: true},
+		},
+		expiration: accounts.AccountExpirationResult{Expiration: &accounts.AccountExpiration{Raw: raw}, Observation: shared.IdentityResult{Object: &raw, Complete: true}},
 	}
 	target, err := shared.IdentityByDN(raw.DistinguishedName)
 	if err != nil {
@@ -92,5 +95,22 @@ func TestReadAbsenceRejectsPositiveOrMixedObservations(t *testing.T) {
 		if err == nil || result.ConfirmedAbsent != row.absent || service.expirationCalls != 0 {
 			t.Fatal("contradictory account data or errors authorized state removal")
 		}
+	}
+}
+
+// TestReadRejectsIncompleteIdentityEvenWithTypedMetadata prevents a partial SDK lookup from proving writable account state.
+func TestReadRejectsIncompleteIdentityEvenWithTypedMetadata(t *testing.T) {
+	raw := observation(t, "dc93656c-f745-4926-9bbb-31e7bbecb68b")
+	target, _ := shared.IdentityByGUID("dc93656c-f745-4926-9bbb-31e7bbecb68b")
+	service := &readFixture{
+		control: accounts.AccountControlResult{
+			Account:     &accounts.AccountControlState{Raw: raw, DistinguishedName: raw.DistinguishedName},
+			Observation: shared.IdentityResult{Object: &raw},
+		},
+		expiration: accounts.AccountExpirationResult{Expiration: &accounts.AccountExpiration{Raw: raw}, Observation: shared.IdentityResult{Object: &raw, Complete: true}},
+	}
+	result, err := Read(t.Context(), service, target)
+	if err == nil || result.Values != nil || service.expirationCalls != 0 {
+		t.Fatal("incomplete identity metadata became usable state or authorized another phase")
 	}
 }

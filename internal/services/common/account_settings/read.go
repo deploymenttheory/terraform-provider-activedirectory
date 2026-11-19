@@ -40,7 +40,7 @@ func Read(ctx context.Context, service client.AccountSettings, target shared.Ide
 		result.ConfirmedAbsent = result.Control.Account == nil && lifecycle.ConfirmedAbsent(result.Control.Observation, err)
 		return result, fmt.Errorf("read account settings: %w", err)
 	}
-	if result.Control.Account == nil {
+	if result.Control.Account == nil || !completeIdentity(result.Control.Observation, result.Control.Account.Raw) {
 		return result, ErrObservation
 	}
 	value, err := result.Control.Account.Raw.Values("objectGUID").Single()
@@ -59,7 +59,7 @@ func Read(ctx context.Context, service client.AccountSettings, target shared.Ide
 	if err != nil {
 		return result, fmt.Errorf("read account settings: %w", err)
 	}
-	if result.Expiration.Expiration == nil {
+	if result.Expiration.Expiration == nil || !completeIdentity(result.Expiration.Observation, result.Expiration.Expiration.Raw) {
 		return result, ErrObservation
 	}
 	result.Values, result.Diagnostics = Project(*result.Control.Account, *result.Expiration.Expiration)
@@ -67,4 +67,26 @@ func Read(ctx context.Context, service client.AccountSettings, target shared.Ide
 		return result, ErrObservation
 	}
 	return result, nil
+}
+
+// completeIdentity requires a complete unique lookup and agreement between typed, selected and candidate object GUIDs; it does not require every attribute to be visible.
+func completeIdentity(observed shared.IdentityResult, raw shared.Object) bool {
+	if !observed.Complete || observed.Object == nil || len(observed.Candidates) > 1 {
+		return false
+	}
+	objects := append([]shared.Object{raw, *observed.Object}, observed.Candidates...)
+	var selected shared.GUID
+	for index, object := range objects {
+		value, err := object.Values("objectGUID").Single()
+		guid, parseErr := value.GUID()
+		if err != nil || parseErr != nil || guid == (shared.GUID{}) {
+			return false
+		}
+		if index == 0 {
+			selected = guid
+		} else if guid != selected {
+			return false
+		}
+	}
+	return true
 }

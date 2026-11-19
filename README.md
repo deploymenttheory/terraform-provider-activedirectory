@@ -85,6 +85,11 @@ The provider has not been published to the Terraform Registry. This configuratio
 after installing a development build. See [provider configuration](docs/index.md) for verified TLS,
 Kerberos channel binding, signing/sealing, explicit credential sources and private CA trust.
 
+Existing accounts can be adopted through [account settings](docs/resources/account_settings.md)
+and observed through the [account-settings data source](docs/data-sources/account_settings.md).
+Only configured account-control/expiration fields are managed. Destroy relinquishes ownership
+without deleting or resetting the account; avoid co-owning the same fields in typed account resources.
+
 ## Development
 
 Run commands from the repository root:
