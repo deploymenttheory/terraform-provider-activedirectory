@@ -41,7 +41,8 @@ See the [user resource](docs/resources/user.md) and [user acceptance guide](docs
 Computer lifecycle, singular/plural data sources and list discovery are implemented with typed
 account settings, versioned write-only passwords and stable GUID import. This manages directory
 objects only; it never joins or configures a host. See the [computer resource](docs/resources/computer.md)
-and [computer acceptance guide](docs/development/computer-acceptance.md). Live qualification is in progress.
+and [computer acceptance guide](docs/development/computer-acceptance.md). The lifecycle and password-observation
+cases pass from Windows/Linux amd64 against Server 2016, 2019, 2022 and 2025 using verified LDAPS.
 
 This branch adds the `activedirectory_group` resource, singular/plural group data sources and
 the `activedirectory_group` list resource. Group management supports GUID import, same-domain

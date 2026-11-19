@@ -39,3 +39,8 @@ Qualify both cases from Windows and Linux amd64 against Server 2016, 2019, 2022 
 Unrun/skipped cells do not count. Retain source revision, both binary hashes, tool versions,
 target/profile identity and independent cleanup receipts locally. Report actual completed
 coverage in the PR; build/unit checks do not imply macOS or arm64 live qualification.
+
+The initial qualification passed all 16 cases: both tests on Windows/Linux amd64 against
+Server 2016/2019/2022/2025, using Go 1.27.4, Terraform 1.17.2 and verified LDAPS. Independent
+checks verified fixture cleanup and restoration of every owned VM and the Linux client profile.
+These results do not qualify macOS/arm64 live execution or additional directory operations.
