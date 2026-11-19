@@ -32,6 +32,8 @@ jobs:
 
       # Keep the existing required check and run its Go analysis with a Go 1.27-compatible tool.
       # The template's Super-Linter image bundles golangci-lint built with Go 1.25.
+      - name: Fetch lint comparison branch
+        run: git fetch --no-tags origin +refs/heads/main:refs/remotes/origin/main
       - name: Lint Go modules
         uses: golangci/golangci-lint-action@ba0d7d2ec06a0ea1cb5fa41b2e4a3ab91d21278a # v9.3.0
         with:
