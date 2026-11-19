@@ -52,6 +52,14 @@ See the [group resource](docs/resources/group.md) for ownership and recovery gui
 The [group acceptance guide](docs/development/group-acceptance.md) describes live lab cases
 and their independently verified cleanup requirements.
 
+Standalone and group-managed service accounts have a [managed lifecycle](docs/resources/service_account.md),
+[single-account](docs/data-sources/service_account.md) and [bounded-query](docs/data-sources/service_accounts.md)
+data sources, and [list discovery](docs/list-resources/service_account.md). They retain GUID identity
+through rename/move, preserve unrelated reader-policy ACEs through the SDK, and never retrieve
+managed passwords or install an account on a host. Explicit sMSA password input is write-only
+and creation-only; changing its version replaces the account. See the
+[acceptance guide](docs/development/service-account-acceptance.md) for the current lab qualification gate.
+
 Generic object lifecycle, GUID/DN lookup, bounded data sources and list discovery are implemented
 with explicit schema classes and binary-safe raw attribute ownership. See the
 [object resource](docs/resources/object.md) for import and recovery semantics and the

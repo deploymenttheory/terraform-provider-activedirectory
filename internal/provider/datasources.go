@@ -16,6 +16,8 @@ import (
 	objects "github.com/deploymenttheory/terraform-provider-activedirectory/internal/services/datasources/objects/objects"
 	organizationalUnit "github.com/deploymenttheory/terraform-provider-activedirectory/internal/services/datasources/organizational_units/organizational_unit"
 	organizationalUnits "github.com/deploymenttheory/terraform-provider-activedirectory/internal/services/datasources/organizational_units/organizational_units"
+	serviceAccount "github.com/deploymenttheory/terraform-provider-activedirectory/internal/services/datasources/service_accounts/service_account"
+	serviceAccounts "github.com/deploymenttheory/terraform-provider-activedirectory/internal/services/datasources/service_accounts/service_accounts"
 	user "github.com/deploymenttheory/terraform-provider-activedirectory/internal/services/datasources/users/user"
 	users "github.com/deploymenttheory/terraform-provider-activedirectory/internal/services/datasources/users/users"
 )
@@ -31,6 +33,8 @@ func (p *ActiveDirectoryProvider) DataSources(_ context.Context) []func() dataso
 		computers.NewComputersDataSource,
 		group.NewGroupDataSource,
 		groups.NewGroupsDataSource,
+		serviceAccount.NewServiceAccountDataSource,
+		serviceAccounts.NewServiceAccountsDataSource,
 		object.NewObjectDataSource,
 		objects.NewObjectsDataSource,
 	}
