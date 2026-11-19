@@ -73,6 +73,8 @@ The architecture follows the
 with service implementations added under `internal/services/` and SDK connections owned by
 `internal/client/`. See the [architecture](docs/plans/activedirectory-provider/architecture.md)
 and [implementation sequence](docs/plans/activedirectory-provider/implementation-plan.md).
+See [provider registrations](docs/development/provider-registrations.md) for production constructor
+lists and the isolated factory pattern used by feature tests.
 
 Report defects through [GitHub issues](https://github.com/deploymenttheory/terraform-provider-activedirectory/issues).
 See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidance.
