@@ -61,3 +61,6 @@ remain unchanged. Summarize validation in implementation PRs; keep bulk lab logs
 
 See [OU acceptance](organizational-unit-acceptance.md) for the first feature's owned directory,
 ordinary-reader permission fixtures, real Terraform cases and independent cleanup sequence.
+
+See [account unlock acceptance](account-unlock-acceptance.md) for explicit invocation,
+ordinary-account refusal, retained disabled status and owned fixture cleanup.

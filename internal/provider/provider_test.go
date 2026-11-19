@@ -63,6 +63,9 @@ func TestProviderProtocolV6(t *testing.T) {
 	if len(metadata.Resources) < 2 || len(metadata.DataSources) < 4 || len(metadata.ListResources) < 2 {
 		t.Fatal("protocol metadata omitted registered directory services")
 	}
+	if len(metadata.Actions) != 1 || metadata.Actions[0].TypeName != "activedirectory_account_unlock" {
+		t.Fatal("protocol metadata omitted the registered account unlock action")
+	}
 
 	configType := schema.Provider.ValueType().(tftypes.Object)
 	attributes := make(map[string]tftypes.Value, len(configType.AttributeTypes))
