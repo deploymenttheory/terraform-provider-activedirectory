@@ -31,14 +31,67 @@ function New-ProviderAccountUnlockFixture([string]$RunId,[string]$Server,[string
     try{$digest=$sha.ComputeHash([Text.Encoding]::UTF8.GetBytes($name))}finally{$sha.Dispose()}
     $sam='tfau'+([BitConverter]::ToString($digest).Replace('-','').Substring(0,12).ToLowerInvariant())
     $marker='tfad-unlock:'+$RunId
-    $subject=New-ADUser -Server $Server -Name $name -SamAccountName $sam -Path $rootDn -Enabled $false -Description $marker -OtherAttributes @{displayName=('tfad-owned:'+$RunId+':'+$Platform)} -PassThru -ErrorAction Stop
+    $upn=$sam+'@ad.sdk.test'
+    $random=[byte[]]::new(48);$rng=[Security.Cryptography.RandomNumberGenerator]::Create()
+    try{$rng.GetBytes($random)}finally{$rng.Dispose()}
+    $password=ConvertTo-SecureString -String ('Tfau!'+[Convert]::ToBase64String($random)+'a9') -AsPlainText -Force
+    [Array]::Clear($random,0,$random.Length)
+    try{
+        $subject=New-ADUser -Server $Server -Name $name -SamAccountName $sam -UserPrincipalName $upn -Path $rootDn -AccountPassword $password -Enabled $true -Description $marker -OtherAttributes @{displayName=('tfad-owned:'+$RunId+':'+$Platform)} -PassThru -ErrorAction Stop
+    }finally{$password=$null}
     $journal='C:\adsdk-portable-tls\'+$RunId+'\account-'+$Platform+'.json'
-    $state=[ordered]@{run=$RunId;server=$Server;guid=$subject.ObjectGUID.ToString();dn=$subject.DistinguishedName;sam=$sam;phase='created';initial_lockout=$null;initial_uac=$null;baseline_sddl=$null;expected_sddl=$null;observed_sddl=$null}
+    $policyDn='CN='+$name+',CN=Password Settings Container,CN=System,DC=ad,DC=sdk,DC=test'
+    $state=[ordered]@{run=$RunId;server=$Server;guid=$subject.ObjectGUID.ToString();dn=$subject.DistinguishedName;sam=$sam;phase='created';policy_dn=$policyDn;policy_guid=$null;initial_lockout=$null;initial_uac=$null;baseline_sddl=$null;expected_sddl=$null;observed_sddl=$null}
     [IO.File]::WriteAllText($journal,($state|ConvertTo-Json -Depth 5),[Text.UTF8Encoding]::new($false))
-    $lockout=[DateTime]::UtcNow.ToFileTimeUtc()
-    Set-ADUser -Server $Server -Identity $subject.ObjectGUID -Replace @{lockoutTime=[long]$lockout} -ErrorAction Stop
+    $existingPolicy=$null
+    try{$existingPolicy=Get-ADObject -Server $Server -Identity $policyDn -ErrorAction Stop}catch [Microsoft.ActiveDirectory.Management.ADIdentityNotFoundException]{}
+    if($existingPolicy){throw 'Account lockout policy must be fresh'}
+    $state.phase='policy-intent'
+    [IO.File]::WriteAllText($journal,($state|ConvertTo-Json -Depth 5),[Text.UTF8Encoding]::new($false))
+    $policyOptions=@{
+        Server=$Server;Name=$name;Description=('tfad-unlock-policy:'+$RunId+':'+$Platform);Precedence=1000
+        ComplexityEnabled=$true;ReversibleEncryptionEnabled=$false;MinPasswordLength=16;PasswordHistoryCount=1
+        MinPasswordAge=[TimeSpan]::Zero;MaxPasswordAge=[TimeSpan]::FromDays(30)
+        LockoutDuration=[TimeSpan]::FromMinutes(30);LockoutObservationWindow=[TimeSpan]::FromMinutes(30);LockoutThreshold=3
+        PassThru=$true;ErrorAction='Stop'
+    }
+    $policy=New-ADFineGrainedPasswordPolicy @policyOptions
+    if($policy.DistinguishedName-cne$policyDn){throw 'Owned account policy location differs'}
+    $state.policy_guid=$policy.ObjectGUID.ToString();$state.phase='policy-created'
+    [IO.File]::WriteAllText($journal,($state|ConvertTo-Json -Depth 5),[Text.UTF8Encoding]::new($false))
+    Add-ADFineGrainedPasswordPolicySubject -Server $Server -Identity $policy.ObjectGUID -Subjects $subject.ObjectGUID -ErrorAction Stop
+    $linked=Get-ADObject -Server $Server -Identity $policy.ObjectGUID -Properties 'msDS-PSOAppliesTo' -ErrorAction Stop
+    $subjects=@($linked.'msDS-PSOAppliesTo')
+    if($subjects.Count-ne1-or[string]$subjects[0]-cne$subject.DistinguishedName){throw 'Owned password policy scope exceeds its one fixture account'}
+    $effective=Get-ADUserResultantPasswordPolicy -Server $Server -Identity $subject.ObjectGUID -ErrorAction Stop
+    if($effective.ObjectGUID-ne$policy.ObjectGUID-or$effective.LockoutThreshold-ne3){throw 'Owned account effective policy did not verify'}
+    # Only this new random-password subject receives at most three invalid attempts over verified LDAPS.
+    # No existing account, default policy or group membership is changed.
+    Add-Type -AssemblyName System.DirectoryServices.Protocols
+    for($attempt=0;$attempt-lt3;$attempt++){
+        $observed=Get-ADUser -Server $Server -Identity $subject.ObjectGUID -Properties LockedOut -ErrorAction Stop
+        if($observed.LockedOut){break}
+        $identifier=[DirectoryServices.Protocols.LdapDirectoryIdentifier]::new($Server,636,$true,$false)
+        $connection=[DirectoryServices.Protocols.LdapConnection]::new($identifier)
+        try{
+            $connection.AuthType=[DirectoryServices.Protocols.AuthType]::Basic
+            $connection.SessionOptions.ProtocolVersion=3;$connection.SessionOptions.SecureSocketLayer=$true
+            $connection.Timeout=[TimeSpan]::FromSeconds(10)
+            $connection.Credential=[Net.NetworkCredential]::new($upn,'intentionally-incorrect-owned-fixture-password')
+            $accepted=$false
+            try{$connection.Bind();$accepted=$true}catch{
+                $failure=$_.Exception
+                while($failure-and$failure-isnot[DirectoryServices.Protocols.LdapException]){$failure=$failure.InnerException}
+                if(-not$failure-or$failure.ErrorCode-ne49){throw 'Owned invalid-password probe failed before a confirmed LDAP credential rejection'}
+            }
+            if($accepted){throw 'Unexpected authentication success for an intentionally incorrect owned-fixture password'}
+        }finally{$connection.Dispose()}
+    }
+    $locked=Get-ADUser -Server $Server -Identity $subject.ObjectGUID -Properties LockedOut,lockoutTime -ErrorAction Stop
+    if(-not$locked.LockedOut-or[long]$locked.lockoutTime-eq0){throw 'Owned account did not reach independently observed lockout'}
+    Disable-ADAccount -Server $Server -Identity $subject.ObjectGUID -ErrorAction Stop
     $initial=Get-ADUser -Server $Server -Identity $subject.ObjectGUID -Properties description,lockoutTime,userAccountControl -ErrorAction Stop
-    if($initial.Enabled-or$initial.Description-cne$marker-or[long]$initial.lockoutTime-ne$lockout){throw 'Disabled account lockout fixture did not independently verify'}
+    if($initial.Enabled-or$initial.Description-cne$marker-or[long]$initial.lockoutTime-ne[long]$locked.lockoutTime){throw 'Disabled account lockout fixture did not independently verify'}
     $state.initial_lockout=[long]$initial.lockoutTime;$state.initial_uac=[long]$initial.userAccountControl;$state.phase='lockout-observed'
     [IO.File]::WriteAllText($journal,($state|ConvertTo-Json -Depth 5),[Text.UTF8Encoding]::new($false))
     $schema=Get-ADRootDSE -Server $Server -ErrorAction Stop
@@ -113,6 +166,23 @@ function Remove-ProviderAccountChildren([string]$RunId,[string]$Server,[string]$
     foreach($guid in $known){
         $hex=($guid.ToByteArray()|ForEach-Object {'\'+$_.ToString('x2')})-join''
         if(@(Get-ADObject -Server $Server -LDAPFilter ('(objectGUID='+$hex+')') -ErrorAction Stop).Count-ne0){throw 'A known account GUID remains live after cleanup'}
+    }
+    foreach($platform in @('windows','linux')){
+        $journal='C:\adsdk-portable-tls\'+$RunId+'\account-'+$platform+'.json'
+        if(-not(Test-Path -LiteralPath $journal)){continue}
+        $state=Get-Content -LiteralPath $journal -Raw|ConvertFrom-Json
+        $expectedPolicyDn='CN=tfad-'+$RunId+'-unlock-'+$platform+',CN=Password Settings Container,CN=System,DC=ad,DC=sdk,DC=test'
+        if($state.policy_dn-cne$expectedPolicyDn){throw 'Owned account policy journal location differs'}
+        $policy=$null
+        $policyIdentity=if($state.policy_guid){[guid]$state.policy_guid}else{$expectedPolicyDn}
+        try{$policy=Get-ADObject -Server $Server -Identity $policyIdentity -Properties description,'msDS-PSOAppliesTo' -ErrorAction Stop}catch [Microsoft.ActiveDirectory.Management.ADIdentityNotFoundException]{}
+        if($policy){
+            if($policy.DistinguishedName-cne$expectedPolicyDn-or$policy.ObjectClass-cne'msDS-PasswordSettings'-or$policy.description-cne('tfad-unlock-policy:'+$RunId+':'+$platform)-or
+                ($state.policy_guid-and$policy.ObjectGUID-ne[guid]$state.policy_guid)-or@($policy.'msDS-PSOAppliesTo').Count-ne0){throw 'Unowned or still-linked account policy prevents cleanup'}
+            Remove-ADFineGrainedPasswordPolicy -Server $Server -Identity $policy.ObjectGUID -Confirm:$false -ErrorAction Stop
+            $hex=($policy.ObjectGUID.ToByteArray()|ForEach-Object {'\'+$_.ToString('x2')})-join''
+            if(@(Get-ADObject -Server $Server -LDAPFilter ('(objectGUID='+$hex+')') -ErrorAction Stop).Count-ne0){throw 'Owned account policy remains live'}
+        }
     }
     [pscustomobject]@{verified=$true;reconciled_children=$removed;remaining=0}
 }

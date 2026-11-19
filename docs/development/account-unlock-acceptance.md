@@ -18,13 +18,18 @@ Dot-source the feature-local
 on the owned DC alongside the SDK's `portable-tls-fixture.ps1`, `portable-directory-fixture.ps1`
 and `kerberos-write-fixture.ps1`. Call `New-ProviderAccountUnlockFixture` with the run ID, DC,
 verified parent GUID, `windows` or `linux` platform, ordinary actor run ID/GUID and existing
-protected setup credential. It creates a fresh disabled account, records a nonzero lockout
-timestamp and denies only that attribute's write permission to the ordinary actor. It journals
-intent and verifies exact ACL content while allowing AD's canonical ACE ordering.
+protected setup credential. It creates a fresh random-password account and a marker-owned password
+settings object applied directly to that account alone. It verifies that scope and effective
+three-attempt threshold, performs at most three invalid-password binds over verified LDAPS, then
+independently observes lockout and disables the account before Terraform runs. It denies only
+that attribute's write permission to the ordinary actor. Existing accounts, policies and group
+memberships are unchanged. Intent is journaled and exact ACL content is verified while allowing
+AD's canonical ACE ordering.
 
-This fixture tests resetting the stored timestamp. A nonzero `lockoutTime` alone does not prove
-current account lockout or login eligibility; no authentication-failure campaign or domain policy
-change is part of this case. See Microsoft's
+The setup observes real lockout before disabling its fresh subject; the action checks resetting
+the stored timestamp without enabling it. A nonzero `lockoutTime` alone does not prove current
+account lockout or login eligibility. The default domain password policy is never changed.
+See Microsoft's
 [Lockout-Time attribute documentation](https://learn.microsoft.com/en-us/windows/win32/adschema/a-lockouttime).
 
 Supply these process environment variables in addition to the common lab inputs:
@@ -54,6 +59,8 @@ unavailable/conflicting readback, redaction and actual Terraform refusal/recover
 The test removes only its exact GUID after validating DN and ownership marker, then proves
 deletion independently. After its process retires, `Remove-ProviderAccountChildren` reconciles
 any retained owned subject and checks every journaled GUID, refusing moved or unowned objects.
+It then verifies that each owned password settings object has no remaining subjects before
+deleting it by its verified GUID and marker and independently confirming absence.
 Remove the empty outer directory fixture, retire the ordinary actor with its SDK cleanup helper,
 then retire TLS. Restore original VM/client profile state. Missing or uncertain retirement and
 cleanup remains a failure; never rerun an unknown write to manufacture a passing result.
