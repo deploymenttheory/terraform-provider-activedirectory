@@ -8,8 +8,22 @@ tests preserve accepted stage identity and refuse hidden/partial clear proof or 
 
 Live provider qualification remains pending. The required clients are Windows/Linux amd64
 against Server 2016, 2019, 2022 and 2025; missing fixture evidence is not a passing result.
-Use the guarded runners described in [testing](testing.md) after the feature's live fixtures
-and acceptance cases are available. Never retrieve a managed password to verify a resource.
+Use the guarded runners described in [testing](testing.md), selecting
+`TestAccServiceAccountLifecycle` and `TestAccServiceAccountCreationForms`. The feature-local
+fixtures and embedded Terraform configurations now exist; actual results remain pending.
+Never retrieve a managed password to verify a resource.
+
+The lifecycle case creates an ordinary gMSA, changes typed settings, SPNs and selected reader
+SIDs, renames/moves the same GUID, exercises both lookup forms, import/generated configuration
+and actual list snapshots, clears selected values and repairs independently introduced drift.
+The separate observer seeds one unrelated WP-only ACE and checks its exact bytes and the
+descriptor owner/group/SACL components after reader replacement and clearing.
+
+The creation-form case covers SDK-generated sMSA passwords, an ephemeral explicit sMSA
+creation password and version replacement, and outbound-only gMSA creation. Three live
+objects exercise page-size-one discovery, complete/bounded results and list consumer limits.
+Plans/state are checked for bind and creation secrets. Every subject GUID is tracked through
+independent absence checks; auxiliary groups/OUs retain permanent markers and leaf-only cleanup.
 
 `tests/fixtures/prerequisites.ps1` beside the resource provides a read-only preflight helper.
 It verifies the selected AD DS target and reads explicit service-account class definitions
