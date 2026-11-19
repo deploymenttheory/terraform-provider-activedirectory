@@ -30,10 +30,13 @@ func Discover(ctx context.Context, service client.Memberships, group shared.Iden
 	if service == nil || group.Form() != shared.IdentityFormGUID || limit < 1 || limit > 10000 {
 		return result, ErrObservation
 	}
-	observed, readErr := service.GroupMemberLinks(ctx, group, sdkmemberships.GroupMemberLinksOptions{MaxValues: limit})
 	var err error
-	result.Group, err = discoveryGroup(observed, group)
-	if err != nil {
+	result.Group, _, err = Resolve(ctx, service, group)
+	if err != nil || !hasClass(result.Group.Raw, "group") {
+		return result, ErrObservation
+	}
+	observed, readErr := service.GroupMemberLinks(ctx, group, sdkmemberships.GroupMemberLinksOptions{MaxValues: limit})
+	if !discoveryGroupMatches(observed, result.Group) {
 		return result, errors.Join(readErr, ErrObservation)
 	}
 	rangeBounded := errors.Is(readErr, sdkmemberships.ErrGroupMembershipLimit)
@@ -80,20 +83,22 @@ func Discover(ctx context.Context, service client.Memberships, group shared.Iden
 	return result, readErr
 }
 
-// discoveryGroup requires unique group identity and agreement with the SDK's stable range-version anchor.
-func discoveryGroup(observed sdkmemberships.GroupMemberLinksResult, target shared.Identity) (Endpoint, error) {
+// discoveryGroupMatches validates the SDK's unique range anchor against independently requested group metadata.
+// The range operation does not select distinguishedName; it is never inferred to be a returned attribute.
+func discoveryGroupMatches(observed sdkmemberships.GroupMemberLinksResult, group Endpoint) bool {
 	if observed.Observation.Object == nil || !observed.Observation.Complete || len(observed.Observation.Candidates) > 1 || observed.Version == nil {
-		return Endpoint{}, ErrObservation
+		return false
 	}
-	group, err := projectEndpoint(*observed.Observation.Object)
-	if err != nil || group.GUID.String() != target.String() || group.GUID != observed.Version.GUID || !hasClass(group.Raw, "group") {
-		return Endpoint{}, ErrObservation
+	if group.GUID != observed.Version.GUID || !hasClass(*observed.Observation.Object, "group") {
+		return false
 	}
-	for _, candidate := range observed.Observation.Candidates {
-		other, err := projectEndpoint(candidate)
-		if err != nil || other.GUID != group.GUID {
-			return Endpoint{}, ErrObservation
+	objects := append([]shared.Object{*observed.Observation.Object}, observed.Observation.Candidates...)
+	for _, object := range objects {
+		value, err := object.Values("objectGUID").Single()
+		guid, parseErr := value.GUID()
+		if err != nil || parseErr != nil || guid != group.GUID {
+			return false
 		}
 	}
-	return group, nil
+	return true
 }

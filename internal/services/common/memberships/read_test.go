@@ -6,11 +6,13 @@ package memberships_test
 import (
 	"context"
 	"errors"
+	"fmt"
 	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
+	sdkmemberships "github.com/deploymenttheory/go-sdk-activedirectory/activedirectory/services/memberships"
 	"github.com/deploymenttheory/go-sdk-activedirectory/activedirectory/shared"
 	common "github.com/deploymenttheory/terraform-provider-activedirectory/internal/services/common/memberships"
 	"github.com/deploymenttheory/terraform-provider-activedirectory/internal/services/resources/memberships/group_member/mocks"
@@ -139,5 +141,33 @@ func TestInvalidPairsAndBoundsRejectUnknownValues(t *testing.T) {
 		if !diagnostics.HasError() {
 			t.Fatal("unknown or unbounded membership discovery was accepted", limit)
 		}
+	}
+}
+
+// TestDiscoveryUsesExplicitGroupMetadata exercises the SDK range contract, which does not select a distinguishedName attribute.
+func TestDiscoveryUsesExplicitGroupMetadata(t *testing.T) {
+	d := directory(t)
+	d.SetLink(groupID, memberID, true)
+	service := &mocks.Service{
+		Resolve: d.ResolveIdentity,
+		Assert:  d.Search,
+		Links: func(ctx context.Context, target shared.Identity, options sdkmemberships.GroupMemberLinksOptions) (sdkmemberships.GroupMemberLinksResult, error) {
+			result, err := d.GroupMemberLinks(ctx, target, options)
+			if err != nil {
+				return result, fmt.Errorf("read synthetic SDK range: %w", err)
+			}
+			original := *result.Observation.Object
+			original.Attributes = map[string][][]byte{
+				"objectguid": original.Attributes["objectguid"], "objectclass": original.Attributes["objectclass"],
+			}
+			result.Observation.Object = &original
+			result.Observation.Candidates = []shared.Object{original}
+			return result, nil
+		},
+	}
+	group, _ := shared.IdentityByGUID(groupID)
+	observed, err := common.Discover(t.Context(), service, group, 10)
+	if err != nil || !observed.Complete || len(observed.Edges) != 1 || observed.Group.DN != "CN=group,DC=unit,DC=invalid" {
+		t.Fatal("SDK range metadata was treated as a guarantee of explicitly selected group properties", err)
 	}
 }
