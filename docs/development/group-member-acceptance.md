@@ -17,11 +17,32 @@ SDK-boundary tests preserve uncertain effects and durable intent after failed
 readback, reconcile a fresh same-pair observation without replay, reject unavailable
 private storage and retain contradictory mutation identity evidence.
 
-## Outstanding lab qualification
+## Real lab cases
 
-No actual membership lab qualification is claimed yet. Before review readiness,
-run real Terraform using Windows/Linux amd64 clients against Server 2016, 2019,
-2022 and 2025, with independently owned fixture roots and verified protected auth.
+Both live suites are implemented; execution and qualification remain pending.
+Before review readiness, run real Terraform using Windows/Linux amd64 clients
+against Server 2016, 2019, 2022 and 2025, giving sixteen distinct cases. Fixtures
+use independently owned roots and verified protected authentication.
+
+- `TestAccGroupMemberLifecycle` adopts an existing user link and creates direct
+  group/computer links. It covers string/identity import with generated config,
+  bounded plural/list discovery, an actual empty group, primary/nested exclusion,
+  external removal and rename, target replacement and no-change planning. An
+  independent observer proves all endpoint objects and unmanaged nested links
+  survive Terraform deletion before separately retiring owned fixture objects.
+- `TestAccGroupMemberDeniedAndHidden` uses an independently prepared ordinary
+  actor, ephemeral Terraform credentials and a marker-owned group with exactly
+  one member-property read-deny ACE for that actor. Native PowerShell verifies
+  the nonempty hidden group and records positive/negative filter observations.
+  The provider must never convert its hidden link into confirmed absence or a
+  complete empty collection. Real Terraform also proves refused link creation
+  leaves existing native relationships and both endpoint objects unchanged.
+
+The observer opens before fixture effects, checks GUID/root/marker/class/name
+boundaries before mutation and retirement, and scans complete plans and state for
+bind and fixture passwords. No privileged group membership or policy is changed.
+Native permission fixtures remain owned by the outer envelope and are retired
+only after the acceptance process is independently known to have stopped.
 
 Required scenarios include direct user/group/computer links, imports, duplicate
 adoption, external rename/removal, an actually empty group, one-edge deletion

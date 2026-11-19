@@ -11,27 +11,41 @@ provider "activedirectory" {
   auth_method = "simple"
   transport   = "ldaps"
 }
-variable "group_guid" {
-  type = string
+
+resource "activedirectory_group_member" "user" {
+  group_guid  = "__GROUP_GUID__"
+  member_guid = "__USER_GUID__"
 }
 
-variable "member_guid" {
-  type = string
+resource "activedirectory_group_member" "group" {
+  group_guid  = "__GROUP_GUID__"
+  member_guid = "__MEMBER_GROUP_GUID__"
 }
 
-resource "activedirectory_group_member" "test" {
-  group_guid  = var.group_guid
-  member_guid = var.member_guid
+resource "activedirectory_group_member" "computer" {
+  group_guid  = "__GROUP_GUID__"
+  member_guid = "__COMPUTER_GUID__"
 }
 
 data "activedirectory_group_member" "owned" {
-  group_guid  = activedirectory_group_member.test.group_guid
-  member_guid = activedirectory_group_member.test.member_guid
-  depends_on  = [activedirectory_group_member.test]
+  group_guid  = activedirectory_group_member.user.group_guid
+  member_guid = activedirectory_group_member.user.member_guid
+  depends_on  = [activedirectory_group_member.user]
 }
 
 data "activedirectory_group_member_relationships" "owned" {
-  group_guid   = var.group_guid
+  group_guid   = "__GROUP_GUID__"
   result_limit = 10
-  depends_on   = [activedirectory_group_member.test]
+  depends_on   = [activedirectory_group_member.user, activedirectory_group_member.group, activedirectory_group_member.computer]
+}
+
+data "activedirectory_group_member_relationships" "bounded" {
+  group_guid   = "__GROUP_GUID__"
+  result_limit = 2
+  depends_on   = [activedirectory_group_member.user, activedirectory_group_member.group, activedirectory_group_member.computer]
+}
+
+data "activedirectory_group_member_relationships" "empty" {
+  group_guid   = "__EMPTY_GROUP_GUID__"
+  result_limit = 10
 }
