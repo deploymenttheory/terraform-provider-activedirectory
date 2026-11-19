@@ -13,6 +13,7 @@ import (
 	group "github.com/deploymenttheory/terraform-provider-activedirectory/internal/services/resources/groups/group"
 	object "github.com/deploymenttheory/terraform-provider-activedirectory/internal/services/resources/objects/object"
 	organizationalUnit "github.com/deploymenttheory/terraform-provider-activedirectory/internal/services/resources/organizational_units/organizational_unit"
+	serviceAccount "github.com/deploymenttheory/terraform-provider-activedirectory/internal/services/resources/service_accounts/service_account"
 	user "github.com/deploymenttheory/terraform-provider-activedirectory/internal/services/resources/users/user"
 )
 
@@ -23,6 +24,7 @@ func (p *ActiveDirectoryProvider) Resources(_ context.Context) []func() resource
 		user.NewUserResource,
 		computer.NewComputerResource,
 		group.NewGroupResource,
+		serviceAccount.NewServiceAccountResource,
 		object.NewObjectResource,
 		accountSettings.NewAccountSettingsResource,
 	}
