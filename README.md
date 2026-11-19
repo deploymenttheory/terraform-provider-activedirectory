@@ -9,7 +9,7 @@ Terraform Plugin Framework provider for Active Directory Domain Services, built 
 The provider is under development. The current foundation serves Terraform plugin protocol V6;
 directory resources, data sources, list resources and actions are being added through the
 [approved implementation backlog](docs/plans/activedirectory-provider/backlog/INDEX.md).
-Provider configuration opens and qualifies a protected AD DS session using SDK v0.2.0.
+Provider configuration opens and qualifies a protected AD DS session using the public SDK.
 This branch adds the `activedirectory_user` resource, singular/plural user data sources and
 the `activedirectory_user` list resource. User management supports GUID import, rename/move,
 typed properties, account flags, expiration and versioned write-only passwords.
