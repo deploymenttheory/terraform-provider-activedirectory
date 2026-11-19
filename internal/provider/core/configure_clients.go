@@ -5,11 +5,14 @@ package provider
 
 import (
 	"context"
+	"errors"
 	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-framework/provider"
 
 	"github.com/deploymenttheory/go-sdk-activedirectory/activedirectory/config"
+	"github.com/deploymenttheory/go-sdk-activedirectory/activedirectory/shared"
+	"github.com/deploymenttheory/terraform-provider-activedirectory/internal/client"
 )
 
 // Configure validates configuration and establishes one protected SDK session shared by all surfaces.
@@ -51,8 +54,7 @@ func (p *ActiveDirectoryProvider) Configure(ctx context.Context, req provider.Co
 			}
 		}
 		// Factory and protocol errors may contain raw peer messages or secrets. Never reflect them into diagnostics.
-		resp.Diagnostics.AddError("Unable to configure directory client", "The protected directory session could not be established or qualified. "+
-			"Check endpoint connectivity, explicit authentication inputs, certificate trust and the selected transport/security policy.")
+		resp.Diagnostics.AddError("Unable to configure directory client", connectionErrorDetail(err))
 		return
 	}
 	p.clients = bundle
@@ -60,6 +62,33 @@ func (p *ActiveDirectoryProvider) Configure(ctx context.Context, req provider.Co
 	resp.DataSourceData = bundle
 	resp.ListResourceData = bundle
 	resp.ActionData = bundle
+}
+
+func connectionErrorDetail(err error) string {
+	switch {
+	case errors.Is(err, client.ErrProtection):
+		return "The established session did not report the required TLS, Kerberos mutual authentication, channel binding or SASL protection."
+	case errors.Is(err, shared.ErrTLSNegotiation):
+		return "Verified TLS negotiation failed. Check the certificate chain, endpoint hostname, private CA trust and TLS support."
+	case errors.Is(err, shared.ErrKerberosExpired):
+		return "The explicit Kerberos credential or context has expired. Supply a current credential source; the provider does not renew it."
+	case errors.Is(err, shared.ErrKerberosAuthentication):
+		return "Kerberos authentication failed. Check the explicit principal, realm, service identity, credential source and clock synchronization."
+	case errors.Is(err, shared.ErrUnsupportedDirectory):
+		return "The endpoint did not provide a complete Active Directory Domain Services capability observation."
+	case errors.Is(err, config.ErrBackendUnavailable):
+		return "The selected SDK backend cannot provide this authentication or protection mechanism on the execution host."
+	case errors.Is(err, context.DeadlineExceeded):
+		return "The directory connection or qualification read exceeded its timeout. Check endpoint and KDC connectivity."
+	case errors.Is(err, context.Canceled):
+		return "The directory connection or qualification read was canceled. No authentication fallback was attempted."
+	}
+	var ldap *shared.LDAPError
+	if errors.As(err, &ldap) {
+		return fmt.Sprintf("LDAP returned status %d while establishing or qualifying the directory session. Server diagnostic text is withheld to protect credentials.", ldap.Code)
+	}
+	return "The protected directory session could not be established or qualified. " +
+		"Check endpoint connectivity, explicit authentication inputs, certificate trust and the selected transport/security policy."
 }
 
 // Close retires this provider's session without affecting other provider aliases or instances.
