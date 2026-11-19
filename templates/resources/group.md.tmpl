@@ -1,0 +1,59 @@
+---
+page_title: "activedirectory_group Resource - Active Directory"
+subcategory: "Groups"
+description: |-
+  Manage one group by stable GUID with typed category, scope and property changes.
+---
+
+# activedirectory_group (Resource)
+
+{{ .Description | trimspace }}
+
+## Provider configuration
+
+{{ tffile "examples/resources/activedirectory_group/providers.tf" }}
+
+## Minimal group
+
+{{ tffile "examples/resources/activedirectory_group/resource.tf" }}
+
+## Explicit properties
+
+{{ tffile "examples/resources/activedirectory_group/resource_maximal.tf" }}
+
+The object GUID remains stable across supported same-domain rename and move operations.
+Category and scope are semantic patches: unrelated `groupType` bits remain owned by the
+directory. The SDK submits one guarded atomic modification and rejects a concurrently changed
+old value. The server enforces scope/category conversion and membership constraints; the
+provider does not perform an implicit intermediate conversion, retry or rollback.
+
+Membership belongs to separate edge resources. This resource never replaces a member collection.
+Omitted optional properties retain observed values. Hidden, ranged or unavailable attributes
+do not imply empty values; their prior managed values are retained with diagnostics.
+
+## Explicit property clearing
+
+{{ tffile "examples/resources/activedirectory_group/clear/resource.tf" }}
+
+Clears accept `description`, `displayName`, `wWWHomePage` and `managedBy` only. Removing a
+configured optional property leaves it unmanaged. An acknowledged clear is distinct from an
+uncertain operation, whose effect cannot be proved from omission alone.
+
+{{ .SchemaMarkdown | trimspace }}
+
+## Import
+
+{{ tffile "examples/resources/activedirectory_group/import-by-string-id.tf" }}
+
+{{ tffile "examples/resources/activedirectory_group/import-by-identity.tf" }}
+
+{{ .IdentitySchemaMarkdown | trimspace }}
+
+Accepted phases and the known GUID are retained if later work fails. An unresolved operation
+blocks further writes until observation proves its effect or an operator independently verifies
+the object and performs explicit GUID recovery. A failed creation can remain tainted in
+Terraform; it is never automatically replaced while its creation checkpoint is unresolved.
+DN-only candidates are not adopted as identity.
+
+Deletion removes only the selected leaf group. It never deletes member objects or a subtree.
+Denied, nonempty, protected or unverified deletion retains state and requires reconciliation.

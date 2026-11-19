@@ -1,0 +1,30 @@
+---
+page_title: "activedirectory_group List Resource - Active Directory"
+subcategory: "Groups"
+description: |-
+  Discover stable group GUIDs and optional import configuration snapshots.
+---
+
+# activedirectory_group (List Resource)
+
+{{ .Description | trimspace }}
+
+{{ tffile "examples/list-resources/activedirectory_group/providers.tf" }}
+
+{{ tffile "examples/list-resources/activedirectory_group/list-resource.tfquery.hcl" }}
+
+{{ tffile "examples/list-resources/activedirectory_group/list-resource_maximal.tfquery.hcl" }}
+
+Keep provider configuration in `providers.tf` beside the query file. The SDK materializes a
+bounded query when iteration starts. Rows sort by GUID, and emission honors cancellation and
+consumer stop. This is not an unbounded LDAP page stream. Terraform's `limit` can lower the
+configured bound. Reaching a bound does not prove the full search was exhausted; failures
+retain usable identities without claiming completion.
+
+Identity is exactly `{ id = objectGUID }`. Resource snapshots contain typed observations and
+no member collections or writable raw flag mask. Unavailable account name, category or scope
+prevents an import snapshot from being emitted. The query's search scope is independent of
+the observed group scope in the resource snapshot. Configuration generation authorizes no
+conversion, rename, move or membership change.
+
+{{ .SchemaMarkdown | trimspace }}

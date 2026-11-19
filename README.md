@@ -10,7 +10,11 @@ The provider is under development. The current foundation serves Terraform plugi
 directory resources, data sources, list resources and actions are being added through the
 [approved implementation backlog](docs/plans/activedirectory-provider/backlog/INDEX.md).
 Provider configuration opens and qualifies a protected AD DS session using SDK v0.2.0.
-Directory service implementations are being added separately.
+This branch adds the `activedirectory_group` resource, singular/plural group data sources and
+the `activedirectory_group` list resource. Group management supports GUID import, same-domain
+rename/move, typed properties and semantic category/scope changes. Membership belongs to
+separate edge resources; deleting a group does not delete its members.
+See the [group resource](docs/resources/group.md) for ownership and recovery guidance.
 
 Requirements: Go 1.27.4 for development and Terraform 1.14 or newer for the provider's four service surfaces.
 
