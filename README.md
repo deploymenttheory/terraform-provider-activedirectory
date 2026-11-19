@@ -11,8 +11,10 @@ directory resources, data sources, list resources and actions are being added th
 [approved implementation backlog](docs/plans/activedirectory-provider/backlog/INDEX.md).
 Provider configuration opens and qualifies a protected AD DS session using SDK v0.2.0.
 
-The `activedirectory_account_unlock` action is implemented with unit tests, examples and
-[generated documentation](docs/actions/account_unlock.md). Its live lab qualification is pending.
+The `activedirectory_account_unlock` action includes unit tests, examples and
+[generated documentation](docs/actions/account_unlock.md). Actual Terraform acceptance passed from
+Windows/Linux amd64 against Server 2016, 2019, 2022 and 2025, including target refusal, denied writes,
+explicit recovery, retained disabled status and independently verified fixture/policy cleanup.
 It selects an account by GUID on an explicitly acknowledged DC and never enables a disabled
 account or retries a failed or uncertain unlock automatically.
 Directory service implementations are being added separately.
