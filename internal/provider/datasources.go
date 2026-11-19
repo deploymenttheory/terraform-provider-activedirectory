@@ -8,6 +8,8 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 
+	computer "github.com/deploymenttheory/terraform-provider-activedirectory/internal/services/datasources/computers/computer"
+	computers "github.com/deploymenttheory/terraform-provider-activedirectory/internal/services/datasources/computers/computers"
 	group "github.com/deploymenttheory/terraform-provider-activedirectory/internal/services/datasources/groups/group"
 	groups "github.com/deploymenttheory/terraform-provider-activedirectory/internal/services/datasources/groups/groups"
 	organizationalUnit "github.com/deploymenttheory/terraform-provider-activedirectory/internal/services/datasources/organizational_units/organizational_unit"
@@ -23,6 +25,8 @@ func (p *ActiveDirectoryProvider) DataSources(_ context.Context) []func() dataso
 		organizationalUnits.NewOrganizationalUnitsDataSource,
 		user.NewUserDataSource,
 		users.NewUsersDataSource,
+		computer.NewComputerDataSource,
+		computers.NewComputersDataSource,
 		group.NewGroupDataSource,
 		groups.NewGroupsDataSource,
 	}

@@ -59,12 +59,17 @@ func TestProviderProtocolV6(t *testing.T) {
 		t.Fatal("production group resource and data-source registrations did not match their schemas")
 	}
 
+	if schema.ResourceSchemas["activedirectory_computer"] == nil || schema.DataSourceSchemas["activedirectory_computer"] == nil ||
+		schema.DataSourceSchemas["activedirectory_computers"] == nil || schema.ListResourceSchemas["activedirectory_computer"] == nil {
+		t.Fatal("protocol schema omitted a computer surface")
+	}
+
 	metadata, err := server.GetMetadata(ctx, &tfprotov6.GetMetadataRequest{})
 	if err != nil {
 		t.Fatalf("get provider metadata: %v", err)
 	}
 	assertNoProtocolErrors(t, metadata.Diagnostics)
-	if len(metadata.Resources) < 3 || len(metadata.DataSources) < 6 || len(metadata.ListResources) < 3 {
+	if len(metadata.Resources) < 4 || len(metadata.DataSources) < 8 || len(metadata.ListResources) < 4 {
 		t.Fatal("protocol metadata omitted registered directory services")
 	}
 	if len(metadata.Actions) != 1 || metadata.Actions[0].TypeName != "activedirectory_account_unlock" {

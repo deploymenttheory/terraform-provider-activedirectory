@@ -8,6 +8,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 
+	computer "github.com/deploymenttheory/terraform-provider-activedirectory/internal/services/resources/computers/computer"
 	group "github.com/deploymenttheory/terraform-provider-activedirectory/internal/services/resources/groups/group"
 	organizationalUnit "github.com/deploymenttheory/terraform-provider-activedirectory/internal/services/resources/organizational_units/organizational_unit"
 	user "github.com/deploymenttheory/terraform-provider-activedirectory/internal/services/resources/users/user"
@@ -18,6 +19,7 @@ func (p *ActiveDirectoryProvider) Resources(_ context.Context) []func() resource
 	return []func() resource.Resource{
 		organizationalUnit.NewOrganizationalUnitResource,
 		user.NewUserResource,
+		computer.NewComputerResource,
 		group.NewGroupResource,
 	}
 }

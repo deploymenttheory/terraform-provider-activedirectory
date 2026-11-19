@@ -24,6 +24,12 @@ disabled. Terraform-running unit tests set `IsUnitTest: true`, inject SDK mocks 
 synthetic configuration. The Terraform executable comes from `TF_ACC_TERRAFORM_PATH`, or the
 pinned 1.17.2 version through HashiCorp's test harness. Tool installation is distinct from AD access.
 
+Keep `terraform-exec` at v0.26.0 or newer for query-to-plan workflows. Earlier streaming query
+execution replaced the shared stdout destination with a pipe that was closed after the query;
+subsequent multiline output could stall once the platform's pipe buffer filled. The
+`internal/acceptance/command_output` regression exercises a query followed by a 128 KiB plan
+using a synthetic CLI subprocess, without installing Terraform or accessing a directory.
+
 For each feature, keep `provider_factories_test.go`, unit tests, acceptance tests, response fixtures
 and `tests/terraform/{unit,acceptance}/` beside its implementation. Supply only explicit fixture
 dependencies in the factory registry. A list feature also registers its corresponding managed
@@ -64,3 +70,6 @@ ordinary-reader permission fixtures, real Terraform cases and independent cleanu
 
 See [account unlock acceptance](account-unlock-acceptance.md) for explicit invocation,
 ordinary-account refusal, retained disabled status and owned fixture cleanup.
+
+See [computer acceptance](computer-acceptance.md) for directory-only staged lifecycle, password
+observation, explicit post-creation settings and independently verified unjoined fixture cleanup.
