@@ -1,0 +1,49 @@
+---
+page_title: "Active Directory Provider"
+subcategory: ""
+description: |-
+  Manage Active Directory Domain Services using the Deployment Theory Active Directory provider.
+---
+
+# Active Directory Provider
+
+{{ .Description | trimspace }}
+
+Requires Terraform 1.14 or newer. The provider runs directly on Linux, Windows and macOS.
+Portable authentication supports verified LDAPS/StartTLS simple bind, Kerberos over TLS with
+certificate-derived channel binding, and Kerberos LDAP signing/sealing. The provider checks
+actual negotiated protection and AD DS capabilities before publishing its shared SDK client.
+Channel-binding emission does not claim the server acknowledged checking it.
+
+## Example usage
+
+{{ tffile "examples/provider/provider.tf" }}
+
+## Kerberos over verified TLS
+
+{{ tffile "examples/provider/kerberos_tls/provider.tf" }}
+
+## Kerberos with SASL sealing
+
+{{ tffile "examples/provider/kerberos_seal/provider.tf" }}
+
+## Kerberos with an explicit credential cache
+
+{{ tffile "examples/provider/kerberos_cache/provider.tf" }}
+
+Provider credentials are never resource attributes. Prefer process environment variables from
+your secret manager, or ephemeral sensitive Terraform variables, as illustrated above. Explicit
+configuration takes precedence over environment variables; unknown values do not use environment
+fallbacks. Empty environment variables use documented defaults. No credentials are retried with
+another mechanism, source or transport. The provider does not support skipping TLS verification.
+
+The native backend is opt-in and available only on supported Windows hosts. Native Negotiate
+may use the current Windows identity only when explicitly selected and no credentials are supplied.
+Private CA roots supplied through `ca_cert_pem` require the portable backend.
+
+One SDK session is shared by this provider instance's resources, data sources, list resources
+and actions. SDK calls serialize session access and use bounded operation contexts. Configure
+RPC completion leaves the session available for later operations; provider stop and explicit
+test cleanup close it. Different provider aliases receive independent clients.
+
+{{ .SchemaMarkdown | trimspace }}

@@ -6,7 +6,8 @@ Terraform Plugin Framework provider for Active Directory Domain Services, built 
 The provider is under development. The current foundation serves Terraform plugin protocol V6;
 directory resources, data sources, list resources and actions are being added through the
 [approved implementation backlog](docs/plans/activedirectory-provider/backlog/INDEX.md).
-The foundation does not connect to Active Directory or manage directory objects.
+Provider configuration opens and qualifies a protected AD DS session using SDK v0.2.0.
+Directory service implementations are being added separately.
 
 Requirements: Go 1.27.4 for development and Terraform 1.14 or newer for the provider's four service surfaces.
 
@@ -21,12 +22,17 @@ terraform {
   }
 }
 
-provider "activedirectory" {}
+# Credentials come from AD_USERNAME and AD_PASSWORD.
+provider "activedirectory" {
+  host        = "dc.example.test"
+  auth_method = "simple"
+  transport   = "ldaps"
+}
 ```
 
 The provider has not been published to the Terraform Registry. This configuration becomes usable
-after installing a development build; the empty foundation has no authentication settings yet.
-Secure SDK authentication configuration is the next client foundation step.
+after installing a development build. See [provider configuration](docs/index.md) for verified TLS,
+Kerberos channel binding, signing/sealing, explicit credential sources and private CA trust.
 
 ## Development
 
@@ -38,6 +44,7 @@ go test ./...
 go vet ./...
 go build -o bin/terraform-provider-activedirectory .
 golangci-lint run --fix=false
+go generate ./...
 ```
 
 The Terraform CLI foundation test runs without a domain controller:
@@ -64,6 +71,7 @@ Windows Server 2016, 2019, 2022 and 2025 where applicable. macOS receives build 
 main.go                         Provider process and build version
 internal/provider/              Provider factory and service registrations
 internal/provider/core/         Shared schema and configuration
+internal/client/                Public SDK contracts and session qualification
 examples/provider/              Provider configuration example
 docs/plans/activedirectory-provider/  Approved architecture and implementation backlog
 ```
@@ -75,6 +83,8 @@ with service implementations added under `internal/services/` and SDK connection
 and [implementation sequence](docs/plans/activedirectory-provider/implementation-plan.md).
 See [provider registrations](docs/development/provider-registrations.md) for production constructor
 lists and the isolated factory pattern used by feature tests.
+The [client acceptance guide](docs/development/client-acceptance.md) describes the real Terraform
+connection probe and its lab-only environment variables.
 
 Report defects through [GitHub issues](https://github.com/deploymenttheory/terraform-provider-activedirectory/issues).
 See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidance.
