@@ -17,6 +17,8 @@ Supply distinct, strong fixture passwords through `TF_VAR_user_password` and
 subject, passed through protected process environment and excluded from command arguments,
 logs and receipts. Provider authentication still uses its separately supplied credentials.
 The test checks complete JSON plans and Terraform state for either fixture password.
+Avoid the user name and display-name tokens in generated passwords: AD complexity rules
+reject them even when the password has sufficient length and character variety.
 
 The lifecycle test exercises disabled creation/password/enable, a no-change plan, password
 rotation, rename/move beneath the owned root, both GUID and resource-identity import, generated
