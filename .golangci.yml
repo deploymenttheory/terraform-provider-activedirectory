@@ -18,8 +18,8 @@ issues:
   # Don’t dedupe by line; every instance matters.
   uniq-by-line: false
 
-  # Only fail on new issues introduced by new PR's.
-  new: true
+  # Compare submitted changes with the explicit merge base; do not infer a diff from generated files.
+  new: false
 
   # Define the “base” for “new” issues as the merge-base against main.
   new-from-merge-base: origin/main
@@ -122,15 +122,10 @@ linters:
     # exclude entire files from reporting (still analyzed)
     paths:
       - ".*\\.gen\\.go$"          # Generated Go files
-      - ".*_test\\.go$"           # Test files (already handled with more specific rules)
       - "examples/.*"             # Example code for documentation
       - "tools/.*"                # Build/helper tools
       - "scripts/.*"              # Scripts for development
       - "docs/.*\\.go$"           # Documentation generators
-
-    # Never exclude these critical paths, even if they match patterns above
-    paths-except:
-      - "internal/.*\\.go$"       # Core provider logic
 
 formatters:
   # Only run the formatters you actually want to auto‐fix in CI
