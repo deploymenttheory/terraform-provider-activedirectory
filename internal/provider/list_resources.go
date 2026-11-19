@@ -10,6 +10,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/provider"
 
 	computer "github.com/deploymenttheory/terraform-provider-activedirectory/internal/services/list-resources/computers/computer"
+	group "github.com/deploymenttheory/terraform-provider-activedirectory/internal/services/list-resources/groups/group"
 	organizationalUnit "github.com/deploymenttheory/terraform-provider-activedirectory/internal/services/list-resources/organizational_units/organizational_unit"
 	user "github.com/deploymenttheory/terraform-provider-activedirectory/internal/services/list-resources/users/user"
 )
@@ -22,5 +23,6 @@ func (p *ActiveDirectoryProvider) ListResources(_ context.Context) []func() list
 		organizationalUnit.NewOrganizationalUnitListResource,
 		user.NewUserListResource,
 		computer.NewComputerListResource,
+		group.NewGroupListResource,
 	}
 }

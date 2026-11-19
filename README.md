@@ -43,6 +43,14 @@ account settings, versioned write-only passwords and stable GUID import. This ma
 objects only; it never joins or configures a host. See the [computer resource](docs/resources/computer.md)
 and [computer acceptance guide](docs/development/computer-acceptance.md). Live qualification is in progress.
 
+This branch adds the `activedirectory_group` resource, singular/plural group data sources and
+the `activedirectory_group` list resource. Group management supports GUID import, same-domain
+rename/move, typed properties and semantic category/scope changes. Membership belongs to
+separate edge resources; deleting a group does not delete its members.
+See the [group resource](docs/resources/group.md) for ownership and recovery guidance.
+The [group acceptance guide](docs/development/group-acceptance.md) describes live lab cases
+and their independently verified cleanup requirements.
+
 Requirements: Go 1.27.4 for development and Terraform 1.14 or newer for the provider's four service surfaces.
 
 ```hcl

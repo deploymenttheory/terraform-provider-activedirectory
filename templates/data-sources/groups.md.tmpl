@@ -1,0 +1,24 @@
+---
+page_title: "activedirectory_groups Data Source - Active Directory"
+subcategory: "Groups"
+description: |-
+  Discover groups under an explicit search base with finite bounds.
+---
+
+# activedirectory_groups (Data Source)
+
+{{ .Description | trimspace }}
+
+{{ tffile "examples/data-sources/activedirectory_groups/providers.tf" }}
+
+{{ tffile "examples/data-sources/activedirectory_groups/data-source.tf" }}
+
+{{ tffile "examples/data-sources/activedirectory_groups/data-source_maximal.tf" }}
+
+The SDK intersects the supplied raw LDAP filter with its group class filter. Search `scope`
+controls depth; each returned object's `scope` describes its group scope. Results sort by GUID;
+`complete` and `limit_reached` distinguish exhaustion from bounded materialization. Partial
+observations remain alongside errors. Zero does not enable an unbounded search, and PowerShell
+filter expressions are not parsed. No membership values are owned or implicitly expanded.
+
+{{ .SchemaMarkdown | trimspace }}

@@ -1,0 +1,22 @@
+---
+page_title: "activedirectory_group Data Source - Active Directory"
+subcategory: "Groups"
+description: |-
+  Observe one group through an explicit GUID or distinguished name.
+---
+
+# activedirectory_group (Data Source)
+
+{{ .Description | trimspace }}
+
+{{ tffile "examples/data-sources/activedirectory_group/providers.tf" }}
+
+{{ tffile "examples/data-sources/activedirectory_group/data-source.tf" }}
+
+{{ tffile "examples/data-sources/activedirectory_group/data-source_maximal.tf" }}
+
+Supply exactly one known `object_guid` or `dn`. Hidden or unavailable properties remain null;
+category and group scope are not guessed. Missing, denied or incomplete observations return
+diagnostics. This data source owns no group attributes or membership.
+
+{{ .SchemaMarkdown | trimspace }}

@@ -10,6 +10,8 @@ import (
 
 	computer "github.com/deploymenttheory/terraform-provider-activedirectory/internal/services/datasources/computers/computer"
 	computers "github.com/deploymenttheory/terraform-provider-activedirectory/internal/services/datasources/computers/computers"
+	group "github.com/deploymenttheory/terraform-provider-activedirectory/internal/services/datasources/groups/group"
+	groups "github.com/deploymenttheory/terraform-provider-activedirectory/internal/services/datasources/groups/groups"
 	organizationalUnit "github.com/deploymenttheory/terraform-provider-activedirectory/internal/services/datasources/organizational_units/organizational_unit"
 	organizationalUnits "github.com/deploymenttheory/terraform-provider-activedirectory/internal/services/datasources/organizational_units/organizational_units"
 	user "github.com/deploymenttheory/terraform-provider-activedirectory/internal/services/datasources/users/user"
@@ -25,5 +27,7 @@ func (p *ActiveDirectoryProvider) DataSources(_ context.Context) []func() dataso
 		users.NewUsersDataSource,
 		computer.NewComputerDataSource,
 		computers.NewComputersDataSource,
+		group.NewGroupDataSource,
+		groups.NewGroupsDataSource,
 	}
 }
