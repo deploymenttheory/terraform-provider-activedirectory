@@ -45,7 +45,7 @@ func (c labSecretPlan) CheckPlan(_ context.Context, req plancheck.CheckPlanReque
 // TestAccServiceAccountPasswordFailure verifies the cmdlet-compatible disabled partial creation and blocks blind replacement after password rejection.
 func TestAccServiceAccountPasswordFailure(t *testing.T) {
 	lab := newServiceAccountLab(t)
-	lab.secret = "not-complex-enough"
+	lab.secret = strings.Repeat("Aa1!", 128)
 	t.Setenv("TF_VAR_service_account_password", lab.secret)
 	configuration := lab.configuration(t, "rejected-password.tf", "__NAME__", strconv.Quote(lab.prefix+"-rejected"), "__SAM__", strconv.Quote(lab.sam("rejected")+"$"))
 	observe := func() {

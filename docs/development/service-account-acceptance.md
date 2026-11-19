@@ -26,11 +26,15 @@ objects exercise page-size-one discovery, complete/bounded results and list cons
 Plans/state are checked for bind and creation secrets. Every subject GUID is tracked through
 independent absence checks; auxiliary groups/OUs retain permanent markers and leaf-only cleanup.
 
-The password-failure case requests a deliberately noncompliant fixture-only sMSA password.
+The password-failure case requests a deliberately oversized fixture-only sMSA password.
 It checks that accepted creation remains disabled with the same GUID, a later apply cannot
 replay or replace that object, and explicit import/independent fixture retirement can recover.
 This follows the documented [New-ADServiceAccount password behavior](https://learn.microsoft.com/en-us/powershell/module/activedirectory/new-adserviceaccount?view=windowsserver2025-ps#-accountpassword).
 It changes no domain password policy and performs no password-read or login probe.
+The Server 2025 native cmdlet accepted the initial weak-password sample, matching the SDK;
+that sample could not prove a failure. An oversized value produced a native password-stage
+rejection with a retained disabled object. Receipts `sr-25-20261119t201840469z-native-password`
+and `sr-25-20261119t202009573z-native-password` record both comparisons and verified cleanup.
 
 `tests/fixtures/prerequisites.ps1` beside the resource provides a read-only preflight helper.
 It verifies the selected AD DS target and reads explicit service-account class definitions
