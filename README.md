@@ -52,6 +52,14 @@ See the [group resource](docs/resources/group.md) for ownership and recovery gui
 The [group acceptance guide](docs/development/group-acceptance.md) describes live lab cases
 and their independently verified cleanup requirements.
 
+Generic object lifecycle, GUID/DN lookup, bounded data sources and list discovery are implemented
+with explicit schema classes and binary-safe raw attribute ownership. See the
+[object resource](docs/resources/object.md) for import and recovery semantics and the
+[object acceptance guide](docs/development/object-acceptance.md) for guarded lab cases.
+Both lifecycle and nonempty-leaf acceptance cases pass from Windows/Linux amd64 against
+Server 2016, 2019, 2022 and 2025 using verified LDAPS. All 16 cases have independently
+verified process, directory and TLS cleanup; the original lab baselines were restored.
+
 Requirements: Go 1.27.4 for development and Terraform 1.14 or newer for the provider's four service surfaces.
 
 ```hcl

@@ -1,0 +1,32 @@
+---
+page_title: "activedirectory_object Data Source - Active Directory"
+subcategory: "Objects"
+description: |-
+  Observe one generic AD DS object by an explicit GUID or DN.
+---
+
+# activedirectory_object (Data Source)
+
+{{ .Description | trimspace }}
+
+{{ tffile "examples/data-sources/activedirectory_object/providers.tf" }}
+
+{{ tffile "examples/data-sources/activedirectory_object/data-source.tf" }}
+
+{{ tffile "examples/data-sources/activedirectory_object/data-source_maximal.tf" }}
+
+Supply exactly one known `object_guid` or `dn`. Missing, denied and incomplete
+lookups return diagnostics. A conflicting GUID never replaces the requested identity.
+This data source owns no directory object or raw attribute.
+
+Select raw LDAP display names explicitly through `properties`. `observed_attributes`
+retains their bytes as padded base64 sets, including zero-length values. `attribute_status`
+distinguishes present, absent, unloaded and partial attributes. Absent may mean hidden by
+access controls; it does not prove the attribute is unset. `attribute_ranges` retains
+incomplete returned ranges separately instead of presenting them as complete value sets.
+Base64 preserves binary values; it does not encrypt Terraform state.
+
+The `object_classes` list preserves the AD DS class hierarchy order. Its last value is the
+instantiated class, exposed separately as `object_class`; see the [Microsoft AD DS specification](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-adts/1de0b9e3-6cc6-4a8c-b9da-715dc301645b).
+
+{{ .SchemaMarkdown | trimspace }}
