@@ -28,3 +28,14 @@ resource "activedirectory_computer" "test" {
   password_wo_version = 1
   account_expires     = 0
 }
+
+data "activedirectory_computer" "lookup" {
+  object_guid = activedirectory_computer.test.id
+}
+
+data "activedirectory_computers" "scoped" {
+  base_dn      = "DC=unit,DC=invalid"
+  page_size    = 2
+  result_limit = 10
+  depends_on   = [activedirectory_computer.test]
+}

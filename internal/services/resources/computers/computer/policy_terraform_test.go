@@ -4,11 +4,13 @@
 package computer
 
 import (
+	"os"
 	"strings"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/querycheck"
 
 	"github.com/deploymenttheory/go-sdk-activedirectory/activedirectory/services/accounts"
 	"github.com/deploymenttheory/terraform-provider-activedirectory/internal/acceptance"
@@ -32,6 +34,11 @@ func TestTerraformUnitCompleteComputerObservationAndPolicyChanges(t *testing.T) 
 		*field.value = types.BoolValue(false)
 	}
 	directory.model.ChangePasswordAtLogon = types.BoolValue(true)
+	query, err := os.ReadFile("tests/terraform/unit/list-resource.tfquery.hcl")
+	if err != nil {
+		t.Fatal(err)
+	}
+	cleared := strings.Replace(updated, "  description         = \"first description\"\n", "  clear_properties = [\"description\"]\n", 1)
 	t.Chdir(t.TempDir())
 	resource.Test(t, resource.TestCase{IsUnitTest: true, ProtoV6ProviderFactories: unitProviderFactories(t, directory.callbacks(t)), Steps: []resource.TestStep{
 		{Config: initial},
@@ -44,5 +51,8 @@ func TestTerraformUnitCompleteComputerObservationAndPolicyChanges(t *testing.T) 
 		{Config: updated, PlanOnly: true},
 		{ResourceName: ResourceName + ".test", ImportState: true, ImportStateVerify: true, ImportStateVerifyIgnore: []string{"password_wo_version"}},
 		{ResourceName: ResourceName + ".test", ImportState: true, ImportStateKind: resource.ImportBlockWithResourceIdentity, GenerateConfig: true},
+		{Query: true, Config: string(query), QueryResultChecks: []querycheck.QueryResultCheck{querycheck.ExpectLength(ResourceName+".test", 1)}},
+		{Config: cleared, Check: resource.TestCheckNoResourceAttr(ResourceName+".test", "description")},
+		{Config: cleared, PlanOnly: true},
 	}})
 }
