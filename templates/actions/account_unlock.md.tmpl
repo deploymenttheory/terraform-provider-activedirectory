@@ -1,0 +1,37 @@
+---
+page_title: "activedirectory_account_unlock Action - Active Directory"
+subcategory: "Accounts"
+description: |-
+  Unlock one account on an explicitly selected Active Directory domain controller.
+---
+
+# activedirectory_account_unlock (Action)
+
+{{ .Description | trimspace }}
+
+Requires Terraform 1.14 or later. Select the account by GUID and acknowledge the exact DC DNS
+name reported by the provider's RootDSE observation. A different server is refused before writing.
+
+## Provider configuration
+
+{{ tffile "examples/actions/activedirectory_account_unlock/providers.tf" }}
+
+## Explicit invocation
+
+{{ tffile "examples/actions/activedirectory_account_unlock/action.tf" }}
+
+## Explicit request through a lifecycle trigger
+
+{{ tffile "examples/actions/activedirectory_account_unlock/action_maximal.tf" }}
+
+Unlocking resets `lockoutTime` on the selected DC. It neither enables a disabled account nor
+changes passwords, account policy or computed eligibility flags. A successful readback establishes
+the same GUID and `lockoutTime=0` on that server; it does not establish forest-wide convergence.
+
+The provider submits one SDK operation per invocation. It never retries a rejected or uncertain
+write. On an accepted/uncertain failure, preserve the diagnostic's target GUID and DC and verify
+that account independently before explicitly invoking again. A lifecycle trigger is a separate
+invocation when its configured resource event occurs; do not use trigger changes as automatic
+recovery from an unknown outcome. Actions have no managed resource state or import operation.
+
+{{ .SchemaMarkdown | trimspace }}
