@@ -196,3 +196,27 @@ func TestConstructKerberosCredentialSources(t *testing.T) {
 		})
 	}
 }
+
+func TestConnectionErrorsExposeSafeCauseWithoutPeerDiagnostics(t *testing.T) {
+	t.Parallel()
+	cases := []struct {
+		err  error
+		want string
+	}{
+		{client.ErrProtection, "required TLS"},
+		{shared.ErrTLSNegotiation, "Verified TLS negotiation failed"},
+		{shared.ErrKerberosExpired, "has expired"},
+		{shared.ErrKerberosAuthentication, "Kerberos authentication failed"},
+		{shared.ErrUnsupportedDirectory, "capability observation"},
+		{config.ErrBackendUnavailable, "execution host"},
+		{context.DeadlineExceeded, "exceeded its timeout"},
+		{context.Canceled, "was canceled"},
+		{&shared.LDAPError{Code: 49, Diagnostic: "secret-unit-value", Operation: "secret-unit-value", MatchedDN: "secret-unit-value"}, "LDAP returned status 49"},
+	}
+	for _, test := range cases {
+		detail := connectionErrorDetail(errors.Join(test.err, errors.New("peer echoed secret-unit-value")))
+		if !strings.Contains(detail, test.want) || strings.Contains(detail, "secret-unit-value") {
+			t.Fatalf("safe error classification failed: %s", detail)
+		}
+	}
+}
