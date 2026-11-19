@@ -22,13 +22,13 @@ issues:
   new: true
 
   # Define the “base” for “new” issues as the merge-base against main.
-  new-from-merge-base: main
+  new-from-merge-base: origin/main
 
   # Also catch anything in new or modified files, even outside the diff hunk.
   whole-files: true
 
-  # Automatically apply any fixable issues (like gofmt/goimports).
-  fix: true
+  # CI reports issues without mutating the checkout.
+  fix: false
 
 
 linters:
@@ -49,7 +49,7 @@ linters:
     - bodyclose      # makes sure every HTTP response body is closed
     - gosec          # scans for security issues (e.g. hardcoded credentials)
     
-    # Specifically important for API clients (Microsoft 365 API)
+    # Context propagation for SDK and directory operations
     - contextcheck   # check whether function uses a non-inherited context
     - noctx          # finds sending http request without context.Context
     - nilnil         # checks that there is no simultaneous return of nil error and invalid value
@@ -60,6 +60,7 @@ linters:
     - misspell       # finds typos in comments, docs, & variable names
     - gocyclo        # warn on high cyclomatic complexity
     - wrapcheck      # checks that errors from external packages are wrapped
+    - lll            # enforces the maximum Go line length
     
     # API/Terraform specific
     - musttag        # enforce field tags in (un)marshaled structs
@@ -67,6 +68,8 @@ linters:
 
   # 3) Per-linter configuration
   settings:
+    lll:
+      line-length: 180
     nakedret:
       max-func-lines: 40
 
@@ -135,10 +138,12 @@ formatters:
     - gofumpt     # strict Go formatting (superset of gofmt)
     - goimports   # fixes imports (add/remove/sort)
     - gci         # groups & sorts import blocks
-    - golines     # wraps long lines to a max length (e.g. 120 chars)
+    - golines     # wraps long lines to a maximum of 180 characters
 
   # Per‐formatter settings (optional—only if you need to tweak defaults)
   settings:
+    golines:
+      max-len: 180
     gci:
       # customize your import sections order: standard, external, project
       sections:

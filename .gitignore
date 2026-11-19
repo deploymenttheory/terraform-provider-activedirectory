@@ -27,6 +27,12 @@
 /pkg/
 coverage.out
 coverage.html
+golangci-lint-report.sarif
+.terraform/
+*.tfstate
+*.tfstate.*
+crash.log
+crash.*.log
 
 # Python virtual environments
 scripts/python/venv/
