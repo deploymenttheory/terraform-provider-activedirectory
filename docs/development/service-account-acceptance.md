@@ -6,12 +6,13 @@ plans. sMSA tests cover write-only creation password secrecy, buffer erasure, re
 on password-version changes and replacement without carrying gMSA-only metadata. Failure
 tests preserve accepted stage identity and refuse hidden/partial clear proof or write replay.
 
-Live provider qualification remains pending. The required clients are Windows/Linux amd64
-against Server 2016, 2019, 2022 and 2025; missing fixture evidence is not a passing result.
+All three feature cases pass from Windows and Linux amd64 against Server 2025.
+The required Server 2016/2019/2022 cases remain pending; missing fixture evidence
+is not a passing or unsupported result. Keep the implementation PR in draft.
 Use the guarded runners described in [testing](testing.md), selecting
 `TestAccServiceAccountLifecycle`, `TestAccServiceAccountCreationForms` and
 `TestAccServiceAccountPasswordFailure`. The feature-local
-fixtures and embedded Terraform configurations now exist; actual results remain pending.
+fixtures and embedded Terraform configurations are implemented.
 Never retrieve a managed password to verify a resource.
 
 The lifecycle case creates an ordinary gMSA, changes typed settings, SPNs and selected reader
@@ -47,3 +48,28 @@ On 19 November 2026 both owned Server 2025 lab DCs reported sMSA/gMSA classes, D
 evidence only; it does not qualify creation, reader-policy behavior, authorization or other
 server versions. Live cases must additionally verify actual effects, unrelated ACE preservation,
 process/directory/TLS cleanup, source/binary provenance and restored lab baselines.
+
+The successful Server 2025 runs used provider runtime revision
+`1d1f2998312139be5ffc3660cb426f2da1e62ba5`, immutable SDK
+`v0.2.1-0.20261119203218-b4ebca6eeb40`, Go 1.27.4 and Terraform 1.17.2.
+Receipts `sa-25-20261119t204104321z` (Windows) and
+`sa-25-20261119t204352949z` (Linux) record six passing cases, positive process
+retirement, independent directory/TLS cleanup and restored VM/Linux baselines.
+This includes actual rejected-password recovery/import with the SDK authoritative
+DN fix. A subsequent checksum/documentation update removes only obsolete SDK
+checksums; it changes no runtime source or selected dependency.
+
+The first Server 2016 lifecycle request failed before completing creation.
+Read-only preflight then observed zero KDS root keys on both DCs; native
+`New-ADServiceAccount` failed for both the minimal and lifecycle-shaped requests
+with code `-2146893811`, leaving no gMSA. Receipts
+`service-account-preflight-2016-20261119t205752624z` and
+`sn-16-20261119t205752775z` identify the missing LAB-03 infrastructure prerequisite.
+The failed provider run `sa-16-20261119t205108524z` records verified process
+retirement and independent subject/root/TLS cleanup. It does not qualify Server 2016.
+
+The approved LAB-03 KDS fixture work must provision any missing single key in each
+isolated forest, prove replication and allow the documented multi-DC maturity
+interval before the remaining live matrix. Do not backdate these two-DC keys or
+change SDK behavior to bypass the prerequisite. Continue other provider features
+while the persistent lab infrastructure matures.
