@@ -1,5 +1,3 @@
-provider "activedirectory" {}
-
 list "activedirectory_organizational_unit" "owned" {
   provider         = activedirectory
   include_resource = true
