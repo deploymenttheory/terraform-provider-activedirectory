@@ -18,14 +18,22 @@ import (
 
 const testID = "a3e9767a-200e-43dd-bb1d-e5ab400e5d6f"
 
+var (
+	errUnclassified     = errors.New("unclassified failure")
+	errPrivateFixture   = errors.New("private-fixture-password")
+	errUnclassifiedRead = errors.New("unclassified read failure")
+)
+
 func TestConfirmedAbsenceRejectsDeniedPartialAndContradictoryReads(t *testing.T) {
 	notFound := shared.ErrDirectoryObjectNotFound
 	if !ConfirmedAbsent(shared.IdentityResult{}, fmt.Errorf("read by GUID: %w", notFound)) {
 		t.Fatal("SDK confirmed not-found was not accepted")
 	}
-	for _, err := range []error{nil, shared.ErrIncompleteResult, shared.ErrObjectWritePermission, context.Canceled,
+	for _, err := range []error{
+		nil, shared.ErrIncompleteResult, shared.ErrObjectWritePermission, context.Canceled,
 		errors.Join(notFound, shared.ErrObjectWritePermission), errors.Join(notFound, shared.ErrIncompleteResult),
-		errors.Join(notFound, context.DeadlineExceeded), errors.Join(notFound, errors.New("unclassified failure"))} {
+		errors.Join(notFound, context.DeadlineExceeded), errors.Join(notFound, errUnclassified),
+	} {
 		if ConfirmedAbsent(shared.IdentityResult{}, err) {
 			t.Errorf("unsafe absence accepted: %v", err)
 		}
@@ -74,7 +82,7 @@ func TestMutationRetainsAcceptedAndUncertainIdentityWithoutReplayingWrites(t *te
 		t.Fatal(err)
 	}
 	result := shared.ObjectMutationResult{State: shared.ObjectWriteAccepted, TargetGUID: &guid, TargetDN: "OU=owned,DC=unit,DC=invalid"}
-	failure := errors.Join(shared.ErrObjectReadback, errors.New("private-fixture-password"))
+	failure := errors.Join(shared.ErrObjectReadback, errPrivateFixture)
 	for _, previous := range []types.String{types.StringNull(), types.StringUnknown(), types.StringValue(testID)} {
 		outcome := ObserveMutation(previous, result, failure)
 		if outcome.ID.ValueString() != testID || !outcome.Accepted || !outcome.ReconcileRequired || !outcome.Diagnostics.HasError() {
@@ -185,7 +193,7 @@ func TestBoundedReadbackRetainsPartialObservationsAndStopsOnDenial(t *testing.T)
 	count = 0
 	_, err = Readback(t.Context(), policy, func(context.Context) (shared.IdentityResult, error) {
 		count++
-		return shared.IdentityResult{}, errors.Join(shared.ErrIncompleteResult, errors.New("unclassified read failure"))
+		return shared.IdentityResult{}, errors.Join(shared.ErrIncompleteResult, errUnclassifiedRead)
 	}, func(shared.IdentityResult) bool { return true })
 	if !errors.Is(err, ErrReadback) || count != 1 {
 		t.Fatal("joined unknown failure was retried as an incomplete read")

@@ -15,8 +15,10 @@ import (
 	"github.com/hashicorp/terraform-plugin-go/tftypes"
 )
 
-const objectID = "a3e9767a-200e-43dd-bb1d-e5ab400e5d6f"
-const memberID = "b3e9767a-200e-43dd-bb1d-e5ab400e5d6f"
+const (
+	objectID = "a3e9767a-200e-43dd-bb1d-e5ab400e5d6f"
+	memberID = "b3e9767a-200e-43dd-bb1d-e5ab400e5d6f"
+)
 
 func TestGUIDImportAndRelationshipIdentity(t *testing.T) {
 	ctx := context.Background()
