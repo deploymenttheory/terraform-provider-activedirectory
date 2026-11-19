@@ -10,7 +10,10 @@ The provider is under development. The current foundation serves Terraform plugi
 directory resources, data sources, list resources and actions are being added through the
 [approved implementation backlog](docs/plans/activedirectory-provider/backlog/INDEX.md).
 Provider configuration opens and qualifies a protected AD DS session using SDK v0.2.0.
-Organizational unit lifecycle and discovery are implemented; live lab qualification is in progress.
+Organizational unit lifecycle and discovery passed real Terraform lab acceptance from Windows and
+Linux amd64 against Windows Server 2016, 2019, 2022 and 2025. The 32 cases cover CRUD, rename/move,
+GUID/identity import, generated configuration, data/list discovery, explicit clearing, protected
+and nonempty deletion, denied writes and hidden attributes. Owned fixture cleanup was verified.
 
 | Surface | Type | Documentation |
 | --- | --- | --- |
@@ -77,8 +80,10 @@ TF_ACC=1 TF_ACC_TERRAFORM_PATH="$(command -v terraform)" \
 
 This verifies Terraform CLI planning and state, alongside the unit tests for protocol V6 schema,
 configuration validation and provider instance isolation. It does not claim directory acceptance.
-Directory feature acceptance will run against the owned lab from Linux and Windows clients on
-Windows Server 2016, 2019, 2022 and 2025 where applicable. macOS receives build and unit coverage.
+OU feature acceptance runs against the owned lab from Linux and Windows clients on Windows Server
+2016, 2019, 2022 and 2025. See the [OU acceptance guide](docs/development/organizational-unit-acceptance.md)
+for fixtures, cases and cleanup. Each subsequent feature needs its own applicable qualification.
+macOS receives build and unit coverage.
 
 ## Repository layout
 
