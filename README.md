@@ -68,6 +68,16 @@ Both lifecycle and nonempty-leaf acceptance cases pass from Windows/Linux amd64 
 Server 2016, 2019, 2022 and 2025 using verified LDAPS. All 16 cases have independently
 verified process, directory and TLS cleanup; the original lab baselines were restored.
 
+Direct group membership has an individual [link resource](docs/resources/group_member.md),
+[link lookup](docs/data-sources/group_member.md),
+[relationship discovery](docs/data-sources/group_member_relationships.md) and
+[list resource](docs/list-resources/group_member.md). Each instance owns one ordered
+pair of existing object GUIDs. Other members and both endpoint objects survive link
+deletion. Nested and primary membership are excluded. Unit Terraform tests cover
+adoption, imports, external removal and one-link deletion; applicable lab qualification
+is still pending for this feature. See the
+[membership acceptance guide](docs/development/group-member-acceptance.md).
+
 Requirements: Go 1.27.4 for development and Terraform 1.14 or newer for the provider's four service surfaces.
 
 ```hcl

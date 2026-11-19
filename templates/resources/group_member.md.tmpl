@@ -1,0 +1,41 @@
+---
+page_title: "activedirectory_group_member Resource - Active Directory"
+subcategory: "Memberships"
+description: |-
+  Manage one direct group-member link while preserving other members and both objects.
+---
+
+# activedirectory_group_member (Resource)
+
+{{ .Description | trimspace }}
+
+{{ tffile "examples/resources/activedirectory_group_member/providers.tf" }}
+
+{{ tffile "examples/resources/activedirectory_group_member/resource.tf" }}
+
+{{ tffile "examples/resources/activedirectory_group_member/resource_maximal.tf" }}
+
+GUIDs identify directory objects; names and DNs may change without changing the
+ordered relationship identity. Primary-group and nested/effective membership are
+excluded. Foreign security principal resolution is not performed.
+
+Creation adopts an existing direct link or adds that one link. Deletion removes
+only the owned link and leaves both objects and other members intact. Changing
+either endpoint replaces the owned link. Do not manage the same pair in multiple
+Terraform states or through a competing member collection.
+
+New additions request persistent links. Existing link expiry is not managed or
+silently converted; there is no TTL input. Unresolved submitted effects retain
+nonsecret recovery intent and block another mutation until fresh directory
+observations reconcile the exact pair. No automatic write retry or rollback occurs.
+
+
+{{ .SchemaMarkdown | trimspace }}
+
+## Import
+
+{{ tffile "examples/resources/activedirectory_group_member/import-by-string-id.tf" }}
+
+{{ tffile "examples/resources/activedirectory_group_member/import-by-identity.tf" }}
+
+{{ .IdentitySchemaMarkdown | trimspace }}

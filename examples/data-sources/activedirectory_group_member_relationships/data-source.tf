@@ -1,0 +1,3 @@
+data "activedirectory_group_member_relationships" "example" {
+  group_guid = "11111111-1111-4111-8111-111111111111"
+}
