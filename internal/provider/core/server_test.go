@@ -44,3 +44,15 @@ func TestProtocolStopClosesClientsAndRedactsCleanupErrors(t *testing.T) {
 		}
 	}
 }
+
+func TestShutdownAdapterPreservesListAndActionRPCs(t *testing.T) {
+	t.Parallel()
+	p := provider.NewWithRegistry("test", provider.Registry{})
+	server := provider.NewProtocol6Server(p)
+	if _, ok := server.(tfprotov6.ProviderServerWithListResource); !ok {
+		t.Error("shutdown adapter erased list-resource RPCs")
+	}
+	if _, ok := server.(tfprotov6.ProviderServerWithActions); !ok {
+		t.Error("shutdown adapter erased action RPCs")
+	}
+}
