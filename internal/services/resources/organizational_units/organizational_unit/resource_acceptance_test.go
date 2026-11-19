@@ -5,6 +5,7 @@ package organizationalUnit
 
 import (
 	"context"
+	"os"
 	"regexp"
 	"strconv"
 	"testing"
@@ -13,6 +14,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-testing/knownvalue"
 	"github.com/hashicorp/terraform-plugin-testing/plancheck"
 	"github.com/hashicorp/terraform-plugin-testing/querycheck"
+	"github.com/hashicorp/terraform-plugin-testing/terraform"
 	"github.com/hashicorp/terraform-plugin-testing/tfjsonpath"
 
 	"github.com/deploymenttheory/go-sdk-activedirectory/activedirectory/shared"
@@ -128,5 +130,47 @@ func TestAccOrganizationalUnitNonemptyDelete(t *testing.T) {
 		{Config: configuration, Check: lab.capture},
 		{Config: configuration, PreConfig: createChild, Destroy: true, ExpectError: regexp.MustCompile("OU deletion not confirmed")},
 		{Config: configuration, PreConfig: removeChild, Check: lab.capture},
+	}})
+}
+
+// TestAccOrganizationalUnitDeniedAndHidden preserves managed state when an ordinary reader cannot observe or change a property.
+func TestAccOrganizationalUnitDeniedAndHidden(t *testing.T) {
+	lab := newOULab(t)
+	guid := os.Getenv("AD_ACCEPTANCE_HIDDEN_GUID")
+	name := os.Getenv("AD_ACCEPTANCE_HIDDEN_NAME")
+	if _, err := shared.IdentityByGUID(guid); err != nil || name == "" || os.Getenv("TF_VAR_reader_upn") == "" || os.Getenv("TF_VAR_reader_password") == "" {
+		t.Fatal("independently prepared owned permission fixture and ordinary reader credentials are required")
+	}
+	baseline := "tfad-hidden:" + lab.target.RunID
+	configuration := func(provider, description, imported, lookup string) string {
+		return lab.configuration(t, "permissions.tf", "__PROVIDER__", provider, "__NAME__", strconv.Quote(name),
+			"__DESCRIPTION__", strconv.Quote(description), "__IMPORT_BLOCK__", imported, "__LOOKUP_BLOCK__", lookup)
+	}
+	admin := configuration("activedirectory", baseline, "", "")
+	imported := configuration("activedirectory", baseline, "import {\n  to = "+ResourceName+".test\n  id = "+strconv.Quote(guid)+"\n}\n", "")
+	lookup := "data \"activedirectory_organizational_unit\" \"hidden\" {\n  provider = activedirectory.reader\n  object_guid = " + strconv.Quote(guid) + "\n}\n"
+	reader := configuration("activedirectory.reader", baseline, "", lookup)
+	verifyBaseline := func(state *terraform.State) error {
+		if err := lab.capture(state); err != nil {
+			return err
+		}
+		lab.mu.Lock()
+		defer lab.mu.Unlock()
+		identity, _ := shared.IdentityByGUID(guid)
+		result, err := lab.observer.OrganizationalUnits.OrganizationalUnit(t.Context(), identity, shared.ResolveIdentityOptions{})
+		if err != nil || !result.Observation.Complete || result.Unit == nil || result.Unit.Description == nil || *result.Unit.Description != baseline {
+			return errLabOwnership
+		}
+		return nil
+	}
+	resource.Test(t, resource.TestCase{ProtoV6ProviderFactories: lab.factories(t), CheckDestroy: lab.checkDestroy, Steps: []resource.TestStep{
+		{Config: imported, Check: verifyBaseline},
+		{Config: configuration("activedirectory.reader", "refused change", "", lookup), ExpectError: regexp.MustCompile("Directory mutation did not complete")},
+		{Config: reader, Check: resource.ComposeAggregateTestCheckFunc(verifyBaseline,
+			resource.TestCheckResourceAttr(ResourceName+".test", "id", guid),
+			resource.TestCheckResourceAttr(ResourceName+".test", "description", baseline),
+			resource.TestCheckNoResourceAttr("data.activedirectory_organizational_unit.hidden", "description"))},
+		{Config: reader, PlanOnly: true},
+		{Config: admin, Check: verifyBaseline},
 	}})
 }
