@@ -1,0 +1,22 @@
+---
+page_title: "activedirectory_user Data Source - Active Directory"
+subcategory: "Users"
+description: |-
+  Observe one user by explicit GUID or DN.
+---
+
+# activedirectory_user (Data Source)
+
+{{ .Description | trimspace }}
+
+{{ tffile "examples/data-sources/activedirectory_user/providers.tf" }}
+
+{{ tffile "examples/data-sources/activedirectory_user/data-source.tf" }}
+
+{{ tffile "examples/data-sources/activedirectory_user/data-source_maximal.tf" }}
+
+Supply exactly one known `object_guid` or `dn`. Optional hidden/unavailable attributes remain
+null; the data source does not fabricate false flags, expose password values or own attributes.
+Missing, denied and incomplete observations return diagnostics.
+
+{{ .SchemaMarkdown | trimspace }}

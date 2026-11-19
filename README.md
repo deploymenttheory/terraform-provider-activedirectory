@@ -10,7 +10,10 @@ The provider is under development. The current foundation serves Terraform plugi
 directory resources, data sources, list resources and actions are being added through the
 [approved implementation backlog](docs/plans/activedirectory-provider/backlog/INDEX.md).
 Provider configuration opens and qualifies a protected AD DS session using SDK v0.2.0.
-Directory service implementations are being added separately.
+This branch adds the `activedirectory_user` resource, singular/plural user data sources and
+the `activedirectory_user` list resource. User management supports GUID import, rename/move,
+typed properties, account flags, expiration and versioned write-only passwords.
+See the [user resource](docs/resources/user.md) and [user acceptance guide](docs/development/user-acceptance.md).
 
 Requirements: Go 1.27.4 for development and Terraform 1.14 or newer for the provider's four service surfaces.
 
@@ -75,7 +78,10 @@ main.go                         Provider process and build version
 internal/provider/              Provider factory and service registrations
 internal/provider/core/         Shared schema and configuration
 internal/client/                Public SDK contracts and session qualification
+internal/services/              Feature-local resources, data sources and list resources
 examples/provider/              Provider configuration example
+examples/                       Minimal and maximal examples for each service surface
+templates/                      Source templates for generated service documentation
 docs/plans/activedirectory-provider/  Approved architecture and implementation backlog
 ```
 

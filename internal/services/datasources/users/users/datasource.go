@@ -35,6 +35,7 @@ func (*UsersDataSource) Metadata(_ context.Context, _ datasource.MetadataRequest
 
 // Configure reuses the provider's authenticated SDK session for scoped discovery.
 func (d *UsersDataSource) Configure(_ context.Context, req datasource.ConfigureRequest, resp *datasource.ConfigureResponse) {
+	d.client = nil
 	if req.ProviderData == nil {
 		return
 	}

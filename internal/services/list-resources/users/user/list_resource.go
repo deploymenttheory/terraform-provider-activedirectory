@@ -33,6 +33,7 @@ func (*UserListResource) Metadata(_ context.Context, _ resource.MetadataRequest,
 
 // Configure binds discovery to the provider's shared SDK session rather than opening a connection per result.
 func (r *UserListResource) Configure(_ context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
+	r.client = nil
 	if req.ProviderData == nil {
 		return
 	}

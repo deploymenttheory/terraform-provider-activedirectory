@@ -46,8 +46,9 @@ func TestProviderProtocolV6(t *testing.T) {
 	if schema.Provider == nil || schema.Provider.Block == nil {
 		t.Fatal("protocol V6 returned no provider schema")
 	}
-	if len(schema.ResourceSchemas) != 0 || len(schema.DataSourceSchemas) != 0 {
-		t.Fatal("empty foundation unexpectedly registered directory services")
+	if schema.ResourceSchemas["activedirectory_user"] == nil || schema.DataSourceSchemas["activedirectory_user"] == nil ||
+		schema.DataSourceSchemas["activedirectory_users"] == nil {
+		t.Fatal("user lifecycle and discovery schemas were not registered")
 	}
 
 	metadata, err := server.GetMetadata(ctx, &tfprotov6.GetMetadataRequest{})
@@ -55,8 +56,8 @@ func TestProviderProtocolV6(t *testing.T) {
 		t.Fatalf("get provider metadata: %v", err)
 	}
 	assertNoProtocolErrors(t, metadata.Diagnostics)
-	if len(metadata.Resources) != 0 || len(metadata.DataSources) != 0 || len(metadata.ListResources) != 0 || len(metadata.Actions) != 0 {
-		t.Fatal("empty foundation unexpectedly advertised service metadata")
+	if len(metadata.Resources) != 1 || len(metadata.DataSources) != 2 || len(metadata.ListResources) != 1 || len(metadata.Actions) != 0 {
+		t.Fatal("user lifecycle and discovery metadata were not registered")
 	}
 
 	configType := schema.Provider.ValueType().(tftypes.Object)

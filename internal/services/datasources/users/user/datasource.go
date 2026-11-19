@@ -34,6 +34,7 @@ func (*UserDataSource) Metadata(_ context.Context, _ datasource.MetadataRequest,
 
 // Configure binds this read-only surface to the provider's existing authenticated SDK session.
 func (d *UserDataSource) Configure(_ context.Context, req datasource.ConfigureRequest, resp *datasource.ConfigureResponse) {
+	d.client = nil
 	if req.ProviderData == nil {
 		return
 	}
