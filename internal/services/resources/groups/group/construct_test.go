@@ -15,7 +15,8 @@ import (
 
 func creationModel() GroupResourceModel {
 	return GroupResourceModel{
-		Name: types.StringValue("Research, Europe"), SAMAccountName: types.StringValue("research-europe"),
+		ClearProperties: types.SetNull(types.StringType),
+		Name:            types.StringValue("Research, Europe"), SAMAccountName: types.StringValue("research-europe"),
 		ParentDN: types.StringValue("OU=Groups,DC=unit,DC=invalid"), Category: types.StringValue("security"), Scope: types.StringValue("global"),
 	}
 }
