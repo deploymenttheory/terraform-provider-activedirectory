@@ -1,0 +1,6 @@
+{
+  "guid": "dc93656c-f745-4926-9bbb-31e7bbecb68b",
+  "distinguishedName": "CN=fixture,DC=unit,DC=invalid",
+  "lockoutTime": 0,
+  "enabled": false
+}

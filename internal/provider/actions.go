@@ -8,11 +8,13 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/action"
 	"github.com/hashicorp/terraform-plugin-framework/provider"
+
+	accountUnlock "github.com/deploymenttheory/terraform-provider-activedirectory/internal/services/actions/accounts/account_unlock"
 )
 
 var _ provider.ProviderWithActions = &ActiveDirectoryProvider{}
 
 // Actions explicitly registers the operations available through Terraform action blocks.
 func (p *ActiveDirectoryProvider) Actions(_ context.Context) []func() action.Action {
-	return []func() action.Action{}
+	return []func() action.Action{accountUnlock.NewAccountUnlockAction}
 }
