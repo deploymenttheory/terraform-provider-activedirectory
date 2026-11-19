@@ -15,6 +15,8 @@ the `activedirectory_group` list resource. Group management supports GUID import
 rename/move, typed properties and semantic category/scope changes. Membership belongs to
 separate edge resources; deleting a group does not delete its members.
 See the [group resource](docs/resources/group.md) for ownership and recovery guidance.
+The [group acceptance guide](docs/development/group-acceptance.md) describes live lab cases
+and their independently verified cleanup requirements.
 
 Requirements: Go 1.27.4 for development and Terraform 1.14 or newer for the provider's four service surfaces.
 
