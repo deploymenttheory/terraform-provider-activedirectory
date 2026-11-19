@@ -10,6 +10,11 @@ The provider is under development. The current foundation serves Terraform plugi
 directory resources, data sources, list resources and actions are being added through the
 [approved implementation backlog](docs/plans/activedirectory-provider/backlog/INDEX.md).
 Provider configuration opens and qualifies a protected AD DS session using SDK v0.2.0.
+
+The `activedirectory_account_unlock` action is implemented with unit tests, examples and
+[generated documentation](docs/actions/account_unlock.md). Its live lab qualification is pending.
+It selects an account by GUID on an explicitly acknowledged DC and never enables a disabled
+account or retries a failed or uncertain unlock automatically.
 Directory service implementations are being added separately.
 
 Requirements: Go 1.27.4 for development and Terraform 1.14 or newer for the provider's four service surfaces.

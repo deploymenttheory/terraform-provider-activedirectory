@@ -55,8 +55,9 @@ func TestProviderProtocolV6(t *testing.T) {
 		t.Fatalf("get provider metadata: %v", err)
 	}
 	assertNoProtocolErrors(t, metadata.Diagnostics)
-	if len(metadata.Resources) != 0 || len(metadata.DataSources) != 0 || len(metadata.ListResources) != 0 || len(metadata.Actions) != 0 {
-		t.Fatal("empty foundation unexpectedly advertised service metadata")
+	if len(metadata.Resources) != 0 || len(metadata.DataSources) != 0 || len(metadata.ListResources) != 0 || len(metadata.Actions) != 1 ||
+		metadata.Actions[0].TypeName != "activedirectory_account_unlock" {
+		t.Fatal("provider service metadata does not match its account unlock registration")
 	}
 
 	configType := schema.Provider.ValueType().(tftypes.Object)
