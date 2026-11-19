@@ -49,10 +49,10 @@ func TestShutdownAdapterPreservesListAndActionRPCs(t *testing.T) {
 	t.Parallel()
 	p := provider.NewWithRegistry("test", provider.Registry{})
 	server := provider.NewProtocol6Server(p)
-	if _, ok := server.(tfprotov6.ProviderServerWithListResource); !ok {
+	if _, ok := server.(tfprotov6.ListResourceServer); !ok {
 		t.Error("shutdown adapter erased list-resource RPCs")
 	}
-	if _, ok := server.(tfprotov6.ProviderServerWithActions); !ok {
+	if _, ok := server.(tfprotov6.ActionServer); !ok {
 		t.Error("shutdown adapter erased action RPCs")
 	}
 }
