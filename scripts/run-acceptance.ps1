@@ -28,7 +28,10 @@ $saved=@{}
 foreach($name in $values.Keys){$saved[$name]=[Environment]::GetEnvironmentVariable($name,'Process');[Environment]::SetEnvironmentVariable($name,$values[$name],'Process')}
 Push-Location (Join-Path $PSScriptRoot '..')
 try{
-    if($TestBinary){& $TestBinary ('-test.run='+$Test) -test.count=1 -test.timeout=15m}
+    if($TestBinary){
+        $testArguments=@(('-test.run='+$Test),'-test.count=1','-test.timeout=15m')
+        & $TestBinary @testArguments
+    }
     else{& $Go test -mod=readonly $Package -run $Test -count=1 -timeout=15m}
     if($LASTEXITCODE-ne0){throw 'Provider acceptance failed; preserve failure and cleanup records before another write'}
 }finally{
