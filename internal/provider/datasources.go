@@ -12,12 +12,18 @@ import (
 	computers "github.com/deploymenttheory/terraform-provider-activedirectory/internal/services/datasources/computers/computers"
 	organizationalUnit "github.com/deploymenttheory/terraform-provider-activedirectory/internal/services/datasources/organizational_units/organizational_unit"
 	organizationalUnits "github.com/deploymenttheory/terraform-provider-activedirectory/internal/services/datasources/organizational_units/organizational_units"
+	user "github.com/deploymenttheory/terraform-provider-activedirectory/internal/services/datasources/users/user"
+	users "github.com/deploymenttheory/terraform-provider-activedirectory/internal/services/datasources/users/users"
 )
 
-// DataSources explicitly registers the data sources included in the production provider.
+// DataSources explicitly registers the included directory data sources on the production provider.
 func (p *ActiveDirectoryProvider) DataSources(_ context.Context) []func() datasource.DataSource {
 	return []func() datasource.DataSource{
-		organizationalUnit.NewOrganizationalUnitDataSource, organizationalUnits.NewOrganizationalUnitsDataSource,
-		computer.NewComputerDataSource, computers.NewComputersDataSource,
+		organizationalUnit.NewOrganizationalUnitDataSource,
+		organizationalUnits.NewOrganizationalUnitsDataSource,
+		user.NewUserDataSource,
+		users.NewUsersDataSource,
+		computer.NewComputerDataSource,
+		computers.NewComputersDataSource,
 	}
 }

@@ -1,0 +1,65 @@
+---
+page_title: "activedirectory_user Resource - Active Directory"
+subcategory: "Users"
+description: |-
+  Manage a user by stable GUID with staged creation and write-only password input.
+---
+
+# activedirectory_user (Resource)
+
+{{ .Description | trimspace }}
+
+## Provider configuration
+
+{{ tffile "examples/resources/activedirectory_user/providers.tf" }}
+
+## Disabled user
+
+{{ tffile "examples/resources/activedirectory_user/resource.tf" }}
+
+## Password setup and explicit enablement
+
+{{ tffile "examples/resources/activedirectory_user/resource_maximal.tf" }}
+
+The SDK creates disabled, optionally sets the initial password, then enables only when explicitly
+requested. Accepted stages are never automatically rolled back or replayed after later failure.
+The account GUID remains stable across supported same-domain rename and move operations.
+
+`password_wo` is sensitive and write-only. Supply it through an ephemeral variable from your secret
+manager. It is never placed in plan/state, private mutation intent or examples. Increase the
+positive `password_wo_version` to request a reset. Changing a secret alone does not schedule a
+reset. The stored version records acknowledgement, not password readback or login verification.
+An uncertain password operation blocks further writes; it is never verified by retrieving a
+password or implicitly trying a login.
+
+Omitted optional fields retain directory values. Flags are changed individually; unrelated
+account-control bits are never replaced by a provider-supplied raw mask. `account_expires` is
+an exact nonnegative FILETIME: both zero and 9223372036854775807 explicitly mean never. No locale
+date parsing is performed.
+
+## Explicit property clearing
+
+{{ tffile "examples/resources/activedirectory_user/clear/resource.tf" }}
+
+Clears select optional LDAP text attributes only. Unavailable/hidden/ranged attributes do not
+prove an empty value or a clear. Removing a configured property leaves it unmanaged.
+
+{{ .SchemaMarkdown | trimspace }}
+
+## Import
+
+{{ tffile "examples/resources/activedirectory_user/import-by-string-id.tf" }}
+
+{{ tffile "examples/resources/activedirectory_user/import-by-identity.tf" }}
+
+{{ .IdentitySchemaMarkdown | trimspace }}
+
+Import observes the user but cannot recover historical password-version metadata; its version
+starts at zero. Remove password input/version configuration when adopting an account unless you
+explicitly intend a new reset. Failed creation may leave Terraform's object tainted even though
+the directory accepted it. Preserve the GUID/recovery DN, verify the account and each accepted
+stage independently, then use explicit state/import recovery without replaying creation or an
+unknown password operation. DN-only candidates are never automatically adopted.
+
+Deletion is leaf-only. It never deletes a subtree, group object or group members. Protected,
+nonempty, denied or unverified deletion retains state and requires explicit reconciliation.

@@ -9,7 +9,7 @@ Terraform Plugin Framework provider for Active Directory Domain Services, built 
 The provider is under development. The current foundation serves Terraform plugin protocol V6;
 directory resources, data sources, list resources and actions are being added through the
 [approved implementation backlog](docs/plans/activedirectory-provider/backlog/INDEX.md).
-Provider configuration opens and qualifies a protected AD DS session using SDK v0.2.0.
+Provider configuration opens and qualifies a protected AD DS session using the public SDK.
 Organizational unit lifecycle and discovery passed real Terraform lab acceptance from Windows and
 Linux amd64 against Windows Server 2016, 2019, 2022 and 2025. The 32 cases cover CRUD, rename/move,
 GUID/identity import, generated configuration, data/list discovery, explicit clearing, protected
@@ -33,6 +33,11 @@ Windows/Linux amd64 against Server 2016, 2019, 2022 and 2025, including target r
 explicit recovery, retained disabled status and independently verified fixture/policy cleanup.
 It selects an account by GUID on an explicitly acknowledged DC and never enables a disabled
 account or retries a failed or uncertain unlock automatically.
+This branch adds the `activedirectory_user` resource, singular/plural user data sources and
+the `activedirectory_user` list resource. User management supports GUID import, rename/move,
+typed properties, account flags, expiration and versioned write-only passwords.
+See the [user resource](docs/resources/user.md) and [user acceptance guide](docs/development/user-acceptance.md).
+
 Computer lifecycle, singular/plural data sources and list discovery are implemented with typed
 account settings, versioned write-only passwords and stable GUID import. This manages directory
 objects only; it never joins or configures a host. See the [computer resource](docs/resources/computer.md)
@@ -103,9 +108,10 @@ main.go                         Provider process and build version
 internal/provider/              Provider factory and service registrations
 internal/provider/core/         Shared schema and configuration
 internal/client/                Public SDK contracts and session qualification
-internal/services/              Feature-local resources, data sources and discovery
-examples/                       Secure provider and per-surface Terraform examples
-templates/                      Per-surface documentation templates
+internal/services/              Feature-local resources, data sources and list resources
+examples/provider/              Provider configuration example
+examples/                       Minimal and maximal examples for each service surface
+templates/                      Source templates for generated service documentation
 docs/plans/activedirectory-provider/  Approved architecture and implementation backlog
 ```
 

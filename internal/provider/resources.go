@@ -10,9 +10,14 @@ import (
 
 	computer "github.com/deploymenttheory/terraform-provider-activedirectory/internal/services/resources/computers/computer"
 	organizationalUnit "github.com/deploymenttheory/terraform-provider-activedirectory/internal/services/resources/organizational_units/organizational_unit"
+	user "github.com/deploymenttheory/terraform-provider-activedirectory/internal/services/resources/users/user"
 )
 
-// Resources explicitly registers the managed resources included in the production provider.
+// Resources explicitly registers the included directory resources on the production provider.
 func (p *ActiveDirectoryProvider) Resources(_ context.Context) []func() resource.Resource {
-	return []func() resource.Resource{organizationalUnit.NewOrganizationalUnitResource, computer.NewComputerResource}
+	return []func() resource.Resource{
+		organizationalUnit.NewOrganizationalUnitResource,
+		user.NewUserResource,
+		computer.NewComputerResource,
+	}
 }

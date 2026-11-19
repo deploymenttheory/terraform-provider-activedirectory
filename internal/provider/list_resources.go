@@ -11,11 +11,16 @@ import (
 
 	computer "github.com/deploymenttheory/terraform-provider-activedirectory/internal/services/list-resources/computers/computer"
 	organizationalUnit "github.com/deploymenttheory/terraform-provider-activedirectory/internal/services/list-resources/organizational_units/organizational_unit"
+	user "github.com/deploymenttheory/terraform-provider-activedirectory/internal/services/list-resources/users/user"
 )
 
 var _ provider.ProviderWithListResources = &ActiveDirectoryProvider{}
 
-// ListResources explicitly registers discovery services for Terraform query and import workflows.
+// ListResources explicitly registers the included directory list-resources on the production provider.
 func (p *ActiveDirectoryProvider) ListResources(_ context.Context) []func() list.ListResource {
-	return []func() list.ListResource{organizationalUnit.NewOrganizationalUnitListResource, computer.NewComputerListResource}
+	return []func() list.ListResource{
+		organizationalUnit.NewOrganizationalUnitListResource,
+		user.NewUserListResource,
+		computer.NewComputerListResource,
+	}
 }

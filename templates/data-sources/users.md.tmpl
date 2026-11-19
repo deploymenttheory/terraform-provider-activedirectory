@@ -1,0 +1,23 @@
+---
+page_title: "activedirectory_users Data Source - Active Directory"
+subcategory: "Users"
+description: |-
+  Discover users under an explicit bounded search scope.
+---
+
+# activedirectory_users (Data Source)
+
+{{ .Description | trimspace }}
+
+{{ tffile "examples/data-sources/activedirectory_users/providers.tf" }}
+
+{{ tffile "examples/data-sources/activedirectory_users/data-source.tf" }}
+
+{{ tffile "examples/data-sources/activedirectory_users/data-source_maximal.tf" }}
+
+The SDK intersects the raw LDAP filter with its user/inetOrgPerson filter and excludes computer
+subclasses. An explicit base DN and finite bounds are required. Results sort by GUID; `complete`
+and `limit_reached` distinguish exhaustion from bounded materialization. Usable partial rows are
+retained alongside errors. No PowerShell filter grammar or unbounded zero limit is accepted.
+
+{{ .SchemaMarkdown | trimspace }}
