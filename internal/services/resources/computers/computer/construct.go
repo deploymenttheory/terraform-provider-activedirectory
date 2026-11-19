@@ -158,6 +158,10 @@ func encryptionTypes(value types.Set) (*shared.Flags32, diag.Diagnostics) {
 // constructCreate requests only directory creation with explicit identity and staged password/enablement; it never joins a machine.
 func constructCreate(model *ComputerResourceModel, password types.String) (computers.CreateComputerRequest, diag.Diagnostics) {
 	properties, control, diagnostics := constructProperties(model)
+	// The SDK deliberately refuses pwdLastSet semantics in Add. Resource Create
+	// must apply explicitly configured change_password_at_logon as a later typed
+	// UpdateComputer phase, after any requested password setup has completed.
+	control.ChangePasswordAtLogon = nil
 	request := computers.CreateComputerRequest{Name: model.Name.ValueString(), Properties: properties, Control: control}
 	if model.Name.IsNull() || model.Name.IsUnknown() || strings.TrimSpace(request.Name) == "" || !utf8.ValidString(request.Name) || strings.ContainsRune(request.Name, 0) ||
 		model.SAMAccountName.IsNull() || model.SAMAccountName.IsUnknown() || model.SAMAccountName.ValueString() == "" {

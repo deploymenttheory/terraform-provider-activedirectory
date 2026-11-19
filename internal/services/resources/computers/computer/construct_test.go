@@ -68,6 +68,19 @@ func TestComputerPasswordRequiresExplicitVersionAndRedactedFormatting(t *testing
 	}
 }
 
+func TestComputerCreationKeepsLogonPasswordIntentForPostCreationPhase(t *testing.T) {
+	model := creationModel()
+	model.ChangePasswordAtLogon = types.BoolValue(true)
+	request, diagnostics := constructCreate(&model, types.StringNull())
+	if diagnostics.HasError() || request.Control.ChangePasswordAtLogon != nil || !model.ChangePasswordAtLogon.ValueBool() {
+		t.Fatal("creation forwarded unsupported pwdLastSet semantics or discarded the separately requested post-creation intent")
+	}
+	_, control, diagnostics := constructProperties(&model)
+	if diagnostics.HasError() || control.ChangePasswordAtLogon == nil || !*control.ChangePasswordAtLogon {
+		t.Fatal("typed update construction lost the explicitly selected logon-password setting")
+	}
+}
+
 func TestInvalidComputerIntentAllocatesNoPasswordRequest(t *testing.T) {
 	for name, modify := range map[string]func(*ComputerResourceModel){
 		"implicit SAM suffix": func(model *ComputerResourceModel) { model.SAMAccountName = types.StringValue("host") },
