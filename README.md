@@ -52,6 +52,13 @@ See the [group resource](docs/resources/group.md) for ownership and recovery gui
 The [group acceptance guide](docs/development/group-acceptance.md) describes live lab cases
 and their independently verified cleanup requirements.
 
+Standalone and group-managed service account discovery is implemented through the
+[single-account](docs/data-sources/service_account.md) and
+[bounded-query](docs/data-sources/service_accounts.md) data sources. They expose directory
+metadata and explicit reader-policy observations without retrieving managed passwords or
+claiming host installation. Managed lifecycle, list discovery and lab qualification remain
+in progress on this feature branch.
+
 Requirements: Go 1.27.4 for development and Terraform 1.14 or newer for the provider's four service surfaces.
 
 ```hcl
