@@ -61,6 +61,7 @@ func TestAccAccountSettingsLifecycle(t *testing.T) {
 	lab := newAccountSettingsLab(t)
 	user := lab.createSubject(t, "user")
 	computer := lab.createSubject(t, "computer")
+	alternate := lab.createNamedSubject(t, "user", "alternate")
 	configuration := func(userSettings, computerSettings string) string {
 		return lab.configuration(
 			t,
@@ -89,7 +90,8 @@ func TestAccAccountSettingsLifecycle(t *testing.T) {
   never_expires = true`, `enabled = false
   account_not_delegated = true
   never_expires = true`)
-	omitted := configuration("", "")
+	replaced := strings.Replace(updated, quotedGUID(user), quotedGUID(alternate), 1)
+	omitted := strings.Replace(configuration("", ""), quotedGUID(user), quotedGUID(alternate), 1)
 	checks := resource.ConfigPlanChecks{PreApply: []plancheck.PlanCheck{labSecretPlan{secrets: lab.secrets}}}
 	initialProof := func(state *terraform.State) error {
 		if err := lab.capture(state); err != nil {
@@ -108,7 +110,16 @@ func TestAccAccountSettingsLifecycle(t *testing.T) {
 		if err := lab.assertAccount(user, true, true, &home); err != nil {
 			return err
 		}
-		return lab.assertAccount(computer, false, true, nil)
+		if err := lab.assertAccount(computer, false, true, nil); err != nil {
+			return err
+		}
+		return nil
+	}
+	replacementProof := func(state *terraform.State) error {
+		if err := finalProof(state); err != nil {
+			return err
+		}
+		return lab.assertAccount(alternate, true, true, nil)
 	}
 	resource.Test(t, resource.TestCase{ProtoV6ProviderFactories: lab.factories(t), CheckDestroy: lab.checkDestroy, Steps: []resource.TestStep{
 		{Config: initial, ConfigPlanChecks: checks, Check: resource.ComposeAggregateTestCheckFunc(initialProof,
@@ -141,10 +152,19 @@ func TestAccAccountSettingsLifecycle(t *testing.T) {
 			resource.TestCheckNoResourceAttr(ResourceName+".user", "expires_at"),
 		)},
 		{Config: updated, PlanOnly: true},
+		{Config: replaced, ConfigPlanChecks: resource.ConfigPlanChecks{PreApply: []plancheck.PlanCheck{
+			labSecretPlan{secrets: lab.secrets},
+			plancheck.ExpectResourceAction(ResourceName+".user", plancheck.ResourceActionDestroyBeforeCreate),
+			plancheck.ExpectResourceAction(ResourceName+".computer", plancheck.ResourceActionNoop),
+		}}, Check: resource.ComposeAggregateTestCheckFunc(replacementProof, resource.TestCheckResourceAttr(ResourceName+".user", "id", alternate.GUID))},
+		{Config: replaced, PlanOnly: true},
 		{Config: omitted, PlanOnly: true},
 	}})
 	if err := finalProof(nil); err != nil {
 		t.Fatal("relinquishment changed or removed independently owned fixture accounts")
+	}
+	if err := lab.assertAccount(alternate, true, true, nil); err != nil {
+		t.Fatal("replacement target was reset or removed during relinquishment")
 	}
 }
 

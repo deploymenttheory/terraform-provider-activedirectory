@@ -19,6 +19,11 @@ import (
 
 // createSubject independently provisions an owned disabled account with a strong fixture-only password, never through the settings resource.
 func (l *accountSettingsLab) createSubject(t *testing.T, kind string) labSubject {
+	return l.createNamedSubject(t, kind, kind)
+}
+
+// createNamedSubject provisions one distinctly named owned fixture without reusing an existing account identity.
+func (l *accountSettingsLab) createNamedSubject(t *testing.T, kind, label string) labSubject {
 	t.Helper()
 	parent, _ := shared.IdentityByGUID(l.parentGUID)
 	random := make([]byte, 32)
@@ -29,7 +34,7 @@ func (l *accountSettingsLab) createSubject(t *testing.T, kind string) labSubject
 	password := []byte("Aa1!" + base64.RawStdEncoding.EncodeToString(random))
 	l.secrets = append(l.secrets, string(password))
 	defer clear(password)
-	name, sam, marker, disabled := l.prefix+"-"+kind, l.sam(kind), l.marker, false
+	name, sam, marker, disabled := l.prefix+"-"+label, l.sam(label), l.marker, false
 	var mutation shared.ObjectMutationResult
 	var err error
 	switch kind {
