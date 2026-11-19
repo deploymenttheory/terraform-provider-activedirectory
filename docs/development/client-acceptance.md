@@ -44,6 +44,12 @@ Kerberos requires `AD_KERBEROS_REALM`, `AD_KERBEROS_SPN` and
 password, keytab path or cache path. Do not leave a password variable set while testing a file
 source. Caches/keytabs remain caller-owned and are never generated or renewed by the provider.
 
+Use a marker-owned ordinary AES-enabled fixture account for Kerberos qualification. The existing
+Server 2016 lab Administrator can authenticate with TLS simple bind but returns Kerberos code 14;
+the same Terraform Kerberos test succeeds with the SDK's ordinary AES fixture account. Keep
+that refusal distinct from a client protocol failure, and leave existing Administrator settings
+unchanged. The fixture helper records and verifies its owned account and OU cleanup.
+
 Provider aliases have independent clients. The provider publishes the same bundle to all four
 Configure interfaces. SDK operations serialize access to a shared session. Configure completion
 does not close it. The protocol V6 stop adapter and test cleanup release sessions explicitly;

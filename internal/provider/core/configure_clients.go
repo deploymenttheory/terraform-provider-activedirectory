@@ -1,5 +1,5 @@
-// Copyright (c) Deployment Theory.
-// SPDX-License-Identifier: MPL-2.0
+// Copyright (c) 2026 Deployment Theory.
+// SPDX-License-Identifier: MIT
 
 package provider
 
@@ -24,6 +24,15 @@ func (p *ActiveDirectoryProvider) Configure(ctx context.Context, req provider.Co
 		resp.Diagnostics.AddError("Provider is stopped", "The directory client cannot be configured after provider shutdown.")
 		return
 	}
+	// A rejected reconfiguration must not leave the previous authenticated identity usable.
+	if p.clients != nil {
+		if err := p.clients.Close(); err != nil {
+			p.closed = true
+			resp.Diagnostics.AddError("Unable to close previous directory session", "The previous session could not be closed safely. Start a new Terraform provider process.")
+			return
+		}
+		p.clients = nil
+	}
 	var model ActiveDirectoryProviderModel
 	resp.Diagnostics.Append(req.Config.Get(ctx, &model)...)
 	if resp.Diagnostics.HasError() {
@@ -34,13 +43,6 @@ func (p *ActiveDirectoryProvider) Configure(ctx context.Context, req provider.Co
 	resp.Diagnostics.Append(diagnostics...)
 	if resp.Diagnostics.HasError() {
 		return
-	}
-	if p.clients != nil {
-		if err := p.clients.Close(); err != nil {
-			resp.Diagnostics.AddError("Unable to close previous directory session", "The previous session could not be closed safely. Start a new Terraform provider process.")
-			return
-		}
-		p.clients = nil
 	}
 	if p.open == nil {
 		resp.Diagnostics.AddError("Missing directory client factory", "The provider client factory was not configured.")

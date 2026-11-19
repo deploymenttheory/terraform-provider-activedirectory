@@ -1,5 +1,5 @@
-// Copyright (c) Deployment Theory.
-// SPDX-License-Identifier: MPL-2.0
+// Copyright (c) 2026 Deployment Theory.
+// SPDX-License-Identifier: MIT
 
 package provider
 
@@ -105,6 +105,34 @@ func TestConfigureSharesOneBundleAndIsolatesAliases(t *testing.T) {
 		t.Fatal("closing one alias affected another")
 	}
 	if err := second.Close(); err != nil {
+		t.Fatal(err)
+	}
+}
+
+func TestInvalidReconfigurationRetiresPreviousCredentials(t *testing.T) {
+	isolateEnvironment(t)
+	session := &configureSession{}
+	opens := 0
+	p := NewWithRegistry("test", Registry{}, WithClientFactory(func(ctx context.Context, options config.Config) (*client.Bundle, error) {
+		opens++
+		return client.OpenWithDial(ctx, options, func(context.Context, config.Config) (client.Session, error) { return session, nil })
+	}))
+	var first provider.ConfigureResponse
+	p.Configure(context.Background(), configureRequest(t, p, validProviderModel()), &first)
+	if first.Diagnostics.HasError() {
+		t.Fatal(first.Diagnostics)
+	}
+	invalid := validProviderModel()
+	invalid.Password = types.StringUnknown()
+	var second provider.ConfigureResponse
+	p.Configure(context.Background(), configureRequest(t, p, invalid), &second)
+	if !second.Diagnostics.HasError() || second.ResourceData != nil || opens != 1 {
+		t.Fatal("invalid reconfiguration reached a new client or published credentials")
+	}
+	if session.closed != 1 {
+		t.Fatal("previous authenticated identity remained live after invalid reconfiguration")
+	}
+	if err := p.Close(); err != nil {
 		t.Fatal(err)
 	}
 }

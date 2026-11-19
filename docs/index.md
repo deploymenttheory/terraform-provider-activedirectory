@@ -128,6 +128,13 @@ The native backend is opt-in and available only on supported Windows hosts. Nati
 may use the current Windows identity only when explicitly selected and no credentials are supplied.
 Private CA roots supplied through `ca_cert_pem` require the portable backend.
 
+Portable Kerberos requires compatible AES keys for the account and target service. A working
+password for TLS simple bind does not prove Kerberos AES support. Kerberos protocol code 14
+indicates that the KDC could not select a compatible encryption type. Supply an AES-capable
+credential; the provider never changes account passwords or encryption settings and never falls
+back to RC4, NTLM or simple bind. See
+[Microsoft's encryption-type guidance](https://learn.microsoft.com/en-us/windows-server/security/kerberos/detect-remediate-rc4-kerberos).
+
 One SDK session is shared by this provider instance's resources, data sources, list resources
 and actions. SDK calls serialize session access and use bounded operation contexts. Configure
 RPC completion leaves the session available for later operations; provider stop and explicit
