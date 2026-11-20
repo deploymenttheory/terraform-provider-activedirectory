@@ -77,7 +77,11 @@ func TestProviderProtocolV6(t *testing.T) {
 		schema.DataSourceSchemas["activedirectory_service_account"] == nil || schema.DataSourceSchemas["activedirectory_service_accounts"] == nil {
 		t.Fatal("production managed service account surfaces were not registered")
 	}
-	if len(metadata.Resources) < 6 || len(metadata.DataSources) < 12 || len(metadata.ListResources) < 6 {
+	if schema.ResourceSchemas["activedirectory_group_member"] == nil || schema.ListResourceSchemas["activedirectory_group_member"] == nil ||
+		schema.DataSourceSchemas["activedirectory_group_member"] == nil || schema.DataSourceSchemas["activedirectory_group_member_relationships"] == nil {
+		t.Fatal("production direct membership surfaces were not registered")
+	}
+	if len(metadata.Resources) < 7 || len(metadata.DataSources) < 14 || len(metadata.ListResources) < 7 {
 		t.Fatal("protocol metadata omitted registered directory services")
 	}
 	if len(metadata.Actions) != 1 || metadata.Actions[0].TypeName != "activedirectory_account_unlock" {

@@ -12,6 +12,8 @@ import (
 	computers "github.com/deploymenttheory/terraform-provider-activedirectory/internal/services/datasources/computers/computers"
 	group "github.com/deploymenttheory/terraform-provider-activedirectory/internal/services/datasources/groups/group"
 	groups "github.com/deploymenttheory/terraform-provider-activedirectory/internal/services/datasources/groups/groups"
+	groupMember "github.com/deploymenttheory/terraform-provider-activedirectory/internal/services/datasources/memberships/group_member"
+	groupMemberRelationships "github.com/deploymenttheory/terraform-provider-activedirectory/internal/services/datasources/memberships/group_member_relationships"
 	object "github.com/deploymenttheory/terraform-provider-activedirectory/internal/services/datasources/objects/object"
 	objects "github.com/deploymenttheory/terraform-provider-activedirectory/internal/services/datasources/objects/objects"
 	organizationalUnit "github.com/deploymenttheory/terraform-provider-activedirectory/internal/services/datasources/organizational_units/organizational_unit"
@@ -25,6 +27,8 @@ import (
 // DataSources explicitly registers the included directory data sources on the production provider.
 func (p *ActiveDirectoryProvider) DataSources(_ context.Context) []func() datasource.DataSource {
 	return []func() datasource.DataSource{
+		groupMemberRelationships.NewGroupMemberRelationshipsDataSource,
+		groupMember.NewGroupMemberDataSource,
 		organizationalUnit.NewOrganizationalUnitDataSource,
 		organizationalUnits.NewOrganizationalUnitsDataSource,
 		user.NewUserDataSource,

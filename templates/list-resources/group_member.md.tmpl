@@ -1,0 +1,37 @@
+---
+page_title: "activedirectory_group_member List Resource - Active Directory"
+subcategory: "Memberships"
+description: |-
+  Discover composite direct-link identities and optional resource snapshots for import.
+---
+
+# activedirectory_group_member (List Resource)
+
+{{ .Description | trimspace }}
+
+{{ tffile "examples/list-resources/activedirectory_group_member/providers.tf" }}
+
+{{ tffile "examples/list-resources/activedirectory_group_member/list-resource.tfquery.hcl" }}
+
+{{ tffile "examples/list-resources/activedirectory_group_member/list-resource_maximal.tfquery.hcl" }}
+
+GUIDs identify directory objects; names and DNs may change without changing the
+ordered relationship identity. Primary-group and nested/effective membership are
+excluded. Foreign security principal resolution is not performed.
+
+When no member attribute is returned, actual emptiness and denied visibility are
+indistinguishable. Discovery reports a visibility warning; the collection data
+source keeps `complete = false`. Zero returned rows do not establish that no
+links exist. A fully returned visible collection can report completion.
+
+The SDK materializes a bounded group query and resolves each returned member to a
+local GUID. Rows sort by member GUID. An omitted attribute alone never establishes
+an empty group. A failed or truncated query retains usable rows and reports the
+incomplete result. A bound does not prove that further links exist.
+
+
+{{ .SchemaMarkdown | trimspace }}
+
+Identity is exactly `{ id = "group-GUID/member-GUID" }`. Generating import
+configuration does not add or remove a membership. Keep protected provider
+configuration in `providers.tf` alongside the query file.

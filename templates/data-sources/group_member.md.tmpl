@@ -1,0 +1,22 @@
+---
+page_title: "activedirectory_group_member Data Source - Active Directory"
+subcategory: "Memberships"
+description: |-
+  Read one direct group-member link by its stable endpoint GUIDs.
+---
+
+# activedirectory_group_member (Data Source)
+
+{{ .Description | trimspace }}
+
+{{ tffile "examples/data-sources/activedirectory_group_member/providers.tf" }}
+
+{{ tffile "examples/data-sources/activedirectory_group_member/data-source.tf" }}
+
+{{ tffile "examples/data-sources/activedirectory_group_member/data-source_maximal.tf" }}
+
+GUIDs identify directory objects; names and DNs may change without changing the
+ordered relationship identity. Primary-group and nested/effective membership are
+excluded. Foreign security principal resolution is not performed.
+
+{{ .SchemaMarkdown | trimspace }}

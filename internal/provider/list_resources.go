@@ -11,6 +11,7 @@ import (
 
 	computer "github.com/deploymenttheory/terraform-provider-activedirectory/internal/services/list-resources/computers/computer"
 	group "github.com/deploymenttheory/terraform-provider-activedirectory/internal/services/list-resources/groups/group"
+	groupMember "github.com/deploymenttheory/terraform-provider-activedirectory/internal/services/list-resources/memberships/group_member"
 	object "github.com/deploymenttheory/terraform-provider-activedirectory/internal/services/list-resources/objects/object"
 	organizationalUnit "github.com/deploymenttheory/terraform-provider-activedirectory/internal/services/list-resources/organizational_units/organizational_unit"
 	serviceAccount "github.com/deploymenttheory/terraform-provider-activedirectory/internal/services/list-resources/service_accounts/service_account"
@@ -22,6 +23,7 @@ var _ provider.ProviderWithListResources = &ActiveDirectoryProvider{}
 // ListResources explicitly registers the included directory list-resources on the production provider.
 func (p *ActiveDirectoryProvider) ListResources(_ context.Context) []func() list.ListResource {
 	return []func() list.ListResource{
+		groupMember.NewGroupMemberListResource,
 		organizationalUnit.NewOrganizationalUnitListResource,
 		user.NewUserListResource,
 		computer.NewComputerListResource,
