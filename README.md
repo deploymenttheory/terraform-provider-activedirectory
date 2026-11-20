@@ -74,8 +74,7 @@ Direct group membership has an individual [link resource](docs/resources/group_m
 [list resource](docs/list-resources/group_member.md). Each instance owns one ordered
 pair of existing object GUIDs. Other members and both endpoint objects survive link
 deletion. Nested and primary membership are excluded. Unit Terraform tests cover
-adoption, imports, external removal and one-link deletion; applicable lab qualification
-is still pending for this feature. See the
+adoption, imports, external removal and one-link deletion. See the qualified cases in the
 [membership acceptance guide](docs/development/group-member-acceptance.md).
 All 16 real Terraform cases pass from Windows/Linux amd64 against Server 2016, 2019,
 2022 and 2025, including sole-link drift repair and denied/hidden values. Independent
