@@ -81,3 +81,13 @@ now contains only its list block, reusing the surrounding test configuration.
 Original receipt `cs-25-20261120t005110182z.json` and matching manifest/coordinator
 are retained. All processes and directory/reader/TLS cleanup verified, and the
 original baseline was restored. This failed run is not qualification evidence.
+
+
+The next run, `cs-25-20261120t005756624z.json` on `e331766`, progressed past
+query and imports and retired without a post-destroy reconciliation error, then
+failed the independent service-account fixture rename. The copied rename helper
+appended the full service-account class to its owned prefix and `-renamed-`,
+producing a 78-character CN beyond the directory bound. Fixture rename now uses a
+bounded GUID-derived suffix while retaining the permanent marker and original
+GUID. Its original receipt and build/coordinator remain preserved; process and
+all directory/reader/TLS cleanup and original baseline verified.

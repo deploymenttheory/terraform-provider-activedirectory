@@ -88,7 +88,7 @@ func (l *computerServiceAccountLab) renameSubject(t *testing.T, subject labSubje
 	if _, err := l.ownedObject(t.Context(), subject); err != nil {
 		t.Fatal("fixture ownership did not verify before rename")
 	}
-	result, err := l.observer.Directory.RenameObject(t.Context(), shared.RenameObjectRequest{Identity: l.identity(subject), Name: l.prefix + "-renamed-" + subject.Kind})
+	result, err := l.observer.Directory.RenameObject(t.Context(), shared.RenameObjectRequest{Identity: l.identity(subject), Name: l.prefix + "-r" + subject.GUID[:8]})
 	if err != nil || result.State != shared.ObjectWriteAccepted || !result.Verified {
 		t.Fatal("external fixture rename did not verify")
 	}
