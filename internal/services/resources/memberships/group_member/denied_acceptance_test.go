@@ -51,7 +51,10 @@ func TestAccGroupMemberDeniedAndHidden(t *testing.T) {
 		{Config: configuration("1"), ConfigPlanChecks: checks, ExpectError: regexp.MustCompile("Membership mutation rejected")},
 		{Config: baseline, Check: unchanged},
 		hiddenStep,
-		{Config: hiddenCollection, ExpectError: regexp.MustCompile("Membership discovery incomplete")},
+		{Config: hiddenCollection, Check: resource.ComposeAggregateTestCheckFunc(
+			resource.TestCheckResourceAttr("data.activedirectory_group_member_relationships.hidden", "complete", "false"),
+			resource.TestCheckResourceAttr("data.activedirectory_group_member_relationships.hidden", "members.#", "0"),
+		)},
 		{Config: baseline, Check: unchanged},
 		{Config: baseline, PlanOnly: true},
 	}})

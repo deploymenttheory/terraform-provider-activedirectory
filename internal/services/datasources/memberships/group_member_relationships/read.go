@@ -5,6 +5,7 @@ package group_member_relationships
 
 import (
 	"context"
+	"errors"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 
@@ -23,12 +24,18 @@ func (d *GroupMemberRelationshipsDataSource) Read(ctx context.Context, req datas
 	}
 	observed, err := common.Discover(ctx, d.client, group, limit)
 	resp.Diagnostics.Append(mapState(ctx, &resp.State, model, observed)...)
-	if err != nil && !observed.Bounded {
+	switch {
+	case errors.Is(err, common.ErrVisibility):
+		resp.Diagnostics.AddWarning(
+			"Membership visibility is indeterminate",
+			"No direct values were returned, which cannot distinguish an empty group from hidden membership. complete remains false; no absence is inferred.",
+		)
+	case err != nil && !observed.Bounded:
 		resp.Diagnostics.AddError(
 			"Membership discovery incomplete",
 			"Returned usable link identities are retained. The directory query or member resolution did not complete; peer error text is withheld.",
 		)
-	} else if observed.Bounded {
+	case observed.Bounded:
 		resp.Diagnostics.AddWarning("Membership discovery reached its bound", "complete is false; returned links do not prove the whole group was enumerated.")
 	}
 }

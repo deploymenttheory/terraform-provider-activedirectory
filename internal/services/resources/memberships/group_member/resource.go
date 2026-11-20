@@ -22,6 +22,7 @@ var (
 	_ resource.ResourceWithConfigure   = &GroupMemberResource{}
 	_ resource.ResourceWithIdentity    = &GroupMemberResource{}
 	_ resource.ResourceWithImportState = &GroupMemberResource{}
+	_ resource.ResourceWithModifyPlan  = &GroupMemberResource{}
 )
 
 // GroupMemberResource manages one direct link and retains unresolved mutation intent without replaying writes.
@@ -63,6 +64,14 @@ func (*GroupMemberResource) IdentitySchema(_ context.Context, _ resource.Identit
 	resp.IdentitySchema = identityschema.Schema{Attributes: map[string]identityschema.Attribute{
 		"id": identityschema.StringAttribute{RequiredForImport: true, Description: "Canonical group GUID/member GUID, in that order."},
 	}}
+}
+
+// ModifyPlan keeps the configured desired link present while indeterminate refresh observations remain distinct in state.
+func (*GroupMemberResource) ModifyPlan(ctx context.Context, req resource.ModifyPlanRequest, resp *resource.ModifyPlanResponse) {
+	if req.Plan.Raw.IsNull() {
+		return
+	}
+	resp.Diagnostics.Append(resp.Plan.SetAttribute(ctx, path.Root("is_member"), types.BoolValue(true))...)
 }
 
 // ImportState adopts one explicitly ordered pair without adding or removing directory links.

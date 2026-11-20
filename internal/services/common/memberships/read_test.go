@@ -8,6 +8,7 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"strings"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -43,6 +44,7 @@ func directory(t *testing.T) *mocks.Directory {
 func TestDirectAssertionsDistinguishAbsenceFromEmptySearch(t *testing.T) {
 	for _, present := range []bool{false, true} {
 		d := directory(t)
+		d.SetLink(groupID, otherID, true)
 		d.SetLink(groupID, memberID, present)
 		group, _ := shared.IdentityByGUID(groupID)
 		member, _ := shared.IdentityByGUID(memberID)
@@ -101,13 +103,13 @@ func TestEndpointLookupMustRemainStable(t *testing.T) {
 	}
 }
 
-// TestDiscoveryNeedsPositiveEmptyProof preserves unknown collections and rejects unresolved or duplicate member identities.
-func TestDiscoveryNeedsPositiveEmptyProof(t *testing.T) {
+// TestDiscoveryKeepsEmptyAndHiddenIndeterminate preserves the visibility limit shared by actual empty and hidden member attributes.
+func TestDiscoveryKeepsEmptyAndHiddenIndeterminate(t *testing.T) {
 	d := directory(t)
 	group, _ := shared.IdentityByGUID(groupID)
 	empty, err := common.Discover(t.Context(), d, group, 10)
-	if err != nil || !empty.Complete || len(empty.Edges) != 0 {
-		t.Fatal("positive server empty-group assertion was not accepted", err)
+	if !errors.Is(err, common.ErrVisibility) || empty.Complete || len(empty.Edges) != 0 {
+		t.Fatal("an omitted member attribute was treated as proof of an empty group", err)
 	}
 	service := &mocks.Service{Links: d.GroupMemberLinks, Resolve: d.ResolveIdentity, Assert: func(context.Context, shared.SearchOptions) (shared.SearchResult, error) {
 		return shared.SearchResult{Complete: true}, nil
@@ -169,5 +171,40 @@ func TestDiscoveryUsesExplicitGroupMetadata(t *testing.T) {
 	observed, err := common.Discover(t.Context(), service, group, 10)
 	if err != nil || !observed.Complete || len(observed.Edges) != 1 || observed.Group.DN != "CN=group,DC=unit,DC=invalid" {
 		t.Fatal("SDK range metadata was treated as a guarantee of explicitly selected group properties", err)
+	}
+}
+
+// TestHiddenValuesCannotBecomeNegativeProof reproduces AD's hidden-value filter semantics from actual native qualification.
+func TestHiddenValuesCannotBecomeNegativeProof(t *testing.T) {
+	d := directory(t)
+	d.SetLink(groupID, memberID, true)
+	service := &mocks.Service{
+		Resolve: d.ResolveIdentity,
+		Links: func(ctx context.Context, target shared.Identity, options sdkmemberships.GroupMemberLinksOptions) (sdkmemberships.GroupMemberLinksResult, error) {
+			result, err := d.GroupMemberLinks(ctx, target, options)
+			if err != nil {
+				return result, fmt.Errorf("read synthetic hidden range: %w", err)
+			}
+			result.Members = nil
+			result.AttributeReturned = false
+			return result, nil
+		},
+		Assert: func(_ context.Context, options shared.SearchOptions) (shared.SearchResult, error) {
+			filter, _ := options.TypedFilter.LDAP()
+			if strings.Contains(filter, "(!") {
+				return shared.SearchResult{Objects: []shared.Object{d.Objects[groupID]}, Complete: true}, nil
+			}
+			return shared.SearchResult{Complete: true}, nil
+		},
+	}
+	group, _ := shared.IdentityByGUID(groupID)
+	member, _ := shared.IdentityByGUID(memberID)
+	edge, err := common.Read(t.Context(), service, group, member)
+	if err == nil || edge.Confirmed {
+		t.Fatal("a hidden existing edge became confirmed absent")
+	}
+	observed, err := common.Discover(t.Context(), service, group, 10)
+	if err == nil || observed.Complete {
+		t.Fatal("a hidden nonempty group became a complete empty collection")
 	}
 }

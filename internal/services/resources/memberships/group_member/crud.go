@@ -5,6 +5,7 @@ package group_member
 
 import (
 	"context"
+	"errors"
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
@@ -12,7 +13,7 @@ import (
 	common "github.com/deploymenttheory/terraform-provider-activedirectory/internal/services/common/memberships"
 )
 
-// Create adopts an existing direct link or submits one addition after confirming the same pair is absent.
+// Create adopts a positively observed link or ensures the configured pair through one native permissive addition.
 func (r *GroupMemberResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
 	var model GroupMemberResourceModel
 	resp.Diagnostics.Append(req.Plan.Get(ctx, &model)...)
@@ -22,10 +23,10 @@ func (r *GroupMemberResource) Create(ctx context.Context, req resource.CreateReq
 		return
 	}
 	edge, err := common.Read(ctx, r.client, group, member)
-	if err != nil {
+	if err != nil && !errors.Is(err, common.ErrVisibility) {
 		resp.Diagnostics.AddError(
 			"Membership endpoints unavailable",
-			"Both existing objects and their direct-link state must be observed before adoption or addition. No write was submitted.",
+			"Both existing endpoint identities must be observed before adoption or addition. No write was submitted.",
 		)
 		return
 	}
@@ -48,7 +49,7 @@ func (r *GroupMemberResource) Create(ctx context.Context, req resource.CreateReq
 	resp.Diagnostics.Append(persistState(ctx, &resp.State, resp.Identity, model)...)
 }
 
-// Read removes state only after the directory positively confirms nonmembership or a missing endpoint GUID.
+// Read retains indeterminate link state and removes state only for positively confirmed exclusion or a missing endpoint GUID.
 func (r *GroupMemberResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
 	var model GroupMemberResourceModel
 	resp.Diagnostics.Append(req.State.Get(ctx, &model)...)
@@ -70,6 +71,15 @@ func (r *GroupMemberResource) Read(ctx context.Context, req resource.ReadRequest
 		resp.State.RemoveResource(ctx)
 		return
 	}
+	if errors.Is(err, common.ErrVisibility) {
+		mapState(&model, edge)
+		resp.Diagnostics.AddWarning(
+			"Membership visibility is indeterminate",
+			"An omitted member attribute may be empty or hidden. Identity is retained; an explicit apply will ensure only the configured link using native permissive semantics.",
+		)
+		resp.Diagnostics.Append(persistState(ctx, &resp.State, resp.Identity, model)...)
+		return
+	}
 	if err != nil || !edge.Confirmed {
 		resp.Diagnostics.AddError(
 			"Membership observation incomplete",
@@ -81,7 +91,7 @@ func (r *GroupMemberResource) Read(ctx context.Context, req resource.ReadRequest
 	resp.Diagnostics.Append(persistState(ctx, &resp.State, resp.Identity, model)...)
 }
 
-// Update refreshes the immutable pair without submitting a membership mutation; endpoint changes require replacement.
+// Update ensures the same configured pair when refresh could not confirm membership; endpoint changes require replacement.
 func (r *GroupMemberResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
 	var previous, plan GroupMemberResourceModel
 	resp.Diagnostics.Append(req.State.Get(ctx, &previous)...)
@@ -105,11 +115,15 @@ func (r *GroupMemberResource) Update(ctx context.Context, req resource.UpdateReq
 		storage = resp.Private
 	}
 	resp.Diagnostics.Append(reconcilePending(ctx, storage, id, edge)...)
-	if err != nil || !edge.Confirmed || !edge.Present {
-		resp.Diagnostics.AddError("Membership refresh incomplete", "The existing direct link could not be confirmed. No update or automatic addition was submitted.")
+	if err != nil && !errors.Is(err, common.ErrVisibility) {
+		resp.Diagnostics.AddError("Membership refresh incomplete", "The existing endpoints could not be confirmed. No addition was submitted.")
 	}
 	if !resp.Diagnostics.HasError() {
 		mapState(&plan, edge)
+		if !edge.Confirmed || !edge.Present {
+			_, mutationDiagnostics := r.change(ctx, &plan, storage, group, member, id, true)
+			resp.Diagnostics.Append(mutationDiagnostics...)
+		}
 		resp.Diagnostics.Append(persistState(ctx, &resp.State, resp.Identity, plan)...)
 	}
 }
@@ -132,7 +146,7 @@ func (r *GroupMemberResource) Delete(ctx context.Context, req resource.DeleteReq
 	if resp.Diagnostics.HasError() || (edge.Confirmed && !edge.Present) {
 		return
 	}
-	if err != nil || !edge.Confirmed {
+	if err != nil && !errors.Is(err, common.ErrVisibility) {
 		resp.Diagnostics.AddError("Membership deletion preflight incomplete", "The owned direct link could not be confirmed. No removal was submitted.")
 		return
 	}

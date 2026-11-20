@@ -59,7 +59,7 @@ func Discover(ctx context.Context, service client.Memberships, group shared.Iden
 			continue
 		}
 		edge := Edge{Group: result.Group, Member: member, Present: true, Confirmed: true}
-		matched, err := assertEdge(ctx, service, edge, true)
+		matched, err := assertEdge(ctx, service, edge)
 		if err != nil || !matched {
 			readErr = errors.Join(readErr, ErrObservation)
 			projectionFailed = true
@@ -73,9 +73,9 @@ func Discover(ctx context.Context, service client.Memberships, group shared.Iden
 	})
 	result.Bounded = rangeBounded && !projectionFailed
 	result.Complete = readErr == nil && observed.Complete && observed.AttributeReturned
-	if !observed.AttributeReturned && readErr == nil && observed.Complete && len(observed.Members) == 0 {
-		empty, err := assertGroup(ctx, service, result.Group, shared.FilterNot(shared.FilterPresent("member")))
-		result.Complete = err == nil && empty
+	if readErr == nil && observed.Complete && len(observed.Members) == 0 {
+		result.Complete = false
+		return result, ErrVisibility
 	}
 	if (!observed.AttributeReturned && !result.Complete) || (!observed.Complete && !result.Bounded) {
 		readErr = errors.Join(readErr, ErrObservation)

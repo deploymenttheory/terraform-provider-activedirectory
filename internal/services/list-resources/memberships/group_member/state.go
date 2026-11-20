@@ -27,6 +27,7 @@ func mapResult(ctx context.Context, req list.ListRequest, edge common.Edge) list
 		for name, value := range values {
 			result.Diagnostics.Append(result.Resource.SetAttribute(ctx, path.Root(name), value)...)
 		}
+		result.Diagnostics.Append(result.Resource.SetAttribute(ctx, path.Root("is_member"), types.BoolValue(true))...)
 	}
 	return result
 }

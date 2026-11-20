@@ -5,16 +5,18 @@ package memberships
 
 import (
 	"context"
+	"errors"
+	"strconv"
 	"strings"
 
+	sdkmemberships "github.com/deploymenttheory/go-sdk-activedirectory/activedirectory/services/memberships"
 	"github.com/deploymenttheory/go-sdk-activedirectory/activedirectory/shared"
 	"github.com/deploymenttheory/terraform-provider-activedirectory/internal/client"
 	"github.com/deploymenttheory/terraform-provider-activedirectory/internal/lifecycle"
 )
 
-// Read confirms a direct edge with a positive server assertion, never with an omitted member attribute.
-// A second, explicit negated assertion can confirm nonmembership, including an actually empty group.
-// Zero rows, failed searches and unstable endpoint names remain indeterminate rather than removing state.
+// Read confirms a direct edge positively, or proves exclusion only with returned member values and a stable group-version assertion.
+// Omitted values, negated filters and an actually empty attribute cannot distinguish absence from denied visibility.
 func Read(ctx context.Context, service client.Memberships, group, member shared.Identity) (Edge, error) {
 	var edge Edge
 	if service == nil || group.Form() != shared.IdentityFormGUID || member.Form() != shared.IdentityFormGUID {
@@ -38,22 +40,48 @@ func Read(ctx context.Context, service client.Memberships, group, member shared.
 	if hasClass(edge.Member.Raw, "foreignSecurityPrincipal") {
 		return edge, ErrObservation
 	}
-	for _, present := range []bool{true, false} {
-		matched, err := assertEdge(ctx, service, edge, present)
-		if err != nil {
+	matched, err := assertEdge(ctx, service, edge)
+	if err != nil {
+		return edge, err
+	}
+	if !matched {
+		if err := confirmExclusion(ctx, service, edge, group); err != nil {
 			return edge, err
 		}
-		if !matched {
-			continue
-		}
-		current, _, err := Resolve(ctx, service, member)
-		if err != nil || current.GUID != edge.Member.GUID || current.DN != edge.Member.DN {
-			return edge, ErrObservation
-		}
-		edge.Present, edge.Confirmed = present, true
-		return edge, nil
 	}
-	return edge, ErrObservation
+	current, _, err := Resolve(ctx, service, member)
+	if err != nil || current.GUID != edge.Member.GUID || current.DN != edge.Member.DN {
+		return edge, ErrObservation
+	}
+	edge.Present, edge.Confirmed = matched, true
+	return edge, nil
+}
+
+// confirmExclusion uses one returned value as a read-visibility witness, then pins the negative assertion to that exact GUID/USN.
+// A missing attribute never becomes a witness. Reading one value avoids enumerating unrelated members for an individual edge.
+func confirmExclusion(ctx context.Context, service client.Memberships, edge Edge, group shared.Identity) error {
+	witness, err := service.GroupMemberLinks(ctx, group, sdkmemberships.GroupMemberLinksOptions{MaxValues: 1, MaxRanges: 1})
+	if err != nil && !errors.Is(err, sdkmemberships.ErrGroupMembershipLimit) {
+		return ErrObservation
+	}
+	if !discoveryGroupMatches(witness, edge.Group) {
+		return ErrObservation
+	}
+	if !witness.AttributeReturned || len(witness.Members) == 0 {
+		return ErrVisibility
+	}
+	if len(witness.Ranges) != 1 || witness.Ranges[0].Error != nil {
+		return ErrObservation
+	}
+	assertion := shared.FilterAnd(
+		shared.FilterEqual("uSNChanged", shared.FilterText(strconv.FormatUint(witness.Version.USNChanged, 10))),
+		shared.FilterNot(shared.FilterEqual("member", shared.FilterText(edge.Member.DN))),
+	)
+	matched, readErr := assertGroup(ctx, service, edge.Group, assertion)
+	if readErr != nil || !matched {
+		return ErrObservation
+	}
+	return nil
 }
 
 // Resolve requires a complete unique SDK result and agreement with the requested GUID where supplied.
@@ -82,11 +110,8 @@ func Resolve(ctx context.Context, service client.Memberships, target shared.Iden
 }
 
 // assertEdge asks the server to return this exact group when the selected direct-link assertion is true.
-func assertEdge(ctx context.Context, service client.Memberships, edge Edge, present bool) (bool, error) {
+func assertEdge(ctx context.Context, service client.Memberships, edge Edge) (bool, error) {
 	member := shared.FilterEqual("member", shared.FilterText(edge.Member.DN))
-	if !present {
-		member = shared.FilterNot(member)
-	}
 	return assertGroup(ctx, service, edge.Group, member)
 }
 

@@ -13,7 +13,8 @@ objects. Each discovery surface has its own response and Terraform fixtures and
 an isolated provider factory. List queries verify composite import identity and the
 resource snapshot; cancellation and consumer stop retain bounded behavior.
 
-SDK-boundary tests preserve uncertain effects and durable intent after failed
+A sole-member external removal also repairs through an explicit update: unknown
+visibility is retained without false absence. SDK-boundary tests preserve uncertain effects and durable intent after failed
 readback, reconcile a fresh same-pair observation without replay, reject unavailable
 private storage and retain contradictory mutation identity evidence.
 
@@ -74,3 +75,35 @@ service wire regression fails before the patch and passes afterward for plain,
 TTL and partial ranges. The provider pins immutable
 `v0.2.1-0.20261119234403-7470f08ad229`; fixed-pin lab requalification is required.
 No provider-side range workaround is introduced.
+
+## Native visibility findings
+
+Fixed-range Windows/Server2025 run `gm-25-20261119t234916368z` passes the complete
+Terraform lifecycle, then catches a provider error in hidden-value inference.
+The native fixture proves one real link while its ordinary actor sees no member
+values: the positive LDAP filter returns zero groups and the negated filter
+returns one. An unqualified negative filter therefore cannot establish absence.
+Process retirement, directory/reader/TLS cleanup and original baselines verify.
+
+Read-only native probe `gn-25-20261119t235319540z` uses explicit Kerberos signing
+and sealing. Administrator Compare returns 6 for the existing value, 5 for a
+missing value in the nonempty group, and 16 for an empty attribute. The ordinary
+actor receives 16 for the hidden value and the empty attribute alike. Compare is
+therefore not an empty-versus-hidden oracle. Both connections and all fixtures
+were independently retired. This probe is not Terraform/platform qualification.
+
+The corrected provider retains indeterminate presence as null `is_member` and
+plans the configured present intent. A later explicit apply ensures only that
+link using existing native permissive semantics; unresolved earlier writes still
+block replay. Positive absence queries require an actually returned member value
+as a visibility witness and the exact same group GUID/USN. They read one bounded
+value rather than enumerate unrelated members. Collection omission reports a
+warning with `complete = false`, including an actually empty group, instead of
+inventing complete empty results. Native error-free atomic value-deletion
+acknowledgement is operation-specific absence proof; failed/uncertain responses
+retain recovery state.
+
+Microsoft documents unreadable attributes as absent both in returned values and
+filters in [MS-ADTS access checks](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-adts/8271b44d-a755-4872-a762-1ac57152099d).
+The operation's native permissive behavior follows
+[Remove-ADGroupMember](https://learn.microsoft.com/en-us/powershell/module/activedirectory/remove-adgroupmember?view=windowsserver2025-ps).

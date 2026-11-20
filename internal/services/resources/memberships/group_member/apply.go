@@ -7,6 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
+	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/deploymenttheory/go-sdk-activedirectory/activedirectory/services/memberships"
 	"github.com/deploymenttheory/go-sdk-activedirectory/activedirectory/shared"
@@ -37,6 +38,7 @@ func (r *GroupMemberResource) change(
 		diagnostics.AddError("Membership mutation rejected", "The direct-link change was not accepted. Other members were not modified; peer error text is withheld.")
 		return false, diagnostics
 	}
+	model.IsMember = types.BoolNull()
 	if conflict := mutationConflict(result, group, member); conflict != "" {
 		pending.Conflict = conflict
 		diagnostics.Append(savePending(ctx, storage, pending)...)
@@ -44,6 +46,13 @@ func (r *GroupMemberResource) change(
 			"Conflicting membership mutation identity",
 			"The result disagrees with the submitted GUID pair. Original identity and recovery intent are retained for independent reconciliation.",
 		)
+		return true, diagnostics
+	}
+	// A successful atomic value deletion with critical permissive handling establishes that exact link's absence at acknowledgement.
+	// This is operation-specific proof; an uncertain write or any failed readback cannot take this path.
+	if !present && mutation.State == shared.ObjectWriteAccepted && writeErr == nil && mutation.TargetGUID != nil {
+		model.IsMember = types.BoolValue(false)
+		diagnostics.Append(clearPending(ctx, storage)...)
 		return true, diagnostics
 	}
 	edge, _ := common.Read(ctx, r.client, group, member)

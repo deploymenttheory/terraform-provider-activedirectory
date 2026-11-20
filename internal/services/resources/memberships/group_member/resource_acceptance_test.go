@@ -24,6 +24,7 @@ func TestAccGroupMemberLifecycle(t *testing.T) {
 	memberGroup := lab.createNamedSubject(t, "group", "directgroup")
 	nested := lab.createNamedSubject(t, "group", "nested")
 	empty := lab.createNamedSubject(t, "group", "empty")
+	solo := lab.createNamedSubject(t, "group", "solo")
 	user := lab.createNamedSubject(t, "user", "user")
 	alternate := lab.createNamedSubject(t, "user", "alternate")
 	indirect := lab.createNamedSubject(t, "user", "indirect")
@@ -34,6 +35,7 @@ func TestAccGroupMemberLifecycle(t *testing.T) {
 	initial := lab.configuration(t, "resource.tf",
 		"__GROUP_GUID__", group.GUID, "__MEMBER_GROUP_GUID__", memberGroup.GUID, "__USER_GUID__", user.GUID,
 		"__COMPUTER_GUID__", computer.GUID, "__EMPTY_GROUP_GUID__", empty.GUID,
+		"__SOLO_GROUP_GUID__", solo.GUID,
 	)
 	replaced := strings.Replace(initial, user.GUID, alternate.GUID, 1)
 	query := lab.configuration(t, "list-resource.tfquery.hcl", "__GROUP_GUID__", group.GUID)
@@ -51,7 +53,10 @@ func TestAccGroupMemberLifecycle(t *testing.T) {
 			if err := lab.assertLink(group, indirect, false); err != nil {
 				return err
 			}
-			return lab.assertLink(nested, indirect, true)
+			if err := lab.assertLink(nested, indirect, true); err != nil {
+				return err
+			}
+			return lab.assertLink(solo, user, true)
 		}
 	}
 	destroyProof := func(state *terraform.State) error {
@@ -66,7 +71,10 @@ func TestAccGroupMemberLifecycle(t *testing.T) {
 		if err := lab.assertLink(group, nested, true); err != nil {
 			return err
 		}
-		return lab.assertLink(nested, indirect, true)
+		if err := lab.assertLink(nested, indirect, true); err != nil {
+			return err
+		}
+		return lab.assertLink(solo, user, false)
 	}
 	primaryGUID := lab.primaryGroup(t, user)
 	nestedLookup := initial + lab.configuration(t, "not-direct.tf", "__GROUP_GUID__", group.GUID, "__MEMBER_GUID__", indirect.GUID)
@@ -77,7 +85,7 @@ func TestAccGroupMemberLifecycle(t *testing.T) {
 			resource.TestCheckResourceAttr("data.activedirectory_group_member_relationships.owned", "members.#", "4"),
 			resource.TestCheckResourceAttr("data.activedirectory_group_member_relationships.owned", "complete", "true"),
 			resource.TestCheckResourceAttr("data.activedirectory_group_member_relationships.empty", "members.#", "0"),
-			resource.TestCheckResourceAttr("data.activedirectory_group_member_relationships.empty", "complete", "true"),
+			resource.TestCheckResourceAttr("data.activedirectory_group_member_relationships.empty", "complete", "false"),
 			resource.TestCheckResourceAttr("data.activedirectory_group_member_relationships.bounded", "complete", "false"),
 			resource.TestCheckResourceAttr("data.activedirectory_group_member_relationships.bounded", "limit_reached", "true"),
 		)},
@@ -91,8 +99,11 @@ func TestAccGroupMemberLifecycle(t *testing.T) {
 		{Query: true, Config: query, QueryResultChecks: []querycheck.QueryResultCheck{querycheck.ExpectLength(ResourceName+".owned", 4)}},
 		{Config: nestedLookup, ExpectError: regexp.MustCompile("Direct membership unavailable")},
 		{Config: primaryLookup, ExpectError: regexp.MustCompile("Direct membership unavailable")},
-		{Config: initial, ConfigPlanChecks: checks, PreConfig: func() {
+		{Config: initial, ConfigPlanChecks: resource.ConfigPlanChecks{PreApply: []plancheck.PlanCheck{
+			labSecretPlan{secrets: lab.secrets}, plancheck.ExpectResourceAction(ResourceName+".solo", plancheck.ResourceActionUpdate),
+		}}, PreConfig: func() {
 			lab.setLink(t, group, user, false)
+			lab.setLink(t, solo, user, false)
 			lab.renameSubject(t, user)
 			lab.renameSubject(t, group)
 		}, Check: proof(user)},

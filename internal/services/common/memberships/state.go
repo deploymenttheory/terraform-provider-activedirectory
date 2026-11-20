@@ -16,6 +16,8 @@ import (
 
 var ErrObservation = errors.New("direct group membership observation is incomplete or contradictory")
 
+var ErrVisibility = errors.New("direct member values cannot distinguish absence from hidden membership")
+
 // Endpoint retains a directory object's stable identity and current observed name.
 type Endpoint struct {
 	GUID shared.GUID

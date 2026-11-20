@@ -49,3 +49,8 @@ data "activedirectory_group_member_relationships" "empty" {
   group_guid   = "__EMPTY_GROUP_GUID__"
   result_limit = 10
 }
+
+resource "activedirectory_group_member" "solo" {
+  group_guid  = "__SOLO_GROUP_GUID__"
+  member_guid = "__USER_GUID__"
+}

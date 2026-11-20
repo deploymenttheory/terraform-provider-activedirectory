@@ -25,6 +25,10 @@ func groupMemberSchema() schema.Schema {
 			},
 			"group_dn":  schema.StringAttribute{Computed: true, Description: "Current observed group distinguished name. Renames preserve link identity."},
 			"member_dn": schema.StringAttribute{Computed: true, Description: "Current observed member distinguished name. Renames preserve link identity."},
+			"is_member": schema.BoolAttribute{
+				Computed:    true,
+				Description: "Whether the direct link was positively confirmed. Null means current visibility is indeterminate; an explicit apply ensures the configured link.",
+			},
 		},
 	}
 }

@@ -50,6 +50,11 @@ GUIDs identify directory objects; names and DNs may change without changing the
 ordered relationship identity. Primary-group and nested/effective membership are
 excluded. Foreign security principal resolution is not performed.
 
+When no member attribute is returned, actual emptiness and denied visibility are
+indistinguishable. Discovery reports a visibility warning; the collection data
+source keeps `complete = false`. Zero returned rows do not establish that no
+links exist. A fully returned visible collection can report completion.
+
 The SDK materializes a bounded group query and resolves each returned member to a
 local GUID. Rows sort by member GUID. An omitted attribute alone never establishes
 an empty group. A failed or truncated query retains usable rows and reports the

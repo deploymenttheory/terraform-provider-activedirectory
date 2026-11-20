@@ -48,7 +48,7 @@ func TestTerraformUnitDirectLookup(t *testing.T) {
 			PreConfig: func() { directory.SetLink(group, member, false); directory.SetLink(group, other, false) },
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttr("data."+DataSourceName+".test", "members.#", "0"),
-				resource.TestCheckResourceAttr("data."+DataSourceName+".test", "complete", "true"),
+				resource.TestCheckResourceAttr("data."+DataSourceName+".test", "complete", "false"),
 			),
 		},
 	}})

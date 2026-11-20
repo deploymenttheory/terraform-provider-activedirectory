@@ -10,6 +10,7 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/plancheck"
 	"github.com/hashicorp/terraform-plugin-testing/terraform"
 
 	"github.com/deploymenttheory/terraform-provider-activedirectory/internal/acceptance"
@@ -35,6 +36,39 @@ func unitDirectory(t *testing.T) *mocks.Directory {
 		t.Fatal(err)
 	}
 	return directory
+}
+
+// TestTerraformUnitSoleLinkDriftRepairsWithoutFalseAbsence keeps indeterminate identity and plans an explicit ensure operation for an empty attribute.
+func TestTerraformUnitSoleLinkDriftRepairsWithoutFalseAbsence(t *testing.T) {
+	acceptance.IsolateUnitEnvironment(t)
+	directory := unitDirectory(t)
+	config, err := os.ReadFile("tests/terraform/unit/resource.tf")
+	if err != nil {
+		t.Fatal(err)
+	}
+	t.Chdir(t.TempDir())
+	resource.Test(t, resource.TestCase{
+		IsUnitTest: true, ProtoV6ProviderFactories: unitProviderFactories(t, directory),
+		CheckDestroy: func(*terraform.State) error {
+			if directory.HasLink(groupID, memberID) || len(directory.Objects) != 3 {
+				return errUnmanagedLink
+			}
+			return nil
+		},
+		Steps: []resource.TestStep{
+			{Config: string(config), Check: resource.TestCheckResourceAttr(ResourceName+".test", "is_member", "true")},
+			{
+				Config: string(config), PreConfig: func() { directory.SetLink(groupID, memberID, false) },
+				ConfigPlanChecks: resource.ConfigPlanChecks{PreApply: []plancheck.PlanCheck{
+					plancheck.ExpectResourceAction(ResourceName+".test", plancheck.ResourceActionUpdate),
+				}}, Check: resource.TestCheckResourceAttr(ResourceName+".test", "is_member", "true"),
+			},
+			{Config: string(config), PlanOnly: true},
+		},
+	})
+	if directory.Adds != 2 || directory.Removes != 1 {
+		t.Fatal("sole-link repair retried a mutation or failed to delete its own last link", directory.Adds, directory.Removes)
+	}
 }
 
 // TestTerraformUnitDirectLinkLifecycle proves adoption, import, drift repair and one-edge deletion preserve unmanaged membership.

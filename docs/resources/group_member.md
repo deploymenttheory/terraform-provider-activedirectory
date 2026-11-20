@@ -53,6 +53,18 @@ only the owned link and leaves both objects and other members intact. Changing
 either endpoint replaces the owned link. Do not manage the same pair in multiple
 Terraform states or through a competing member collection.
 
+`is_member` is true only after positive observation. If member values are omitted,
+the provider cannot distinguish empty from hidden membership: it keeps the GUID
+pair and records null, rather than removing state. An explicit apply ensures the
+configured link with one native permissive addition. Pending uncertain effects
+must reconcile before that operation can run. Refreshed known membership plans
+no change.
+
+Destroy submits one owned value deletion. A successful, error-free native
+acknowledgement of that atomic permissive deletion establishes absence of the
+exact link at acknowledgement. Failed or uncertain operations retain identity
+and recovery intent; they are never treated as deletion success.
+
 New additions request persistent links. Existing link expiry is not managed or
 silently converted; there is no TTL input. Unresolved submitted effects retain
 nonsecret recovery intent and block another mutation until fresh directory
@@ -71,6 +83,7 @@ observations reconcile the exact pair. No automatic write retry or rollback occu
 
 - `group_dn` (String) Current observed group distinguished name. Renames preserve link identity.
 - `id` (String) Canonical group GUID/member GUID composite identity.
+- `is_member` (Boolean) Whether the direct link was positively confirmed. Null means current visibility is indeterminate; an explicit apply ensures the configured link.
 - `member_dn` (String) Current observed member distinguished name. Renames preserve link identity.
 
 ## Import

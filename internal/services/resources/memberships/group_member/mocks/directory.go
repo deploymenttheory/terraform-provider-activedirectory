@@ -110,6 +110,7 @@ func (d *Directory) GroupMemberLinks(_ context.Context, target shared.Identity, 
 	result := memberships.GroupMemberLinksResult{
 		Observation: shared.IdentityResult{Object: &object, Candidates: []shared.Object{object}, Complete: true},
 		Version:     &shared.ObjectVersion{GUID: guid}, Complete: true, AttributeReturned: len(d.Links[target.String()]) > 0,
+		Ranges: []memberships.GroupMemberRange{{RequestedProperty: "member;range=0-*"}},
 	}
 	ids := []string{}
 	for member := range d.Links[target.String()] {

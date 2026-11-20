@@ -5,6 +5,7 @@ package group_member
 
 import (
 	"context"
+	"errors"
 
 	"github.com/hashicorp/terraform-plugin-framework/list"
 
@@ -36,7 +37,12 @@ func (r *GroupMemberListResource) List(ctx context.Context, req list.ListRequest
 				return
 			}
 		}
-		if err != nil && !observed.Bounded {
+		switch {
+		case errors.Is(err, common.ErrVisibility):
+			row := req.NewListResult(ctx)
+			row.Diagnostics.AddWarning("Membership visibility is indeterminate", "An omitted member attribute cannot establish an empty group. No complete absence is claimed.")
+			push(row)
+		case err != nil && !observed.Bounded:
 			push(
 				diagnosticResult(
 					ctx,
@@ -45,7 +51,7 @@ func (r *GroupMemberListResource) List(ctx context.Context, req list.ListRequest
 					"Usable link identities are retained. Range traversal or member resolution failed; peer error text is withheld.",
 				),
 			)
-		} else if observed.Bounded {
+		case observed.Bounded:
 			row := req.NewListResult(ctx)
 			row.Diagnostics.AddWarning("Membership discovery reached its bound", "Returned links do not prove the whole group was enumerated.")
 			push(row)
