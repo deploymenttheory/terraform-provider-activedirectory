@@ -107,3 +107,49 @@ Microsoft documents unreadable attributes as absent both in returned values and
 filters in [MS-ADTS access checks](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-adts/8271b44d-a755-4872-a762-1ac57152099d).
 The operation's native permissive behavior follows
 [Remove-ADGroupMember](https://learn.microsoft.com/en-us/powershell/module/activedirectory/remove-adgroupmember?view=windowsserver2025-ps).
+
+
+## Qualified runtime
+
+All 16 actual Terraform cases passed on runtime
+`ac511e66649066b721004e2c70df0daee658e5fd`, using SDK
+`v0.2.1-0.20261119234403-7470f08ad229`, Go 1.27.4 and Terraform 1.17.2.
+Documentation-only updates after qualification do not replace the frozen binaries.
+
+| Server | Windows amd64 | Linux amd64 | Actual cases per client |
+| --- | --- | --- | --- |
+| 2016 | Pass | Pass | Lifecycle; denied and hidden |
+| 2019 | Pass | Pass | Lifecycle; denied and hidden |
+| 2022 | Pass | Pass | Lifecycle; denied and hidden |
+| 2025 | Pass | Pass | Lifecycle; denied and hidden |
+
+Lifecycle verifies user/group/computer direct links, adoption, string/identity
+imports, generated config, bounded data/list discovery, primary/nested exclusion,
+external rename/removal, explicit sole-link drift repair, endpoint replacement,
+no-change plans, and one-link/last-link deletion preserving both endpoint objects
+and independently owned unmanaged links. Each denied/hidden case independently
+proves one native link, ordinary-reader omission, and the exact property-only ACE.
+The actual empty-collection case also preserves indeterminate visibility.
+
+The independent 16-case audit verified exact source, both binary hashes, module
+and build-manifest hashes, actual client/server builds, native permission evidence,
+process retirement, directory/reader/TLS cleanup, all 12 VM baseline states and
+the restored Linux Server 2025 profile. Local retained receipts:
+
+- Windows 2025: `gm-25-20261120t001529125z.json`.
+- Linux 2025: `gm-25-20261120t002009826z.json`.
+- Both 2016: `gm-16-20261120t003516089z.json`.
+- Both 2019: `gm-19-20261120t004031671z.json`.
+- Both 2022: `gm-22-20261120t004555956z.json`.
+- Audit: `group-member-matrix-audit-20261120t004923417z.json`.
+
+An earlier Server 2016 attempt exhausted the Linux disk before a terminal result
+could be saved. Its original receipt remains unchanged and contributes no Linux
+pass. Exact saved-job inspection independently verified no surviving worker or
+owned test process. Only checksum-verified duplicate public Terraform executables
+from completed runs were removed; test state and historical evidence were retained.
+Follow-up retirement proof verified directory/reader/TLS cleanup and restored the
+original baseline before the successful fresh run. Never count an observer timeout
+or missing output as a pass, failure with no effects, or permission to replay.
+
+macOS/arm64 live qualification and managed TTL behavior are not claimed here.
