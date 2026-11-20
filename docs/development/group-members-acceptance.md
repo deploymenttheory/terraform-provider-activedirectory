@@ -11,8 +11,18 @@ The qualified provider session exposes `GroupMembershipQueries`: ResolveIdentity
 and GroupMembers only. Explicit finite object/group/range/depth/byte budgets are
 validated before I/O. The selected provider connection is the authenticated
 context; the provider does not open inferred foreign endpoints or forward credentials.
-The SDK's required portable member-range support is pinned immutably as
-`v0.2.1-0.20261119234403-7470f08ad229` from SDK PR219.
+The SDK is pinned immutably as `v0.2.1-0.20261120022130-408ebdbbbfce`, combining
+portable member-range support from SDK PR219 and the naming-context search fix
+from SDK PR220.
+
+Initial actual discovery and a minimal public-SDK empty-group probe failed
+because the domain-wide primary-member search received continuation references
+for subordinate naming contexts. SDK PR220 sends the critical domain-scope
+control for explicit-base membership searches. It retains control refusals and
+unexpected references as errors, and preserves the empty-base catalog query's
+forest-wide scope. The provider does not suppress these errors or chase referrals.
+Original failed receipts, source and coordinator hashes are retained locally;
+qualification must use newly built binaries from this corrected immutable pin.
 
 Root GUID, class, explicitly selected DN and positive candidates must agree.
 Traversal GUID/version anchors are validated without requiring a DN attribute

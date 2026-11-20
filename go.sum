@@ -27,8 +27,8 @@ github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc h1:U9qPSI2PIWSS1
 github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/deploymenttheory/go-bindings-win32 v0.7.0 h1:d2if0o2jOh9awqEKOFud08ahLmlJPfuhfttOcQsvCHI=
 github.com/deploymenttheory/go-bindings-win32 v0.7.0/go.mod h1:J3mOfF0N1uFmI8Cm3GPtq1YJYnwAKUkOsmc36GYbm0w=
-github.com/deploymenttheory/go-sdk-activedirectory v0.2.1-0.20261119234403-7470f08ad229 h1:NX7Zqd/yoO/hm/7fe0u7KWoodaNKCw9rfV2r7UbuaF8=
-github.com/deploymenttheory/go-sdk-activedirectory v0.2.1-0.20261119234403-7470f08ad229/go.mod h1:C3yUhFT1DoOrfPOknQz+QAgtBnP2oZC3zIR+197Htrc=
+github.com/deploymenttheory/go-sdk-activedirectory v0.2.1-0.20261120022130-408ebdbbbfce h1:ARAezxaefBTzFoFYkZ0AiGyc384ZPONkk84yiQG3j2U=
+github.com/deploymenttheory/go-sdk-activedirectory v0.2.1-0.20261120022130-408ebdbbbfce/go.mod h1:C3yUhFT1DoOrfPOknQz+QAgtBnP2oZC3zIR+197Htrc=
 github.com/emirpasic/gods v1.18.1 h1:FXtiHYKDGKCW2KzwZKx0iC0PQmdlorYgdFG9jPXJ1Bc=
 github.com/emirpasic/gods v1.18.1/go.mod h1:8tpGGwCnJ5H4r6BWwaV6OrWmMoPhUl5jm/FMNAnJvWQ=
 github.com/fatih/color v1.13.0/go.mod h1:kLAiJbzzSOZDVNGyDpeOxJ47H46qBXwg5ILebYFFOfk=
