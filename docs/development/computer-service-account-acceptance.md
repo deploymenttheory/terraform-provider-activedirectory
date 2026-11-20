@@ -91,3 +91,14 @@ producing a 78-character CN beyond the directory bound. Fixture rename now uses 
 bounded GUID-derived suffix while retaining the permanent marker and original
 GUID. Its original receipt and build/coordinator remain preserved; process and
 all directory/reader/TLS cleanup and original baseline verified.
+
+
+The bounded suffix follows the [CN schema upper bound of 64](https://learn.microsoft.com/en-us/windows/win32/adschema/a-cn).
+Run `cs-25-20261120t010120270z.json` on `efa8b7b` passes both standalone and
+group-managed lifecycle suites, including rename/drift/replacement and last-link
+destruction. The external denied/hidden fixture then stopped before its Go test:
+its PowerShell call incorrectly used `-Members` rather than the documented
+[`-ServiceAccount` operand](https://learn.microsoft.com/en-us/powershell/module/activedirectory/add-adcomputerserviceaccount).
+That fixture-only call is corrected. Both passed cases are retained as historical
+partial evidence; full same-source matrix qualification is still required.
+Process retirement, directory/reader/TLS cleanup and original baseline verified.

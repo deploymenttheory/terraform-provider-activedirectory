@@ -54,7 +54,8 @@ function New-ProviderComputerServiceAccountPermissionFixture(
         $state[$kind + '_dn'] = $created.DistinguishedName
         [IO.File]::WriteAllText($journal, ($state | ConvertTo-Json -Depth 5), [Text.UTF8Encoding]::new($false))
     }
-    Add-ADComputerServiceAccount -Server $Server -Identity ([guid]$state.computer_guid) -Members ([guid]$state.service_account_guid) -ErrorAction Stop
+    # Add-ADComputerServiceAccount binds its account operand through -ServiceAccount.
+    Add-ADComputerServiceAccount -Server $Server -Identity ([guid]$state.computer_guid) -ServiceAccount ([guid]$state.service_account_guid) -ErrorAction Stop
     $known = Get-ADComputer -Server $Server -Identity ([guid]$state.computer_guid) -Properties msDS-HostServiceAccount, description -ErrorAction Stop
     if ($known.Description -cne $marker -or @($known.'msDS-HostServiceAccount').Count -ne 1 -or $known.'msDS-HostServiceAccount'[0] -cne $state.service_account_dn) { throw 'Independent native direct link did not verify' }
     $entry = Open-KerberosWriteDirectoryEntry $Server ([guid]$state.computer_guid) $Credential
