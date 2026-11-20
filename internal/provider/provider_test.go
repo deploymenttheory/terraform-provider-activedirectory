@@ -68,6 +68,13 @@ func TestProviderProtocolV6(t *testing.T) {
 		t.Fatal("protocol schema omitted a computer surface")
 	}
 
+	if schema.ResourceSchemas["activedirectory_computer_service_account"] == nil ||
+		schema.DataSourceSchemas["activedirectory_computer_service_account"] == nil ||
+		schema.DataSourceSchemas["activedirectory_computer_service_accounts"] == nil ||
+		schema.ListResourceSchemas["activedirectory_computer_service_account"] == nil {
+		t.Fatal("production computer service account association surfaces were not registered")
+	}
+
 	metadata, err := server.GetMetadata(ctx, &tfprotov6.GetMetadataRequest{})
 	if err != nil {
 		t.Fatalf("get provider metadata: %v", err)

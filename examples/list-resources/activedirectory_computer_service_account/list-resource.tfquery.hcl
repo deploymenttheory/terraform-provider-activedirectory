@@ -1,0 +1,6 @@
+list "activedirectory_computer_service_account" "example" {
+  provider = activedirectory
+  config {
+    computer_guid = "11111111-1111-4111-8111-111111111111"
+  }
+}
