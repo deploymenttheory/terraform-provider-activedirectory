@@ -68,6 +68,10 @@ func TestProviderProtocolV6(t *testing.T) {
 		t.Fatal("protocol schema omitted a computer surface")
 	}
 
+	if schema.DataSourceSchemas["activedirectory_group_members"] == nil {
+		t.Fatal("production group-members data source was not registered")
+	}
+
 	metadata, err := server.GetMetadata(ctx, &tfprotov6.GetMetadataRequest{})
 	if err != nil {
 		t.Fatalf("get provider metadata: %v", err)

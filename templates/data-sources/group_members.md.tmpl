@@ -1,0 +1,44 @@
+---
+page_title: "activedirectory_group_members Data Source - Active Directory"
+subcategory: "Memberships"
+description: |-
+  Read bounded direct or recursive group membership, including primary-group relationships.
+---
+
+# activedirectory_group_members (Data Source)
+
+{{ .Description | trimspace }}
+
+{{ tffile "examples/data-sources/activedirectory_group_members/providers.tf" }}
+
+{{ tffile "examples/data-sources/activedirectory_group_members/data-source.tf" }}
+
+{{ tffile "examples/data-sources/activedirectory_group_members/data-source_maximal.tf" }}
+
+Direct mode returns direct and primary-group members. Recursive mode traverses
+nested groups and returns leaf principals, preserving primary-group information.
+This matches [Get-ADGroupMember](https://learn.microsoft.com/en-us/powershell/module/activedirectory/get-adgroupmember).
+This read-only query does not own membership. Individual link resources manage
+direct `member` values and do not infer primary or recursive links from these rows.
+
+All five budgets are finite aggregate SDK observation limits, not promises of a
+specific result count. Group lookups and repeated path observations consume the
+object budget. Raising one limit does not disable the others. Members sort by
+source host, source port and GUID; agreeing duplicate paths merge their primary
+flags, while conflicting identities retain diagnostics rather than selecting an
+arbitrary name. Results are observations, not a transactionally consistent graph.
+
+Empty and hidden member attributes are indistinguishable. If any visited group
+returns no direct member values, `visibility_known` and `complete` are false even
+when primary members were positively found. Known rows remain available. Bounds,
+failed ranges and unresolved references cannot become complete empty membership.
+Check completion before using the data as an authoritative collection; the maximal
+example deliberately adds a postcondition. The data source owns no objects or links.
+
+The selected provider session is the authenticated directory context. Foreign or
+cross-context references that cannot be resolved there remain in `unresolved`
+with diagnostics. No connection, referral following or credential forwarding to
+an inferred foreign endpoint is performed. An unresolved reference is not a usable
+principal GUID or import identity. Peer error text is withheld.
+
+{{ .SchemaMarkdown | trimspace }}
