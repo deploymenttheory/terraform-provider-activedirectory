@@ -1,0 +1,30 @@
+[
+  {
+    "guid": "11111111-1111-4111-8111-111111111111",
+    "name": "root",
+    "dn": "CN=root,DC=unit,DC=invalid",
+    "class": "group",
+    "sid": "S-1-5-21-1-2-3-1001"
+  },
+  {
+    "guid": "22222222-2222-4222-8222-222222222222",
+    "name": "alice",
+    "dn": "CN=alice,DC=unit,DC=invalid",
+    "class": "user",
+    "sid": "S-1-5-21-1-2-3-1003"
+  },
+  {
+    "guid": "33333333-3333-4333-8333-333333333333",
+    "name": "nested",
+    "dn": "CN=nested,DC=unit,DC=invalid",
+    "class": "group",
+    "sid": "S-1-5-21-1-2-3-1002"
+  },
+  {
+    "guid": "44444444-4444-4444-8444-444444444444",
+    "name": "workstation",
+    "dn": "CN=workstation,DC=unit,DC=invalid",
+    "class": "computer",
+    "sid": "S-1-5-21-1-2-3-1004"
+  }
+]
