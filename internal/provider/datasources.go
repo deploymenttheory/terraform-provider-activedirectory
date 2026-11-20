@@ -8,6 +8,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 
+	accountSettings "github.com/deploymenttheory/terraform-provider-activedirectory/internal/services/datasources/accounts/account_settings"
 	computer "github.com/deploymenttheory/terraform-provider-activedirectory/internal/services/datasources/computers/computer"
 	computers "github.com/deploymenttheory/terraform-provider-activedirectory/internal/services/datasources/computers/computers"
 	group "github.com/deploymenttheory/terraform-provider-activedirectory/internal/services/datasources/groups/group"
@@ -37,5 +38,6 @@ func (p *ActiveDirectoryProvider) DataSources(_ context.Context) []func() dataso
 		serviceAccounts.NewServiceAccountsDataSource,
 		object.NewObjectDataSource,
 		objects.NewObjectsDataSource,
+		accountSettings.NewAccountSettingsDataSource,
 	}
 }

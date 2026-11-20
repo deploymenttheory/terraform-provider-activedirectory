@@ -68,6 +68,10 @@ func TestProviderProtocolV6(t *testing.T) {
 		t.Fatal("protocol schema omitted a computer surface")
 	}
 
+	if schema.ResourceSchemas["activedirectory_account_settings"] == nil || schema.DataSourceSchemas["activedirectory_account_settings"] == nil {
+		t.Fatal("production adopted-account settings surfaces were not registered")
+	}
+
 	metadata, err := server.GetMetadata(ctx, &tfprotov6.GetMetadataRequest{})
 	if err != nil {
 		t.Fatalf("get provider metadata: %v", err)
@@ -77,7 +81,7 @@ func TestProviderProtocolV6(t *testing.T) {
 		schema.DataSourceSchemas["activedirectory_service_account"] == nil || schema.DataSourceSchemas["activedirectory_service_accounts"] == nil {
 		t.Fatal("production managed service account surfaces were not registered")
 	}
-	if len(metadata.Resources) < 6 || len(metadata.DataSources) < 12 || len(metadata.ListResources) < 6 {
+	if len(metadata.Resources) < 7 || len(metadata.DataSources) < 13 || len(metadata.ListResources) < 6 {
 		t.Fatal("protocol metadata omitted registered directory services")
 	}
 	if len(metadata.Actions) != 1 || metadata.Actions[0].TypeName != "activedirectory_account_unlock" {

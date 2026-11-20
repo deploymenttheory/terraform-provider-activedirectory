@@ -1,0 +1,80 @@
+---
+page_title: "activedirectory_account_settings Resource - Active Directory"
+subcategory: "Accounts"
+description: |-
+  Adopt an existing account and manage explicitly configured account-control and expiration settings.
+---
+
+# activedirectory_account_settings (Resource)
+
+{{ .Description | trimspace }}
+
+## Provider configuration
+
+{{ tffile "examples/resources/activedirectory_account_settings/providers.tf" }}
+
+## Adopt an existing account
+
+{{ tffile "examples/resources/activedirectory_account_settings/resource.tf" }}
+
+The account must already exist. Create adopts its GUID and applies configured settings;
+no user, computer or managed service account is created. DN/name changes made elsewhere
+retain the same GUID. Changing `account_guid` replaces management: the previous account
+is retained, then the new existing account is adopted.
+
+Destroy relinquishes ownership without deleting the account or restoring former settings.
+Removing an optional setting from configuration leaves that field unmanaged. Do not co-own
+the same fields in a typed user/computer/service-account resource or another Terraform state.
+The provider does not detect conflicting ownership across workspaces.
+
+## Explicit account settings and finite expiration
+
+{{ tffile "examples/resources/activedirectory_account_settings/resource_maximal.tf" }}
+
+Only configured flags enter the SDK's typed atomic patch; unrelated stored bits are preserved.
+`locked_out` and `password_expired` are selected-server computed observations and are never
+written. Unlock is a separate explicit action. No raw account-control replacement mask or
+password setter is exposed here.
+
+`change_password_at_logon` controls `pwdLastSet`, not a stored UAC bit. True requires a password
+change at next logon; false requests the server's current timestamp. An already-matching
+setting is not replayed. True conflicts with `password_never_expires = true`.
+
+`expires_at` uses canonical UTC RFC3339 with at most directory-supported 100ns precision;
+locale dates, relative times and unresolved values are refused before any mutation phase.
+`never_expires = false` requires an explicit finite `expires_at`. Expiration input is fully
+validated before an earlier configured flag change can be submitted.
+
+## Explicitly clear expiration
+
+{{ tffile "examples/resources/activedirectory_account_settings/never-expires/resource.tf" }}
+
+Omitting expiration settings performs no clear. Explicit `never_expires = true` uses the native
+SDK clear operation. The computed `account_expires` preserves both native never-expire
+representations, zero and 9223372036854775807; neither becomes a fabricated finite date.
+
+## Recovery and partial visibility
+
+Accepted or uncertain writes retain the adopted GUID, known effects and nonsecret private
+intent. A fresh complete same-GUID lookup must positively match the submitted phase before
+that checkpoint is cleared. Hidden attributes or historical state cannot prove a change.
+A contradictory returned GUID is retained for independent reconciliation.
+
+An unresolved checkpoint blocks later writes and automatic tainted replacement, including
+relinquishment that could otherwise discard uncertainty and submit again. There is no blind
+mutation retry or rollback. Independently verify the account and prior effects, then use
+explicit GUID import to recover management. Import does not reset settings.
+
+Unavailable optional observations retain prior known resource values with a warning; this is
+not current verification. Data sources report unavailable values as null. State is removed
+only for pure confirmed absence of the same GUID, not for permission or transport failures.
+
+{{ .SchemaMarkdown | trimspace }}
+
+## Import
+
+{{ tffile "examples/resources/activedirectory_account_settings/import-by-string-id.tf" }}
+
+{{ tffile "examples/resources/activedirectory_account_settings/import-by-identity.tf" }}
+
+{{ .IdentitySchemaMarkdown | trimspace }}
