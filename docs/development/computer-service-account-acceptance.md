@@ -21,9 +21,10 @@ explicitly distinguishes acknowledged last-link deletion from a readable final
 collection. The provider regression first failed when the accepted deletion was
 blocked solely by the omitted attribute. The implementation accepts only the
 same targeted acknowledgement: accepted state, matching identities, no partial
-effects, and either no error or the SDK verification sentinel alone with the
-specific completed omitted-attribute range result. Wrapped/joined errors,
-uncertain submissions and conflicting versions retain recovery intent. A warning
+effects, and either no error or an error tree containing only the SDK verification cause with the
+specific completed omitted-attribute range result. Mixed or unrelated errors, uncertain submissions and conflicting versions retain
+recovery intent. The SDK joins even a single operation error with its context
+cause; wrappers alone do not turn that pure verification outcome into uncertainty. A warning
 preserves the fact that collection visibility remains indeterminate. No general
 readback failure becomes successful deletion and no SDK error text is exposed.
 
@@ -68,3 +69,15 @@ qualification is pending for this implementation; record exact revisions,
 client/server builds, outcomes and independent cleanup before marking the PR
 ready. macOS and arm64 live acceptance is not claimed. CORE-06's remaining
 Server 2016 gMSA checks also require real KDS maturity; never backdate a root key.
+
+
+The first actual Windows/Server 2025 run on source `59a5150` passed initial
+creation/adoption, no-change and imports, then exposed a query fixture containing
+a duplicate provider/unsupported terraform block. Cleanup also exposed the SDK's
+single-cause `errors.Join` wrapper, which the initial provider predicate rejected.
+The focused wrapper regression failed before the correction and now requires every
+leaf to be the verification cause; mixed failures remain pending. The query file
+now contains only its list block, reusing the surrounding test configuration.
+Original receipt `cs-25-20261120t005110182z.json` and matching manifest/coordinator
+are retained. All processes and directory/reader/TLS cleanup verified, and the
+original baseline was restored. This failed run is not qualification evidence.

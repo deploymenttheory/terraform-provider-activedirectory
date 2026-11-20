@@ -39,7 +39,7 @@ func (m *memoryPending) SetKey(_ context.Context, _ string, value []byte) diag.D
 
 // TestLastAssociationAcknowledgementDoesNotRequireReadableEmptyAttribute mirrors the SDK's accepted lastHidden outcome without inventing empty visibility.
 func TestLastAssociationAcknowledgementDoesNotRequireReadableEmptyAttribute(t *testing.T) {
-	for _, mode := range []string{"accepted-omitted", "mixed-failure", "uncertain", "partial", "contradictory-version"} {
+	for _, mode := range []string{"accepted-omitted", "accepted-wrapped", "mixed-failure", "uncertain", "partial", "contradictory-version"} {
 		t.Run(mode, func(t *testing.T) {
 			directory := unitDirectory(t)
 			directory.SetLink(computerID, accountID, true)
@@ -54,6 +54,8 @@ func TestLastAssociationAcknowledgementDoesNotRequireReadableEmptyAttribute(t *t
 						Ranges: []sdkaccounts.ComputerServiceAccountRange{{Property: "msDS-HostServiceAccount;range=0-1499"}},
 					}
 					switch mode {
+					case "accepted-wrapped":
+						return result, fmt.Errorf("directory operation: %w", shared.ErrObjectVerification)
 					case "mixed-failure":
 						return result, errors.Join(shared.ErrObjectVerification, errPrivateMutation)
 					case "uncertain":
@@ -64,7 +66,7 @@ func TestLastAssociationAcknowledgementDoesNotRequireReadableEmptyAttribute(t *t
 						other, _ := shared.ParseGUID(otherID)
 						result.Links.Version.GUID = other
 					}
-					return result, shared.ErrObjectVerification
+					return result, errors.Join(shared.ErrObjectVerification, nil)
 				},
 			}
 			r := &ComputerServiceAccountResource{client: service}
@@ -74,7 +76,7 @@ func TestLastAssociationAcknowledgementDoesNotRequireReadableEmptyAttribute(t *t
 			if !retained || directory.Removes != 1 || directory.HasLink(computerID, accountID) {
 				t.Fatal("last-link submission was replayed or lost its exact pair")
 			}
-			if mode == "accepted-omitted" {
+			if mode == "accepted-omitted" || mode == "accepted-wrapped" {
 				if diagnostics.HasError() || len(storage.data) != 0 || model.IsAssociated.IsNull() || model.IsAssociated.ValueBool() {
 					t.Fatal("an acknowledged value deletion was blocked by an unreadable empty attribute", diagnostics)
 				}

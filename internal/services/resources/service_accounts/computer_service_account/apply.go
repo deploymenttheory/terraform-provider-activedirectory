@@ -114,17 +114,37 @@ func removalAcknowledged(result sdkaccounts.ComputerServiceAccountMutationResult
 	if writeErr == nil {
 		return true
 	}
-	// The SDK deliberately returns this exact sentinel after a successful deletion when the final attribute is omitted.
-	// Wrapped, joined, transport, range and resolution errors remain unresolved rather than being treated as this outcome.
-	if !errors.Is(writeErr, shared.ErrObjectVerification) || errors.Unwrap(writeErr) != nil || result.Links == nil {
-		return false
-	}
-	if _, joined := writeErr.(interface{ Unwrap() []error }); joined {
+	// The SDK joins operation errors with the context cause, including a single verification cause and nil cancellation.
+	// Every leaf must be that verification result; mixed transport, range, resolution and cancellation failures remain unresolved.
+	if !verificationOnly(writeErr) || result.Links == nil {
 		return false
 	}
 	links := result.Links
 	return links.Version != nil && links.Version.GUID == *mutation.TargetGUID && links.Complete && !links.AttributeReturned &&
 		len(links.Links) == 0 && len(links.Ranges) == 1 && links.Ranges[0].Error == nil
+}
+
+// verificationOnly recognizes the SDK's pure verification cause through wrappers without accepting any unrelated joined failure.
+func verificationOnly(err error) bool {
+	if err == nil {
+		return false
+	}
+	if joined, ok := err.(interface{ Unwrap() []error }); ok {
+		children := joined.Unwrap()
+		if len(children) == 0 {
+			return false
+		}
+		for _, child := range children {
+			if !verificationOnly(child) {
+				return false
+			}
+		}
+		return true
+	}
+	if wrapped := errors.Unwrap(err); wrapped != nil {
+		return verificationOnly(wrapped)
+	}
+	return errors.Is(err, shared.ErrObjectVerification)
 }
 
 // accountObservationMatches requires the SDK account-resolution result to agree with the requested GUID.
